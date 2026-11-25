@@ -1,6 +1,6 @@
 # Third-party notices
 
-BetterAis is an independent, unofficial browser extension. It is not affiliated with, endorsed by or sponsored by the Slovak University of Technology in Bratislava (STU). "STU", its logo and all content shown on is.stuba.sk belong to their respective owners; BetterAis only changes how that site looks in the user's own browser and does not copy, host or redistribute any of it.
+BetterUis is an independent, unofficial browser extension. It is not affiliated with, endorsed by or sponsored by the Slovak University of Technology in Bratislava (STU). "STU", its logo and all content shown on is.stuba.sk belong to their respective owners; BetterUis only changes how that site looks in the user's own browser and does not copy, host or redistribute any of it.
 
 Everything it builds on is free, openly licensed material. Each license permits use, modification and redistribution, including in this extension, provided the copyright notice and license text are kept - which is what this file and the in-extension credits page (licenses.html) do.
 
@@ -10,7 +10,7 @@ Settings are stored only in the browser (chrome.storage / localStorage). Nothing
 
 | Component | Used for | License |
 |---|---|---|
-| [Tabler Icons](https://github.com/tabler/tabler-icons) | Every icon BetterAis draws in place of the site's own (dashboard, app grid, notices, breadcrumbs, table toolbar) and the graduation cap in the page loader. Embedded as inline SVG in icons.js and loader.js. | MIT |
+| [Tabler Icons](https://github.com/tabler/tabler-icons) | Every icon BetterUis draws in place of the site's own (dashboard, app grid, notices, breadcrumbs, table toolbar) and the graduation cap in the page loader. Embedded as inline SVG in icons.js and loader.js. | MIT |
 | [Roboto](https://github.com/googlefonts/roboto-3-classic) | Typeface for the redesigned site and the popup. Not bundled - loaded from Google Fonts (fonts.googleapis.com). | SIL Open Font License 1.1 |
 | [Doto](https://github.com/oliverlalan/Doto) | Dot-matrix display typeface of the "Nothing" interface style (page titles, popup brand). Bundled in fonts/. | SIL Open Font License 1.1 |
 | [Space Mono](https://github.com/googlefonts/spacemono) | Monospace label typeface of the "Nothing" interface style (section labels, buttons, tabs). Bundled in fonts/. | SIL Open Font License 1.1 |

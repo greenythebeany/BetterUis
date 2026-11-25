@@ -38,6 +38,9 @@
       uiStyleDefault: 'Default',
       motionLabel: 'Animations',
       motionHint: 'Plays animations even when Windows has them turned off.',
+      pfpLabel: 'Profile photo in the header',
+      nothingUnlocked: 'Nothing style unlocked',
+      nothingLocked: 'Nothing style hidden',
       accentLocked: 'The Nothing style always uses its own red accent.',
     },
     sk: {
@@ -68,6 +71,9 @@
       uiStyleDefault: 'Predvolený',
       motionLabel: 'Animácie',
       motionHint: 'Animácie sa prehrajú aj keď ich má Windows vypnuté.',
+      pfpLabel: 'Profilová fotka v hlavičke',
+      nothingUnlocked: 'Štýl Nothing odomknutý',
+      nothingLocked: 'Štýl Nothing skrytý',
       accentLocked: 'Štýl Nothing používa vždy vlastnú červenú farbu.',
     },
     cs: {
@@ -98,6 +104,9 @@
       uiStyleDefault: 'Výchozí',
       motionLabel: 'Animace',
       motionHint: 'Animace se přehrají i když je má Windows vypnuté.',
+      pfpLabel: 'Profilová fotka v záhlaví',
+      nothingUnlocked: 'Styl Nothing odemčen',
+      nothingLocked: 'Styl Nothing skryt',
       accentLocked: 'Styl Nothing používá vždy vlastní červenou barvu.',
     },
   };

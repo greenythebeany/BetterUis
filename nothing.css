@@ -433,3 +433,37 @@ html[data-ui="nothing"] .mainpage td,
 html[data-ui="nothing"] .mainpage th {
   font-variant-numeric: tabular-nums;
 }
+
+/* Výveska: dot-grid icon tile, mono caps title and section chips */
+html[data-ui="nothing"] .zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:first-child {
+  background-color: var(--surface-2) !important;
+  background-image: var(--nd-grid) !important;
+  background-size: 5px 5px !important;
+  border: 1px solid var(--line);
+  color: var(--ink) !important;
+}
+
+html[data-ui="nothing"] .zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:first-child svg {
+  color: var(--ink) !important;
+}
+
+html[data-ui="nothing"] .zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:last-child > b {
+  font-family: var(--nd-label) !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: 12.5px;
+}
+
+html[data-ui="nothing"] .zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:last-child > ul {
+  border-top: none;
+  background: radial-gradient(circle, var(--line-2) 1px, transparent 1.3px) 0 0 / 6px 3px repeat-x;
+}
+
+html[data-ui="nothing"] .zasadka.vyveska ul > li > div a {
+  font-family: var(--nd-label) !important;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  background: transparent !important;
+  border: 1px solid var(--line-2);
+  color: var(--ink-2) !important;
+}

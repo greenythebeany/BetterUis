@@ -127,7 +127,7 @@
     const lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//BetterAis//STU timetable//SK',
+      'PRODID:-//BetterUis//STU timetable//SK',
       'CALSCALE:GREGORIAN',
       `X-WR-CALNAME:${escapeText(t('icsCalendarName'))}`,
       `X-WR-TIMEZONE:${TZID}`,

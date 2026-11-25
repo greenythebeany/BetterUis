@@ -35,6 +35,26 @@
     }
   }
   applyMotion();
+
+  // Profilová fotka switch (popup): the header photo, shown by default.
+  // Lands on <html> at document_start so the photo never flashes either way.
+  const CACHE_PFP_KEY = 'betterais:showPfp';
+  let showPfp = true;
+  try {
+    showPfp = localStorage.getItem(CACHE_PFP_KEY) !== 'false';
+  } catch (_) {
+    // keep the default
+  }
+  function applyPfp() {
+    root.setAttribute('data-pfp', showPfp ? 'on' : 'off');
+    try {
+      localStorage.setItem(CACHE_PFP_KEY, String(showPfp));
+    } catch (_) {
+      // not fatal
+    }
+  }
+  applyPfp();
+
   // Presets whose background is light enough to need the light-mode branch
   // (logo inversion, etc.) - see apply() below for why this matters.
   const LIGHT_PRESETS = new Set(['catppuccin-latte', 'gruvbox-light', 'solarized-light', 'rose-pine-dawn']);
@@ -190,9 +210,11 @@
   render();
   syncScheduleTimer();
 
-  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations'], (data) => {
+  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations', 'showPfp'], (data) => {
     animations = data.animations !== false;
     applyMotion();
+    showPfp = data.showPfp !== false;
+    applyPfp();
     theme = data.theme || DEFAULT_THEME;
     linkColor = data.linkColor || DEFAULT_LINK;
     forcedTheme = data.forcedTheme || DEFAULT_FORCED;
@@ -212,6 +234,12 @@
     if (typeof message.animations === 'boolean') {
       animations = message.animations;
       applyMotion();
+    }
+    if (typeof message.showPfp === 'boolean') {
+      showPfp = message.showPfp;
+      applyPfp();
+      // header.js re-aligns the logout icon (only meaningful without photo)
+      window.dispatchEvent(new Event('resize'));
     }
     render();
     syncScheduleTimer();

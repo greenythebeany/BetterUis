@@ -781,11 +781,11 @@ input[type="submit"],
 input[type="button"] {
   color: #fff !important;
   background-color: var(--link) !important;
-  padding: 12px 24px;
+  padding: 9px 18px;
   border: none !important;
   border-radius: var(--radius-pill) !important;
   cursor: pointer;
-  font: 600 14px/1 var(--font-sans);
+  font: 600 13px/1 var(--font-sans) !important;
   letter-spacing: .01em;
   transition: filter var(--t-fast) var(--ease);
   box-shadow: none;
@@ -804,6 +804,8 @@ input[type="button"]:active {
 #login-btn {
   margin-top: 18px !important;
   width: 100%;
+  padding: 12px 24px;
+  font-size: 14px !important;
 }
 
 input[type="checkbox"] {
@@ -1413,10 +1415,51 @@ html.light-mode .odsazena.active {
   width: 100% !important;
 }
 
-/* Scoped to tr:first-child so the "ďalší" (more) row's cell, which is also
-   a first-child of its own row, is untouched. */
+/* Card head like the dashboard cards: the first row becomes a grid - the
+   icon cell as a 48px accent tile, the title beside it - and the second
+   cell is display:contents, so its title and post list are grid items of
+   the row: the title takes the head row, the list spans the full width
+   under a divider. Scoped to tr:first-child so the "ďalší" (more) row is
+   untouched. */
+.zasadka.vyveska table.zasadky-info > tbody > tr:first-child {
+  display: grid !important;
+  grid-template-columns: 48px 1fr;
+  column-gap: 16px;
+  align-items: center;
+}
+
 .zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:first-child {
-  display: none !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 48px !important;
+  height: 48px;
+  padding: 0 !important;
+  border-radius: var(--radius-sm);
+  background: var(--link) !important;
+  color: #ffffff !important;
+}
+
+.zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:first-child svg {
+  width: 26px !important;
+  height: 26px !important;
+  color: #ffffff !important;
+}
+
+.zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:last-child {
+  display: contents !important;
+}
+
+.zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:last-child > b {
+  font-size: 15px;
+  color: var(--ink) !important;
+}
+
+.zasadka.vyveska table.zasadky-info > tbody > tr:first-child > td.odsazena:last-child > ul {
+  grid-column: 1 / -1;
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid var(--line);
 }
 
 /* ---- Výveska (bulletin board) list -------------------------------------
@@ -2385,8 +2428,8 @@ html.light-mode table:has(> thead > tr.zahlavi) {
    <td>label</td><td>input</td> rows, which matched this rule and got painted
    as a label/value data block - that was the stray grey panel sitting behind
    those fields. */
-html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena),
-html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) {
+html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena),
+html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) {
   width: 100% !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
@@ -2398,8 +2441,8 @@ html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.
   font-size: 13.5px;
 }
 
-html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena,
-html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena {
+html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena,
+html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena {
   /* the site's width="160"/width="700" attributes are what squeeze these
      into a narrow column - override so the pair splits the full width */
   width: auto !important;
@@ -2412,21 +2455,21 @@ html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.
 }
 
 /* first cell is the label - give it a stable proportion and quieter tone */
-html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena:first-child,
-html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena:first-child {
+html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena:first-child,
+html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena:first-child {
   width: 34% !important;
   background: var(--surface-2) !important;
   color: var(--mute) !important;
 }
 
-html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena:first-child b,
-html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) td.odsazena:first-child b {
+html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena:first-child b,
+html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) td.odsazena:first-child b {
   color: var(--ink) !important;
   font-weight: 600;
 }
 
-html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) tr:last-child td.odsazena,
-html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):has(td.odsazena) tr:last-child td.odsazena {
+html.dark-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) tr:last-child td.odsazena,
+html.light-mode .mainpage table:not(.portal_menu):not(:has(.zahlavi)):not(:has(.rada-ikon)):not(:has(.polozky-obr)):not(.zasadky-info):not(.zasadky-crit):not(.zasadky-warning):not(:has(input)):not(:has(select)):not(:has([data-sysid="stav-nesplneno"])):has(td.odsazena) tr:last-child td.odsazena {
   border-bottom: none !important;
 }
 
@@ -3410,15 +3453,13 @@ html.light-mode a:hover .uf-icon > .betterais-icon-file {
     text-decoration: none !important;
   }
 
-  /* same white-on-transparent logo PNG the desktop header uses */
+  /* same vector STU mark the desktop header uses, in the theme's ink */
   .ba-mbar-logo {
-    width: calc(26px * 525 / 82);
-    height: 26px;
-    background: url("https://is.stuba.sk/img.pl?userunid=183025") no-repeat left center / contain;
-  }
-
-  html.light-mode .ba-mbar-logo {
-    filter: invert(1);
+    width: calc(22px * 10.094);
+    height: 22px;
+    background: var(--ink);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 207.24 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3Cg transform='translate%28131.690 11.85%29 scale%280.8533%29 translate%28-100.429 -10.02%29'%3E%3Cpath d='M100.43,15l.25-.59a.07.07,0,0,1,.1,0,1.83,1.83,0,0,0,.83.18c.33,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.55,2.55,0,0,1,1.21.22s0,.05,0,.09l-.27.52a.06.06,0,0,1-.1,0,1.83,1.83,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.44,1.23a2.59,2.59,0,0,1-1.22-.23S100.42,15,100.43,15Z'/%3E%3Cpath d='M106.05,14.5a0,0,0,0,0,0,.05h1.49s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.35s-.07,0-.07-.07V11.26s0-.07.07-.07H106s.06,0,.06.07Z'/%3E%3Cpath d='M110.89,15.31c-1.36,0-1.76-.74-1.76-2.08s.4-2.08,1.76-2.08,1.77.73,1.77,2.07S112.25,15.31,110.89,15.31Zm0-3.44c-.55,0-.84.44-.84,1.35s.29,1.37.83,1.37.83-.44.83-1.36S111.42,11.87,110.9,11.87Z'/%3E%3Cpath d='M115.6,15.27s0,0,0,0l-1.16-3.94a.06.06,0,0,1,.06-.09h.82s0,0,.07.05l.8,3.14.8-3.14s0-.05.07-.05h.74s.07,0,.06.08l-1.16,4s0,0-.07,0Z'/%3E%3Cpath d='M120.6,12.87h1.26s.08,0,.08.07v.58a.07.07,0,0,1-.08.07H120.6v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45s-.07,0-.07-.07V11.26s0-.07.07-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1.59s0,0,0,.05Z'/%3E%3Cpath d='M126.54,13.94V11.26s0-.07.06-.07h.73s.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.79c-.05,0-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.06,0,.07,0,.08,0Z'/%3E%3Cpath d='M129.44,15l.26-.59a.06.06,0,0,1,.09,0,1.86,1.86,0,0,0,.83.18c.34,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.48,2.48,0,0,1,1.2.22c.05,0,.05.05,0,.09l-.26.52a.07.07,0,0,1-.11,0,1.8,1.8,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.43,1.23a2.63,2.63,0,0,1-1.23-.23S129.43,15,129.44,15Z'/%3E%3Cpath d='M135.82,13.25l1.4,1.92a.06.06,0,0,1,0,.1h-1l-.05,0-1.09-1.71V15.2a.06.06,0,0,1-.07.07h-.75c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07H135a.06.06,0,0,1,.07.07v1.79l1.08-1.84,0,0h.87c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M139.88,14.41l-.22.81a.07.07,0,0,1-.08,0h-.73s-.07,0,0-.07l1.24-4s0,0,.05,0h1s0,0,0,0l1.24,4s0,.07-.05.07h-.82a.07.07,0,0,1-.08,0l-.22-.81Zm1.11-.72-.45-1.56-.45,1.56ZM140.31,11a.06.06,0,0,1-.08,0l-.11-.23s0-.05,0-.07l1.08-.68a0,0,0,0,1,.08,0l.23.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M148.26,15.27s-.06,0-.06-.07V12a0,0,0,0,0,0-.05h-.94c-.05,0-.08,0-.08-.07v-.58s0-.07.08-.07h2.88s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1s0,0,0,.05V15.2c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M153,12.87h1.26c.05,0,.08,0,.08.07v.58a.07.07,0,0,1-.08.07H153v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45c-.06,0-.08,0-.08-.07V11.26s0-.07.08-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07H153s0,0,0,.05Z'/%3E%3Cpath d='M158.41,15.31a1.83,1.83,0,0,1-1.88-2.08,1.84,1.84,0,0,1,1.88-2.08,2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.21.21,0,0,1,0,.06l-.26.51s0,0,0,0h-.06a1.4,1.4,0,0,0-.67-.15c-.47,0-1,.39-1,1.34s.51,1.33,1,1.33a1.46,1.46,0,0,0,.67-.15.06.06,0,0,1,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,158.41,15.31Z'/%3E%3Cpath d='M162.41,13.59a0,0,0,0,0,0,0V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07h.76s.06,0,.06.07v1.56a0,0,0,0,0,0,0h1.23a0,0,0,0,0,.05,0V11.26s0-.07.07-.07h.75c.05,0,.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.75s-.07,0-.07-.07V13.63s0,0-.05,0Z'/%3E%3Cpath d='M169.07,13.94V11.26s0-.07.06-.07h.73a.06.06,0,0,1,.07.07V15.2a.06.06,0,0,1-.07.07h-.79s-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.05,0,.07,0,.08,0Z'/%3E%3Cpath d='M173,11.19s.06,0,.06.07V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07Z'/%3E%3Cpath d='M177,15.31a1.83,1.83,0,0,1-1.87-2.08A1.83,1.83,0,0,1,177,11.15a2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.15.15,0,0,1,0,.06l-.27.51s0,0,0,0h-.05a1.47,1.47,0,0,0-.68-.15c-.47,0-1,.39-1,1.34s.52,1.33,1,1.33a1.41,1.41,0,0,0,.67-.15s.08,0,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,177,15.31Z'/%3E%3Cpath d='M181.72,13.25l1.4,1.92a.06.06,0,0,1-.05.1h-1l-.06,0L181,13.54V15.2c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V11.26s0-.07.07-.07h.76s.06,0,.06.07v1.79L182,11.21l.05,0H183c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M185.78,14.41l-.23.81a.06.06,0,0,1-.07,0h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07,0,.07h-.82s0,0-.07,0l-.23-.81Zm1.11-.72-.45-1.56L186,13.69ZM186.2,11s0,0-.07,0l-.11-.23s0-.05,0-.07l1.09-.68a0,0,0,0,1,.08,0l.22.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M103.71,21.88c0,.79-.45,1.3-1.56,1.3s-1.56-.51-1.56-1.3V19.13c0-.06,0-.08.08-.08h.75s.07,0,.07.08v2.72c0,.41.22.6.66.6s.67-.19.67-.6V19.13c0-.06,0-.08.06-.08h.77s.06,0,.06.08Z'/%3E%3Cpath d='M108.17,21.8V19.13c0-.06,0-.08.06-.08H109s.07,0,.07.08v3.94a.06.06,0,0,1-.07.07h-.79s-.07,0-.08-.05l-1.32-2.7v2.68c0,.05,0,.07-.06.07H106s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.78s.07,0,.08.05Z'/%3E%3Cpath d='M112.07,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M115.25,23.14s0,0-.06-.05L114,19.14a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74s.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M120.25,20.73h1.26a.07.07,0,0,1,.08.07v.59s0,.06-.08.06h-1.26v.92s0,0,0,0h1.59a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.45c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h2.45c.05,0,.07,0,.07.08v.57c0,.05,0,.08-.07.08h-1.59s0,0,0,0Z'/%3E%3Cpath d='M124.83,21.52v1.55c0,.05,0,.07-.06.07H124c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h1.31c1,0,1.46.45,1.46,1.24a1.09,1.09,0,0,1-.82,1.15L127,23c0,.06,0,.11,0,.11H126a.05.05,0,0,1-.05,0l-.92-1.59Zm0-.64h.35c.41,0,.67-.18.67-.57s-.22-.53-.65-.53h-.32s0,0,0,0Z'/%3E%3Cpath d='M131.57,19.05c.05,0,.07,0,.07.08v.57a.12.12,0,0,1,0,.08l-1.8,2.63h1.75a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.7c-.05,0-.08,0-.08-.07v-.58l0-.07,1.79-2.64h-1.74a.07.07,0,0,1-.08-.07v-.58c0-.06,0-.08.08-.08Z'/%3E%3Cpath d='M134.46,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M137.56,23.14s-.06,0-.06-.07V19.82s0,0-.05,0h-.94a.07.07,0,0,1-.08-.08v-.57c0-.06,0-.08.08-.08h2.89s.06,0,.06.08v.57c0,.05,0,.08-.06.08h-1s0,0,0,0v3.25c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M141.8,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1,0-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s0,0-.07-.05l-.23-.81Zm1.11-.72L142.46,20,142,21.56Z'/%3E%3Cpath d='M150.27,23.14a.06.06,0,0,1-.06-.05l-1.16-3.95a.07.07,0,0,1,.06-.09h.83s.05,0,.07.06l.79,3.13.8-3.13a.08.08,0,0,1,.08-.06h.73c.05,0,.08,0,.06.08l-1.16,4a.06.06,0,0,1-.06.05Z'/%3E%3Cpath d='M158.78,19.05c1.13,0,1.64.33,1.64,1.11,0,.36-.24.73-.83.91a1,1,0,0,1,.9,1.07c0,.73-.49,1-1.67,1h-1.2c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Zm-.29.73s-.05,0-.05,0v.95h.34c.47,0,.7-.14.7-.52s-.22-.47-.6-.47Zm-.05,1.63v1s0,0,0,0H159c.31,0,.59-.11.59-.47s-.25-.53-.8-.53Z'/%3E%3Cpath d='M163.59,21.52v1.55c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h1.3c1,0,1.47.45,1.47,1.24a1.08,1.08,0,0,1-.83,1.15l1,1.59c0,.06,0,.11,0,.11h-.9s-.05,0-.05,0l-.92-1.59Zm0-.64h.34c.42,0,.67-.18.67-.57s-.21-.53-.64-.53h-.33s0,0,0,0Z'/%3E%3Cpath d='M168.57,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07-.05.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L169.23,20l-.46,1.57Z'/%3E%3Cpath d='M173.43,23.14a.06.06,0,0,1-.07-.07V19.82s0,0,0,0h-.95c-.05,0-.07,0-.07-.08v-.57c0-.06,0-.08.07-.08h2.89s.07,0,.07.08v.57a.07.07,0,0,1-.07.08h-1s0,0,0,0v3.25c0,.05,0,.07-.08.07Z'/%3E%3Cpath d='M178.06,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M180.17,22.87l.25-.58a.07.07,0,0,1,.1,0,1.72,1.72,0,0,0,.83.19c.34,0,.54-.15.54-.4s-.11-.35-.66-.59c-.71-.3-1-.68-1-1.28A1.19,1.19,0,0,1,181.56,19a2.5,2.5,0,0,1,1.2.22c.05,0,.05.06,0,.1l-.27.52a.07.07,0,0,1-.1,0,1.8,1.8,0,0,0-.71-.14c-.36,0-.52.16-.52.39s.08.34.69.58,1,.65,1,1.23c0,.79-.56,1.23-1.43,1.23a2.51,2.51,0,0,1-1.23-.24S180.16,22.9,180.17,22.87Z'/%3E%3Cpath d='M185.79,22.37s0,0,0,0h1.49a.07.07,0,0,1,.07.08v.58a.06.06,0,0,1-.07.07H185c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.76s.06,0,.06.08Z'/%3E%3Cpath d='M190,22.28l-.23.81a.08.08,0,0,1-.07.05H189a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L190.7,20l-.46,1.57Z'/%3E%3Cpath d='M195.1,23.14a.06.06,0,0,1-.06-.05l-1.15-3.95a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74c.05,0,.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M200.1,20.73h1.27a.07.07,0,0,1,.08.07v.59s0,.06-.08.06H200.1v.92a0,0,0,0,0,0,0h1.59c.06,0,.08,0,.08.07v.59c0,.05,0,.07-.08.07h-2.45c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h2.45c.06,0,.08,0,.08.08v.57c0,.05,0,.08-.08.08h-1.59a0,0,0,0,0,0,0Z'/%3E%3C/g%3E%3C/svg%3E") left center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 207.24 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3Cg transform='translate%28131.690 11.85%29 scale%280.8533%29 translate%28-100.429 -10.02%29'%3E%3Cpath d='M100.43,15l.25-.59a.07.07,0,0,1,.1,0,1.83,1.83,0,0,0,.83.18c.33,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.55,2.55,0,0,1,1.21.22s0,.05,0,.09l-.27.52a.06.06,0,0,1-.1,0,1.83,1.83,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.44,1.23a2.59,2.59,0,0,1-1.22-.23S100.42,15,100.43,15Z'/%3E%3Cpath d='M106.05,14.5a0,0,0,0,0,0,.05h1.49s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.35s-.07,0-.07-.07V11.26s0-.07.07-.07H106s.06,0,.06.07Z'/%3E%3Cpath d='M110.89,15.31c-1.36,0-1.76-.74-1.76-2.08s.4-2.08,1.76-2.08,1.77.73,1.77,2.07S112.25,15.31,110.89,15.31Zm0-3.44c-.55,0-.84.44-.84,1.35s.29,1.37.83,1.37.83-.44.83-1.36S111.42,11.87,110.9,11.87Z'/%3E%3Cpath d='M115.6,15.27s0,0,0,0l-1.16-3.94a.06.06,0,0,1,.06-.09h.82s0,0,.07.05l.8,3.14.8-3.14s0-.05.07-.05h.74s.07,0,.06.08l-1.16,4s0,0-.07,0Z'/%3E%3Cpath d='M120.6,12.87h1.26s.08,0,.08.07v.58a.07.07,0,0,1-.08.07H120.6v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45s-.07,0-.07-.07V11.26s0-.07.07-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1.59s0,0,0,.05Z'/%3E%3Cpath d='M126.54,13.94V11.26s0-.07.06-.07h.73s.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.79c-.05,0-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.06,0,.07,0,.08,0Z'/%3E%3Cpath d='M129.44,15l.26-.59a.06.06,0,0,1,.09,0,1.86,1.86,0,0,0,.83.18c.34,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.48,2.48,0,0,1,1.2.22c.05,0,.05.05,0,.09l-.26.52a.07.07,0,0,1-.11,0,1.8,1.8,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.43,1.23a2.63,2.63,0,0,1-1.23-.23S129.43,15,129.44,15Z'/%3E%3Cpath d='M135.82,13.25l1.4,1.92a.06.06,0,0,1,0,.1h-1l-.05,0-1.09-1.71V15.2a.06.06,0,0,1-.07.07h-.75c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07H135a.06.06,0,0,1,.07.07v1.79l1.08-1.84,0,0h.87c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M139.88,14.41l-.22.81a.07.07,0,0,1-.08,0h-.73s-.07,0,0-.07l1.24-4s0,0,.05,0h1s0,0,0,0l1.24,4s0,.07-.05.07h-.82a.07.07,0,0,1-.08,0l-.22-.81Zm1.11-.72-.45-1.56-.45,1.56ZM140.31,11a.06.06,0,0,1-.08,0l-.11-.23s0-.05,0-.07l1.08-.68a0,0,0,0,1,.08,0l.23.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M148.26,15.27s-.06,0-.06-.07V12a0,0,0,0,0,0-.05h-.94c-.05,0-.08,0-.08-.07v-.58s0-.07.08-.07h2.88s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1s0,0,0,.05V15.2c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M153,12.87h1.26c.05,0,.08,0,.08.07v.58a.07.07,0,0,1-.08.07H153v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45c-.06,0-.08,0-.08-.07V11.26s0-.07.08-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07H153s0,0,0,.05Z'/%3E%3Cpath d='M158.41,15.31a1.83,1.83,0,0,1-1.88-2.08,1.84,1.84,0,0,1,1.88-2.08,2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.21.21,0,0,1,0,.06l-.26.51s0,0,0,0h-.06a1.4,1.4,0,0,0-.67-.15c-.47,0-1,.39-1,1.34s.51,1.33,1,1.33a1.46,1.46,0,0,0,.67-.15.06.06,0,0,1,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,158.41,15.31Z'/%3E%3Cpath d='M162.41,13.59a0,0,0,0,0,0,0V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07h.76s.06,0,.06.07v1.56a0,0,0,0,0,0,0h1.23a0,0,0,0,0,.05,0V11.26s0-.07.07-.07h.75c.05,0,.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.75s-.07,0-.07-.07V13.63s0,0-.05,0Z'/%3E%3Cpath d='M169.07,13.94V11.26s0-.07.06-.07h.73a.06.06,0,0,1,.07.07V15.2a.06.06,0,0,1-.07.07h-.79s-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.05,0,.07,0,.08,0Z'/%3E%3Cpath d='M173,11.19s.06,0,.06.07V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07Z'/%3E%3Cpath d='M177,15.31a1.83,1.83,0,0,1-1.87-2.08A1.83,1.83,0,0,1,177,11.15a2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.15.15,0,0,1,0,.06l-.27.51s0,0,0,0h-.05a1.47,1.47,0,0,0-.68-.15c-.47,0-1,.39-1,1.34s.52,1.33,1,1.33a1.41,1.41,0,0,0,.67-.15s.08,0,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,177,15.31Z'/%3E%3Cpath d='M181.72,13.25l1.4,1.92a.06.06,0,0,1-.05.1h-1l-.06,0L181,13.54V15.2c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V11.26s0-.07.07-.07h.76s.06,0,.06.07v1.79L182,11.21l.05,0H183c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M185.78,14.41l-.23.81a.06.06,0,0,1-.07,0h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07,0,.07h-.82s0,0-.07,0l-.23-.81Zm1.11-.72-.45-1.56L186,13.69ZM186.2,11s0,0-.07,0l-.11-.23s0-.05,0-.07l1.09-.68a0,0,0,0,1,.08,0l.22.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M103.71,21.88c0,.79-.45,1.3-1.56,1.3s-1.56-.51-1.56-1.3V19.13c0-.06,0-.08.08-.08h.75s.07,0,.07.08v2.72c0,.41.22.6.66.6s.67-.19.67-.6V19.13c0-.06,0-.08.06-.08h.77s.06,0,.06.08Z'/%3E%3Cpath d='M108.17,21.8V19.13c0-.06,0-.08.06-.08H109s.07,0,.07.08v3.94a.06.06,0,0,1-.07.07h-.79s-.07,0-.08-.05l-1.32-2.7v2.68c0,.05,0,.07-.06.07H106s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.78s.07,0,.08.05Z'/%3E%3Cpath d='M112.07,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M115.25,23.14s0,0-.06-.05L114,19.14a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74s.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M120.25,20.73h1.26a.07.07,0,0,1,.08.07v.59s0,.06-.08.06h-1.26v.92s0,0,0,0h1.59a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.45c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h2.45c.05,0,.07,0,.07.08v.57c0,.05,0,.08-.07.08h-1.59s0,0,0,0Z'/%3E%3Cpath d='M124.83,21.52v1.55c0,.05,0,.07-.06.07H124c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h1.31c1,0,1.46.45,1.46,1.24a1.09,1.09,0,0,1-.82,1.15L127,23c0,.06,0,.11,0,.11H126a.05.05,0,0,1-.05,0l-.92-1.59Zm0-.64h.35c.41,0,.67-.18.67-.57s-.22-.53-.65-.53h-.32s0,0,0,0Z'/%3E%3Cpath d='M131.57,19.05c.05,0,.07,0,.07.08v.57a.12.12,0,0,1,0,.08l-1.8,2.63h1.75a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.7c-.05,0-.08,0-.08-.07v-.58l0-.07,1.79-2.64h-1.74a.07.07,0,0,1-.08-.07v-.58c0-.06,0-.08.08-.08Z'/%3E%3Cpath d='M134.46,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M137.56,23.14s-.06,0-.06-.07V19.82s0,0-.05,0h-.94a.07.07,0,0,1-.08-.08v-.57c0-.06,0-.08.08-.08h2.89s.06,0,.06.08v.57c0,.05,0,.08-.06.08h-1s0,0,0,0v3.25c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M141.8,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1,0-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s0,0-.07-.05l-.23-.81Zm1.11-.72L142.46,20,142,21.56Z'/%3E%3Cpath d='M150.27,23.14a.06.06,0,0,1-.06-.05l-1.16-3.95a.07.07,0,0,1,.06-.09h.83s.05,0,.07.06l.79,3.13.8-3.13a.08.08,0,0,1,.08-.06h.73c.05,0,.08,0,.06.08l-1.16,4a.06.06,0,0,1-.06.05Z'/%3E%3Cpath d='M158.78,19.05c1.13,0,1.64.33,1.64,1.11,0,.36-.24.73-.83.91a1,1,0,0,1,.9,1.07c0,.73-.49,1-1.67,1h-1.2c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Zm-.29.73s-.05,0-.05,0v.95h.34c.47,0,.7-.14.7-.52s-.22-.47-.6-.47Zm-.05,1.63v1s0,0,0,0H159c.31,0,.59-.11.59-.47s-.25-.53-.8-.53Z'/%3E%3Cpath d='M163.59,21.52v1.55c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h1.3c1,0,1.47.45,1.47,1.24a1.08,1.08,0,0,1-.83,1.15l1,1.59c0,.06,0,.11,0,.11h-.9s-.05,0-.05,0l-.92-1.59Zm0-.64h.34c.42,0,.67-.18.67-.57s-.21-.53-.64-.53h-.33s0,0,0,0Z'/%3E%3Cpath d='M168.57,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07-.05.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L169.23,20l-.46,1.57Z'/%3E%3Cpath d='M173.43,23.14a.06.06,0,0,1-.07-.07V19.82s0,0,0,0h-.95c-.05,0-.07,0-.07-.08v-.57c0-.06,0-.08.07-.08h2.89s.07,0,.07.08v.57a.07.07,0,0,1-.07.08h-1s0,0,0,0v3.25c0,.05,0,.07-.08.07Z'/%3E%3Cpath d='M178.06,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M180.17,22.87l.25-.58a.07.07,0,0,1,.1,0,1.72,1.72,0,0,0,.83.19c.34,0,.54-.15.54-.4s-.11-.35-.66-.59c-.71-.3-1-.68-1-1.28A1.19,1.19,0,0,1,181.56,19a2.5,2.5,0,0,1,1.2.22c.05,0,.05.06,0,.1l-.27.52a.07.07,0,0,1-.1,0,1.8,1.8,0,0,0-.71-.14c-.36,0-.52.16-.52.39s.08.34.69.58,1,.65,1,1.23c0,.79-.56,1.23-1.43,1.23a2.51,2.51,0,0,1-1.23-.24S180.16,22.9,180.17,22.87Z'/%3E%3Cpath d='M185.79,22.37s0,0,0,0h1.49a.07.07,0,0,1,.07.08v.58a.06.06,0,0,1-.07.07H185c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.76s.06,0,.06.08Z'/%3E%3Cpath d='M190,22.28l-.23.81a.08.08,0,0,1-.07.05H189a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L190.7,20l-.46,1.57Z'/%3E%3Cpath d='M195.1,23.14a.06.06,0,0,1-.06-.05l-1.15-3.95a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74c.05,0,.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M200.1,20.73h1.27a.07.07,0,0,1,.08.07v.59s0,.06-.08.06H200.1v.92a0,0,0,0,0,0,0h1.59c.06,0,.08,0,.08.07v.59c0,.05,0,.07-.08.07h-2.45c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h2.45c.06,0,.08,0,.08.08v.57c0,.05,0,.08-.08.08h-1.59a0,0,0,0,0,0,0Z'/%3E%3C/g%3E%3C/svg%3E") left center / contain no-repeat;
   }
 
   .ba-mbar-title {
@@ -4371,8 +4412,8 @@ html.light-mode table.betterais-rowtable > tbody > tr:not(.betterais-card-head):
 
 /* phone: non-data rows inside card tables */
 @media (max-width: 760px) {
-  :root.dark-mode #base table.betterais-cards > tbody > tr.betterais-row-empty,
-  :root.light-mode #base table.betterais-cards > tbody > tr.betterais-row-empty {
+  :root.dark-mode #base table.betterais-cards > tbody > tr.betterais-row-empty.betterais-card-span:not(.betterais-row-title),
+  :root.light-mode #base table.betterais-cards > tbody > tr.betterais-row-empty.betterais-card-span:not(.betterais-row-title) {
     display: none !important;
   }
 
@@ -4511,11 +4552,10 @@ html.light-mode table.betterais-rowtable > tbody > tr.sudy:not(.betterais-card-h
   align-items: center;
   justify-content: center;
   gap: 18px;
-  /* light enough that the page fading out / in underneath (see the content
-     crossfade below) is visible through it */
-  background: color-mix(in srgb, var(--bg, #f5f5f5) 65%, transparent);
-  -webkit-backdrop-filter: blur(6px) saturate(1.1);
-  backdrop-filter: blur(6px) saturate(1.1);
+  /* fully opaque: the page never moves or fades itself - the cover alone
+     carries the transition, fading in over the old page and out over the
+     new one, so the swap underneath is never seen */
+  background: var(--bg, #f5f5f5);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -4643,8 +4683,61 @@ html.light-mode table.betterais-rowtable > tbody > tr.sudy:not(.betterais-card-h
    moment on every load. If the row can't be built on some page, header.js
    marks the header .betterais-keep-pfp and the photo (with its menu) comes
    back. */
-#header:not(.betterais-keep-pfp) #pfp {
+html[data-pfp="off"] #header:not(.betterais-keep-pfp) #pfp {
   display: none !important;
+}
+
+/* photo shown (Profilová fotka switch, on by default): a rounded-square
+   portrait to the right of the name / icon block, centred on it. Clicking it
+   opens the profile like the name does (header.js), not the site's menu. */
+html.dark-mode[data-pfp="on"] #header #pfp,
+html.light-mode[data-pfp="on"] #header #pfp {
+  display: flex !important;
+  align-self: center;
+  flex: none;
+  /* as tall as the name / icon block beside it (header.js measures that
+     block into --brand-h) */
+  width: var(--brand-h, 80px) !important;
+  height: var(--brand-h, 80px) !important;
+  margin: 0 0 0 12px !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  position: relative !important;
+  background: none !important;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+/* subtle frame: a 1px hairline laid over the photo's edge (a layer on top,
+   so the image can't paint over it), 18% of the text colour - visible on
+   light photo backgrounds too, never heavy */
+html[data-pfp="on"] #header #pfp::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* hover like the app icons and cards: a small lift */
+html[data-pfp="on"] #header #pfp:hover {
+  transform: translateY(-2px);
+}
+
+html[data-pfp="on"] #header #pfp img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  border: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border-radius: 10px;
 }
 
 html.dark-mode #header.betterais-has-usermenu,
@@ -4872,28 +4965,20 @@ html.light-mode #header .left::before {
   letter-spacing: -1px;
 }
 
-/* STU artwork, measured from the PNG's pixels (525x82 canvas): the dots +
-   "STU" mark spans x 31-229, y 20-66; the two-line tagline runs x 295-494
-   within the same band. Cropped with a 2px margin for the antialiased edges
-   (the tight crop clipped the bottom row of dots): x 29-496, y 18-68, a
-   467x50 box. Its height keeps the mark itself at 62% of the right block
-   (.62 * 50/46 = .674), so the tagline doesn't crowd the right column.
-   Percent background maths: canvas = 525/467 = 112.42% of the box wide;
-   offsets 29/(525-467) = 50% and 18/(82-50) = 56.25%. */
+/* STU mark: vector, from the official STU-FEI SVG with the FEI line removed
+   and STU scaled up to the dots' height (as on the university's own logo),
+   plus the two-line tagline in its original lettering. Used as a mask, so it
+   takes the theme's ink instead of being a fixed white raster. */
 html.dark-mode #header .left::after,
 html.light-mode #header .left::after {
   content: '';
   flex: none;
-  height: calc(var(--brand-h) * .674);
-  aspect-ratio: 467 / 50;
+  height: calc(var(--brand-h) * .64);
+  aspect-ratio: 10.094;
   margin-left: 24px;
-  background: url('https://is.stuba.sk/img.pl?userunid=183025') no-repeat;
-  background-size: 112.42% auto;
-  background-position: 50% 56.25%;
-}
-
-html.light-mode #header .left::after {
-  filter: invert(1);
+  background: var(--ink);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 207.24 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3Cg transform='translate%28131.690 11.85%29 scale%280.8533%29 translate%28-100.429 -10.02%29'%3E%3Cpath d='M100.43,15l.25-.59a.07.07,0,0,1,.1,0,1.83,1.83,0,0,0,.83.18c.33,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.55,2.55,0,0,1,1.21.22s0,.05,0,.09l-.27.52a.06.06,0,0,1-.1,0,1.83,1.83,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.44,1.23a2.59,2.59,0,0,1-1.22-.23S100.42,15,100.43,15Z'/%3E%3Cpath d='M106.05,14.5a0,0,0,0,0,0,.05h1.49s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.35s-.07,0-.07-.07V11.26s0-.07.07-.07H106s.06,0,.06.07Z'/%3E%3Cpath d='M110.89,15.31c-1.36,0-1.76-.74-1.76-2.08s.4-2.08,1.76-2.08,1.77.73,1.77,2.07S112.25,15.31,110.89,15.31Zm0-3.44c-.55,0-.84.44-.84,1.35s.29,1.37.83,1.37.83-.44.83-1.36S111.42,11.87,110.9,11.87Z'/%3E%3Cpath d='M115.6,15.27s0,0,0,0l-1.16-3.94a.06.06,0,0,1,.06-.09h.82s0,0,.07.05l.8,3.14.8-3.14s0-.05.07-.05h.74s.07,0,.06.08l-1.16,4s0,0-.07,0Z'/%3E%3Cpath d='M120.6,12.87h1.26s.08,0,.08.07v.58a.07.07,0,0,1-.08.07H120.6v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45s-.07,0-.07-.07V11.26s0-.07.07-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1.59s0,0,0,.05Z'/%3E%3Cpath d='M126.54,13.94V11.26s0-.07.06-.07h.73s.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.79c-.05,0-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.06,0,.07,0,.08,0Z'/%3E%3Cpath d='M129.44,15l.26-.59a.06.06,0,0,1,.09,0,1.86,1.86,0,0,0,.83.18c.34,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.48,2.48,0,0,1,1.2.22c.05,0,.05.05,0,.09l-.26.52a.07.07,0,0,1-.11,0,1.8,1.8,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.43,1.23a2.63,2.63,0,0,1-1.23-.23S129.43,15,129.44,15Z'/%3E%3Cpath d='M135.82,13.25l1.4,1.92a.06.06,0,0,1,0,.1h-1l-.05,0-1.09-1.71V15.2a.06.06,0,0,1-.07.07h-.75c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07H135a.06.06,0,0,1,.07.07v1.79l1.08-1.84,0,0h.87c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M139.88,14.41l-.22.81a.07.07,0,0,1-.08,0h-.73s-.07,0,0-.07l1.24-4s0,0,.05,0h1s0,0,0,0l1.24,4s0,.07-.05.07h-.82a.07.07,0,0,1-.08,0l-.22-.81Zm1.11-.72-.45-1.56-.45,1.56ZM140.31,11a.06.06,0,0,1-.08,0l-.11-.23s0-.05,0-.07l1.08-.68a0,0,0,0,1,.08,0l.23.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M148.26,15.27s-.06,0-.06-.07V12a0,0,0,0,0,0-.05h-.94c-.05,0-.08,0-.08-.07v-.58s0-.07.08-.07h2.88s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1s0,0,0,.05V15.2c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M153,12.87h1.26c.05,0,.08,0,.08.07v.58a.07.07,0,0,1-.08.07H153v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45c-.06,0-.08,0-.08-.07V11.26s0-.07.08-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07H153s0,0,0,.05Z'/%3E%3Cpath d='M158.41,15.31a1.83,1.83,0,0,1-1.88-2.08,1.84,1.84,0,0,1,1.88-2.08,2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.21.21,0,0,1,0,.06l-.26.51s0,0,0,0h-.06a1.4,1.4,0,0,0-.67-.15c-.47,0-1,.39-1,1.34s.51,1.33,1,1.33a1.46,1.46,0,0,0,.67-.15.06.06,0,0,1,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,158.41,15.31Z'/%3E%3Cpath d='M162.41,13.59a0,0,0,0,0,0,0V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07h.76s.06,0,.06.07v1.56a0,0,0,0,0,0,0h1.23a0,0,0,0,0,.05,0V11.26s0-.07.07-.07h.75c.05,0,.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.75s-.07,0-.07-.07V13.63s0,0-.05,0Z'/%3E%3Cpath d='M169.07,13.94V11.26s0-.07.06-.07h.73a.06.06,0,0,1,.07.07V15.2a.06.06,0,0,1-.07.07h-.79s-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.05,0,.07,0,.08,0Z'/%3E%3Cpath d='M173,11.19s.06,0,.06.07V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07Z'/%3E%3Cpath d='M177,15.31a1.83,1.83,0,0,1-1.87-2.08A1.83,1.83,0,0,1,177,11.15a2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.15.15,0,0,1,0,.06l-.27.51s0,0,0,0h-.05a1.47,1.47,0,0,0-.68-.15c-.47,0-1,.39-1,1.34s.52,1.33,1,1.33a1.41,1.41,0,0,0,.67-.15s.08,0,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,177,15.31Z'/%3E%3Cpath d='M181.72,13.25l1.4,1.92a.06.06,0,0,1-.05.1h-1l-.06,0L181,13.54V15.2c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V11.26s0-.07.07-.07h.76s.06,0,.06.07v1.79L182,11.21l.05,0H183c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M185.78,14.41l-.23.81a.06.06,0,0,1-.07,0h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07,0,.07h-.82s0,0-.07,0l-.23-.81Zm1.11-.72-.45-1.56L186,13.69ZM186.2,11s0,0-.07,0l-.11-.23s0-.05,0-.07l1.09-.68a0,0,0,0,1,.08,0l.22.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M103.71,21.88c0,.79-.45,1.3-1.56,1.3s-1.56-.51-1.56-1.3V19.13c0-.06,0-.08.08-.08h.75s.07,0,.07.08v2.72c0,.41.22.6.66.6s.67-.19.67-.6V19.13c0-.06,0-.08.06-.08h.77s.06,0,.06.08Z'/%3E%3Cpath d='M108.17,21.8V19.13c0-.06,0-.08.06-.08H109s.07,0,.07.08v3.94a.06.06,0,0,1-.07.07h-.79s-.07,0-.08-.05l-1.32-2.7v2.68c0,.05,0,.07-.06.07H106s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.78s.07,0,.08.05Z'/%3E%3Cpath d='M112.07,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M115.25,23.14s0,0-.06-.05L114,19.14a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74s.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M120.25,20.73h1.26a.07.07,0,0,1,.08.07v.59s0,.06-.08.06h-1.26v.92s0,0,0,0h1.59a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.45c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h2.45c.05,0,.07,0,.07.08v.57c0,.05,0,.08-.07.08h-1.59s0,0,0,0Z'/%3E%3Cpath d='M124.83,21.52v1.55c0,.05,0,.07-.06.07H124c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h1.31c1,0,1.46.45,1.46,1.24a1.09,1.09,0,0,1-.82,1.15L127,23c0,.06,0,.11,0,.11H126a.05.05,0,0,1-.05,0l-.92-1.59Zm0-.64h.35c.41,0,.67-.18.67-.57s-.22-.53-.65-.53h-.32s0,0,0,0Z'/%3E%3Cpath d='M131.57,19.05c.05,0,.07,0,.07.08v.57a.12.12,0,0,1,0,.08l-1.8,2.63h1.75a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.7c-.05,0-.08,0-.08-.07v-.58l0-.07,1.79-2.64h-1.74a.07.07,0,0,1-.08-.07v-.58c0-.06,0-.08.08-.08Z'/%3E%3Cpath d='M134.46,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M137.56,23.14s-.06,0-.06-.07V19.82s0,0-.05,0h-.94a.07.07,0,0,1-.08-.08v-.57c0-.06,0-.08.08-.08h2.89s.06,0,.06.08v.57c0,.05,0,.08-.06.08h-1s0,0,0,0v3.25c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M141.8,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1,0-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s0,0-.07-.05l-.23-.81Zm1.11-.72L142.46,20,142,21.56Z'/%3E%3Cpath d='M150.27,23.14a.06.06,0,0,1-.06-.05l-1.16-3.95a.07.07,0,0,1,.06-.09h.83s.05,0,.07.06l.79,3.13.8-3.13a.08.08,0,0,1,.08-.06h.73c.05,0,.08,0,.06.08l-1.16,4a.06.06,0,0,1-.06.05Z'/%3E%3Cpath d='M158.78,19.05c1.13,0,1.64.33,1.64,1.11,0,.36-.24.73-.83.91a1,1,0,0,1,.9,1.07c0,.73-.49,1-1.67,1h-1.2c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Zm-.29.73s-.05,0-.05,0v.95h.34c.47,0,.7-.14.7-.52s-.22-.47-.6-.47Zm-.05,1.63v1s0,0,0,0H159c.31,0,.59-.11.59-.47s-.25-.53-.8-.53Z'/%3E%3Cpath d='M163.59,21.52v1.55c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h1.3c1,0,1.47.45,1.47,1.24a1.08,1.08,0,0,1-.83,1.15l1,1.59c0,.06,0,.11,0,.11h-.9s-.05,0-.05,0l-.92-1.59Zm0-.64h.34c.42,0,.67-.18.67-.57s-.21-.53-.64-.53h-.33s0,0,0,0Z'/%3E%3Cpath d='M168.57,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07-.05.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L169.23,20l-.46,1.57Z'/%3E%3Cpath d='M173.43,23.14a.06.06,0,0,1-.07-.07V19.82s0,0,0,0h-.95c-.05,0-.07,0-.07-.08v-.57c0-.06,0-.08.07-.08h2.89s.07,0,.07.08v.57a.07.07,0,0,1-.07.08h-1s0,0,0,0v3.25c0,.05,0,.07-.08.07Z'/%3E%3Cpath d='M178.06,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M180.17,22.87l.25-.58a.07.07,0,0,1,.1,0,1.72,1.72,0,0,0,.83.19c.34,0,.54-.15.54-.4s-.11-.35-.66-.59c-.71-.3-1-.68-1-1.28A1.19,1.19,0,0,1,181.56,19a2.5,2.5,0,0,1,1.2.22c.05,0,.05.06,0,.1l-.27.52a.07.07,0,0,1-.1,0,1.8,1.8,0,0,0-.71-.14c-.36,0-.52.16-.52.39s.08.34.69.58,1,.65,1,1.23c0,.79-.56,1.23-1.43,1.23a2.51,2.51,0,0,1-1.23-.24S180.16,22.9,180.17,22.87Z'/%3E%3Cpath d='M185.79,22.37s0,0,0,0h1.49a.07.07,0,0,1,.07.08v.58a.06.06,0,0,1-.07.07H185c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.76s.06,0,.06.08Z'/%3E%3Cpath d='M190,22.28l-.23.81a.08.08,0,0,1-.07.05H189a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L190.7,20l-.46,1.57Z'/%3E%3Cpath d='M195.1,23.14a.06.06,0,0,1-.06-.05l-1.15-3.95a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74c.05,0,.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M200.1,20.73h1.27a.07.07,0,0,1,.08.07v.59s0,.06-.08.06H200.1v.92a0,0,0,0,0,0,0h1.59c.06,0,.08,0,.08.07v.59c0,.05,0,.07-.08.07h-2.45c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h2.45c.06,0,.08,0,.08.08v.57c0,.05,0,.08-.08.08h-1.59a0,0,0,0,0,0,0Z'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 207.24 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3Cg transform='translate%28131.690 11.85%29 scale%280.8533%29 translate%28-100.429 -10.02%29'%3E%3Cpath d='M100.43,15l.25-.59a.07.07,0,0,1,.1,0,1.83,1.83,0,0,0,.83.18c.33,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.55,2.55,0,0,1,1.21.22s0,.05,0,.09l-.27.52a.06.06,0,0,1-.1,0,1.83,1.83,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.44,1.23a2.59,2.59,0,0,1-1.22-.23S100.42,15,100.43,15Z'/%3E%3Cpath d='M106.05,14.5a0,0,0,0,0,0,.05h1.49s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.35s-.07,0-.07-.07V11.26s0-.07.07-.07H106s.06,0,.06.07Z'/%3E%3Cpath d='M110.89,15.31c-1.36,0-1.76-.74-1.76-2.08s.4-2.08,1.76-2.08,1.77.73,1.77,2.07S112.25,15.31,110.89,15.31Zm0-3.44c-.55,0-.84.44-.84,1.35s.29,1.37.83,1.37.83-.44.83-1.36S111.42,11.87,110.9,11.87Z'/%3E%3Cpath d='M115.6,15.27s0,0,0,0l-1.16-3.94a.06.06,0,0,1,.06-.09h.82s0,0,.07.05l.8,3.14.8-3.14s0-.05.07-.05h.74s.07,0,.06.08l-1.16,4s0,0-.07,0Z'/%3E%3Cpath d='M120.6,12.87h1.26s.08,0,.08.07v.58a.07.07,0,0,1-.08.07H120.6v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45s-.07,0-.07-.07V11.26s0-.07.07-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1.59s0,0,0,.05Z'/%3E%3Cpath d='M126.54,13.94V11.26s0-.07.06-.07h.73s.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.79c-.05,0-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.06,0,.07,0,.08,0Z'/%3E%3Cpath d='M129.44,15l.26-.59a.06.06,0,0,1,.09,0,1.86,1.86,0,0,0,.83.18c.34,0,.54-.15.54-.39s-.11-.36-.66-.6c-.71-.3-1-.67-1-1.28a1.18,1.18,0,0,1,1.34-1.15,2.48,2.48,0,0,1,1.2.22c.05,0,.05.05,0,.09l-.26.52a.07.07,0,0,1-.11,0,1.8,1.8,0,0,0-.71-.13c-.36,0-.52.16-.52.39s.08.33.69.58,1,.65,1,1.22c0,.8-.56,1.23-1.43,1.23a2.63,2.63,0,0,1-1.23-.23S129.43,15,129.44,15Z'/%3E%3Cpath d='M135.82,13.25l1.4,1.92a.06.06,0,0,1,0,.1h-1l-.05,0-1.09-1.71V15.2a.06.06,0,0,1-.07.07h-.75c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07H135a.06.06,0,0,1,.07.07v1.79l1.08-1.84,0,0h.87c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M139.88,14.41l-.22.81a.07.07,0,0,1-.08,0h-.73s-.07,0,0-.07l1.24-4s0,0,.05,0h1s0,0,0,0l1.24,4s0,.07-.05.07h-.82a.07.07,0,0,1-.08,0l-.22-.81Zm1.11-.72-.45-1.56-.45,1.56ZM140.31,11a.06.06,0,0,1-.08,0l-.11-.23s0-.05,0-.07l1.08-.68a0,0,0,0,1,.08,0l.23.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M148.26,15.27s-.06,0-.06-.07V12a0,0,0,0,0,0-.05h-.94c-.05,0-.08,0-.08-.07v-.58s0-.07.08-.07h2.88s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-1s0,0,0,.05V15.2c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M153,12.87h1.26c.05,0,.08,0,.08.07v.58a.07.07,0,0,1-.08.07H153v.91s0,.05,0,.05h1.59s.07,0,.07.07v.58c0,.05,0,.07-.07.07h-2.45c-.06,0-.08,0-.08-.07V11.26s0-.07.08-.07h2.45s.07,0,.07.07v.58c0,.05,0,.07-.07.07H153s0,0,0,.05Z'/%3E%3Cpath d='M158.41,15.31a1.83,1.83,0,0,1-1.88-2.08,1.84,1.84,0,0,1,1.88-2.08,2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.21.21,0,0,1,0,.06l-.26.51s0,0,0,0h-.06a1.4,1.4,0,0,0-.67-.15c-.47,0-1,.39-1,1.34s.51,1.33,1,1.33a1.46,1.46,0,0,0,.67-.15.06.06,0,0,1,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,158.41,15.31Z'/%3E%3Cpath d='M162.41,13.59a0,0,0,0,0,0,0V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07h.76s.06,0,.06.07v1.56a0,0,0,0,0,0,0h1.23a0,0,0,0,0,.05,0V11.26s0-.07.07-.07h.75c.05,0,.07,0,.07.07V15.2c0,.05,0,.07-.07.07h-.75s-.07,0-.07-.07V13.63s0,0-.05,0Z'/%3E%3Cpath d='M169.07,13.94V11.26s0-.07.06-.07h.73a.06.06,0,0,1,.07.07V15.2a.06.06,0,0,1-.07.07h-.79s-.07,0-.08,0l-1.32-2.71V15.2c0,.05,0,.07-.06.07h-.72s-.07,0-.07-.07V11.26s0-.07.07-.07h.78c.05,0,.07,0,.08,0Z'/%3E%3Cpath d='M173,11.19s.06,0,.06.07V15.2c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V11.26s0-.07.08-.07Z'/%3E%3Cpath d='M177,15.31a1.83,1.83,0,0,1-1.87-2.08A1.83,1.83,0,0,1,177,11.15a2,2,0,0,1,1.09.23.07.07,0,0,1,0,.06.15.15,0,0,1,0,.06l-.27.51s0,0,0,0h-.05a1.47,1.47,0,0,0-.68-.15c-.47,0-1,.39-1,1.34s.52,1.33,1,1.33a1.41,1.41,0,0,0,.67-.15s.08,0,.09,0l.28.53s0,.08,0,.11A2,2,0,0,1,177,15.31Z'/%3E%3Cpath d='M181.72,13.25l1.4,1.92a.06.06,0,0,1-.05.1h-1l-.06,0L181,13.54V15.2c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V11.26s0-.07.07-.07h.76s.06,0,.06.07v1.79L182,11.21l.05,0H183c.06,0,.08.05.05.1Z'/%3E%3Cpath d='M185.78,14.41l-.23.81a.06.06,0,0,1-.07,0h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07,0,.07h-.82s0,0-.07,0l-.23-.81Zm1.11-.72-.45-1.56L186,13.69ZM186.2,11s0,0-.07,0l-.11-.23s0-.05,0-.07l1.09-.68a0,0,0,0,1,.08,0l.22.47a0,0,0,0,1,0,.07Z'/%3E%3Cpath d='M103.71,21.88c0,.79-.45,1.3-1.56,1.3s-1.56-.51-1.56-1.3V19.13c0-.06,0-.08.08-.08h.75s.07,0,.07.08v2.72c0,.41.22.6.66.6s.67-.19.67-.6V19.13c0-.06,0-.08.06-.08h.77s.06,0,.06.08Z'/%3E%3Cpath d='M108.17,21.8V19.13c0-.06,0-.08.06-.08H109s.07,0,.07.08v3.94a.06.06,0,0,1-.07.07h-.79s-.07,0-.08-.05l-1.32-2.7v2.68c0,.05,0,.07-.06.07H106s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.78s.07,0,.08.05Z'/%3E%3Cpath d='M112.07,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M115.25,23.14s0,0-.06-.05L114,19.14a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74s.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M120.25,20.73h1.26a.07.07,0,0,1,.08.07v.59s0,.06-.08.06h-1.26v.92s0,0,0,0h1.59a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.45c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h2.45c.05,0,.07,0,.07.08v.57c0,.05,0,.08-.07.08h-1.59s0,0,0,0Z'/%3E%3Cpath d='M124.83,21.52v1.55c0,.05,0,.07-.06.07H124c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h1.31c1,0,1.46.45,1.46,1.24a1.09,1.09,0,0,1-.82,1.15L127,23c0,.06,0,.11,0,.11H126a.05.05,0,0,1-.05,0l-.92-1.59Zm0-.64h.35c.41,0,.67-.18.67-.57s-.22-.53-.65-.53h-.32s0,0,0,0Z'/%3E%3Cpath d='M131.57,19.05c.05,0,.07,0,.07.08v.57a.12.12,0,0,1,0,.08l-1.8,2.63h1.75a.06.06,0,0,1,.07.07v.59c0,.05,0,.07-.07.07h-2.7c-.05,0-.08,0-.08-.07v-.58l0-.07,1.79-2.64h-1.74a.07.07,0,0,1-.08-.07v-.58c0-.06,0-.08.08-.08Z'/%3E%3Cpath d='M134.46,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76s-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M137.56,23.14s-.06,0-.06-.07V19.82s0,0-.05,0h-.94a.07.07,0,0,1-.08-.08v-.57c0-.06,0-.08.08-.08h2.89s.06,0,.06.08v.57c0,.05,0,.08-.06.08h-1s0,0,0,0v3.25c0,.05,0,.07-.07.07Z'/%3E%3Cpath d='M141.8,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1,0-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s0,0-.07-.05l-.23-.81Zm1.11-.72L142.46,20,142,21.56Z'/%3E%3Cpath d='M150.27,23.14a.06.06,0,0,1-.06-.05l-1.16-3.95a.07.07,0,0,1,.06-.09h.83s.05,0,.07.06l.79,3.13.8-3.13a.08.08,0,0,1,.08-.06h.73c.05,0,.08,0,.06.08l-1.16,4a.06.06,0,0,1-.06.05Z'/%3E%3Cpath d='M158.78,19.05c1.13,0,1.64.33,1.64,1.11,0,.36-.24.73-.83.91a1,1,0,0,1,.9,1.07c0,.73-.49,1-1.67,1h-1.2c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Zm-.29.73s-.05,0-.05,0v.95h.34c.47,0,.7-.14.7-.52s-.22-.47-.6-.47Zm-.05,1.63v1s0,0,0,0H159c.31,0,.59-.11.59-.47s-.25-.53-.8-.53Z'/%3E%3Cpath d='M163.59,21.52v1.55c0,.05,0,.07-.06.07h-.76c-.05,0-.08,0-.08-.07V19.13c0-.06,0-.08.08-.08h1.3c1,0,1.47.45,1.47,1.24a1.08,1.08,0,0,1-.83,1.15l1,1.59c0,.06,0,.11,0,.11h-.9s-.05,0-.05,0l-.92-1.59Zm0-.64h.34c.42,0,.67-.18.67-.57s-.21-.53-.64-.53h-.33s0,0,0,0Z'/%3E%3Cpath d='M168.57,22.28l-.23.81a.08.08,0,0,1-.07.05h-.74a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.23,4s0,.07-.05.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L169.23,20l-.46,1.57Z'/%3E%3Cpath d='M173.43,23.14a.06.06,0,0,1-.07-.07V19.82s0,0,0,0h-.95c-.05,0-.07,0-.07-.08v-.57c0-.06,0-.08.07-.08h2.89s.07,0,.07.08v.57a.07.07,0,0,1-.07.08h-1s0,0,0,0v3.25c0,.05,0,.07-.08.07Z'/%3E%3Cpath d='M178.06,19.05s.06,0,.06.08v3.94c0,.05,0,.07-.06.07h-.76c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08Z'/%3E%3Cpath d='M180.17,22.87l.25-.58a.07.07,0,0,1,.1,0,1.72,1.72,0,0,0,.83.19c.34,0,.54-.15.54-.4s-.11-.35-.66-.59c-.71-.3-1-.68-1-1.28A1.19,1.19,0,0,1,181.56,19a2.5,2.5,0,0,1,1.2.22c.05,0,.05.06,0,.1l-.27.52a.07.07,0,0,1-.1,0,1.8,1.8,0,0,0-.71-.14c-.36,0-.52.16-.52.39s.08.34.69.58,1,.65,1,1.23c0,.79-.56,1.23-1.43,1.23a2.51,2.51,0,0,1-1.23-.24S180.16,22.9,180.17,22.87Z'/%3E%3Cpath d='M185.79,22.37s0,0,0,0h1.49a.07.07,0,0,1,.07.08v.58a.06.06,0,0,1-.07.07H185c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h.76s.06,0,.06.08Z'/%3E%3Cpath d='M190,22.28l-.23.81a.08.08,0,0,1-.07.05H189a.05.05,0,0,1-.05-.07l1.25-4s0,0,0,0h1s0,0,0,0l1.24,4a.06.06,0,0,1-.06.07h-.82s-.05,0-.07-.05l-.23-.81Zm1.11-.72L190.7,20l-.46,1.57Z'/%3E%3Cpath d='M195.1,23.14a.06.06,0,0,1-.06-.05l-1.15-3.95a.06.06,0,0,1,.06-.09h.82s0,0,.07.06l.8,3.13.8-3.13a.07.07,0,0,1,.07-.06h.74c.05,0,.07,0,.06.08l-1.16,4a.08.08,0,0,1-.07.05Z'/%3E%3Cpath d='M200.1,20.73h1.27a.07.07,0,0,1,.08.07v.59s0,.06-.08.06H200.1v.92a0,0,0,0,0,0,0h1.59c.06,0,.08,0,.08.07v.59c0,.05,0,.07-.08.07h-2.45c-.05,0-.07,0-.07-.07V19.13c0-.06,0-.08.07-.08h2.45c.06,0,.08,0,.08.08v.57c0,.05,0,.08-.08.08h-1.59a0,0,0,0,0,0,0Z'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 @media (max-width: 900px) {
@@ -4921,6 +5006,36 @@ html.light-mode #header .left::after {
     width: 100% !important;
     min-width: 0;
   }
+
+  /* UIS + STU and the name/date column don't fit side by side on a phone:
+     logos on the first row, the user block right-aligned under them */
+  html.dark-mode .wholepage > #header,
+  html.light-mode .wholepage > #header {
+    flex-wrap: wrap !important;
+    row-gap: 14px;
+  }
+
+  html.dark-mode #header > .left,
+  html.light-mode #header > .left {
+    flex: 1 0 100% !important;
+    min-width: 0;
+  }
+
+  html.dark-mode #header > .right,
+  html.light-mode #header > .right {
+    flex: 1 0 100% !important;
+    width: 100% !important;
+    justify-content: flex-end;
+  }
+
+  /* the STU tagline ran into the date column at phone width - keep the
+     dots + STU mark only */
+  html.dark-mode #header .left::after,
+  html.light-mode #header .left::after {
+    aspect-ratio: 4.713;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 96.76 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='11.23 10.85 96.76 20.53'%3E%3Cg%3E%3Cpath d='M13.06,22.65a1.53,1.53,0,1,0-1.53-1.53,1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M13.06,31.08a1.54,1.54,0,1,0-1.53-1.54,1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M21.48,22.65A1.53,1.53,0,1,0,20,21.12a1.53,1.53,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,31.08A1.54,1.54,0,1,0,20,29.54a1.54,1.54,0,0,0,1.53,1.54'/%3E%3Cpath d='M29.9,22.65a1.53,1.53,0,1,0-1.52-1.53,1.53,1.53,0,0,0,1.52,1.53'/%3E%3Cpath d='M13.06,14.23a1.54,1.54,0,1,0-1.53-1.53,1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M21.48,14.23A1.54,1.54,0,1,0,20,12.7a1.54,1.54,0,0,0,1.53,1.53'/%3E%3Cpath d='M29.9,14.23a1.54,1.54,0,1,0-1.52-1.53,1.54,1.54,0,0,0,1.52,1.53'/%3E%3Cpath d='M29.9,31.08a1.54,1.54,0,1,0-1.52-1.54,1.54,1.54,0,0,0,1.52,1.54'/%3E%3Cpath d='M38.33,22.65a1.53,1.53,0,1,0-1.53-1.53,1.52,1.52,0,0,0,1.53,1.53'/%3E%3Cpath d='M38.33,31.08a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3Cpath d='M38.33,14.23a1.54,1.54,0,1,0-1.53-1.54,1.53,1.53,0,0,0,1.53,1.54'/%3E%3C/g%3E%3Cg transform='translate%2847.880 11.15%29 scale%282.3867%29 translate%28-47.06 -11.199%29'%3E%3Cpath d='M72.12,11.43c0-.1-.05-.14-.13-.14H70.46c-.09,0-.13,0-.13.14v5.46c0,.81-.44,1.21-1.34,1.21s-1.32-.4-1.32-1.21V11.43c0-.1,0-.14-.13-.14H66c-.1,0-.15,0-.15.14v5.51c0,1.6.9,2.61,3.12,2.61s3.13-1,3.13-2.61Zm-12.33,8a.13.13,0,0,0,.15-.15V12.83c0-.06,0-.09.08-.09h1.92c.09,0,.14-.05.14-.15V11.43a.12.12,0,0,0-.14-.14H56.16c-.1,0-.15,0-.15.14v1.16a.13.13,0,0,0,.15.15h1.89c.06,0,.1,0,.1.09v6.49q0,.15.12.15Zm-12.55-.4a5,5,0,0,0,2.45.48c1.75,0,2.87-.88,2.87-2.46,0-1.16-.55-1.86-2-2.46-1.22-.49-1.39-.7-1.39-1.16s.32-.78,1-.78a3.72,3.72,0,0,1,1.43.27.13.13,0,0,0,.2-.08l.53-1c0-.08,0-.16-.07-.19a5,5,0,0,0-2.4-.44c-1.69,0-2.68,1-2.68,2.31s.61,2,2,2.56c1.1.49,1.33.72,1.33,1.19s-.41.79-1.09.79a3.5,3.5,0,0,1-1.65-.37.14.14,0,0,0-.2.08l-.51,1.16c0,.05,0,.1.07.14'/%3E%3C/g%3E%3C/svg%3E");
+  }
 }
 
 /* ---- UIS header spacing + accent breadcrumb bar ---------------------------
@@ -4934,12 +5049,12 @@ html.light-mode .wholepage > #header {
   padding-bottom: 18px !important;
 }
 
-/* Breadcrumb bar on an 85% accent fill, so the page location reads as part of
+/* Breadcrumb bar on a solid accent fill, so the page location reads as part of
    the brand bar. Everything on it - trail text, separators, icons - turns
    white to stay legible on the accent. */
 html.dark-mode [aria-label="breadcrumb"],
 html.light-mode [aria-label="breadcrumb"] {
-  background: color-mix(in srgb, var(--link) 85%, transparent) !important;
+  background: var(--link) !important;
   border-color: transparent !important;
   color: rgba(255, 255, 255, .85) !important;
 }
@@ -4989,7 +5104,7 @@ html.light-mode nav[aria-label="breadcrumb"] .uf-icon[data-betterais]:hover > .b
    always follows #header, so an ID-anchored selector outweighs it. */
 html.dark-mode #header ~ nav[aria-label="breadcrumb"],
 html.light-mode #header ~ nav[aria-label="breadcrumb"] {
-  background: color-mix(in srgb, var(--link) 85%, transparent) !important;
+  background: var(--link) !important;
   border: none !important;
   padding: 14px var(--crumb-pad-r) 14px var(--crumb-pad-l) !important;
   margin-top: 4px !important;
@@ -5165,29 +5280,6 @@ html.light-mode body > .wholepage {
   box-sizing: border-box;
 }
 
-/* Content crossfade behind the loader cover (loader.js): the page fades out
-   as a navigation starts and the next one fades in as the cover dissolves,
-   instead of snapping from one to the other under the blur. Only the page's
-   main blocks - not the mobile drawer/scrim, which carry their own
-   transforms. Off with the Animácie switch. */
-html[data-motion="on"] body > :is(.wholepage, #base, #hlavicka, #betterais-mbar) {
-  transition: opacity .5s cubic-bezier(.2, .7, .15, 1), transform .5s cubic-bezier(.2, .7, .15, 1);
-}
-
-/* leaving: the old page dims and settles back slightly */
-html[data-motion="on"].betterais-leaving body > :is(.wholepage, #base, #hlavicka, #betterais-mbar) {
-  opacity: .15;
-  transform: scale(.985);
-  transition-duration: .35s;
-}
-
-/* arriving: the new page starts hidden a little low, then rises into place
-   as the cover dissolves */
-html[data-motion="on"].betterais-arriving body > :is(.wholepage, #base, #hlavicka, #betterais-mbar) {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
 /* Step markers sit in .portal_menu_wrapper, a flex row that aligns to the
    bottom (flow-end) - while the tab table beside them ends in a 20px margin,
    so the circle lined up with that margin, ~11px below the tab text. Stretch
@@ -5200,4 +5292,1382 @@ html.light-mode .portal_menu_wrapper > .portal_menu_order {
   align-items: center !important;
   margin-top: 0 !important; /* the site's 17.6px pushed the circle down */
   margin-bottom: 20px !important;
+}
+
+/* ---- study selection table (Moje studium: "Zvolit" column) ---------------
+   The site marks the chosen study with a green sprite and every other one
+   with a red sprite - neither reads as "this is the one you're working in",
+   and a red mark on a finished study looked like an error. Now it reads
+   like radio buttons: the chosen study gets a filled accent check and an
+   accented row; every other study an empty ring and a greyed-out row
+   (still clickable - hover brings it back and lights the ring). */
+html.dark-mode :is([data-sysid="stav-aktivni"], [data-sysid="stav-neaktivni"]) > svg,
+html.light-mode :is([data-sysid="stav-aktivni"], [data-sysid="stav-neaktivni"]) > svg {
+  display: none !important;
+}
+
+html.dark-mode :is([data-sysid="stav-aktivni"], [data-sysid="stav-neaktivni"]),
+html.light-mode :is([data-sysid="stav-aktivni"], [data-sysid="stav-neaktivni"]) {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+/* chosen: filled accent circle with a white check */
+html.dark-mode [data-sysid="stav-aktivni"]::before,
+html.light-mode [data-sysid="stav-aktivni"]::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background: var(--link);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* not chosen: empty ring */
+html.dark-mode [data-sysid="stav-neaktivni"]::before,
+html.light-mode [data-sysid="stav-neaktivni"]::before {
+  content: '';
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--line-2);
+  border-radius: 50%;
+  transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+
+html.dark-mode a:hover > [data-sysid="stav-neaktivni"]::before,
+html.light-mode a:hover > [data-sysid="stav-neaktivni"]::before {
+  border-color: var(--link);
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+}
+
+/* chosen row: accent tint + accent bar on its left edge */
+html.dark-mode tr:has(> td [data-sysid="stav-aktivni"]) > td,
+html.light-mode tr:has(> td [data-sysid="stav-aktivni"]) > td {
+  background: color-mix(in srgb, var(--link) 7%, var(--surface)) !important;
+}
+
+html.dark-mode tr:has(> td [data-sysid="stav-aktivni"]) > td:has([data-sysid="stav-aktivni"]),
+html.light-mode tr:has(> td [data-sysid="stav-aktivni"]) > td:has([data-sysid="stav-aktivni"]) {
+  box-shadow: inset 3px 0 0 var(--link);
+}
+
+/* other rows: greyed out until hovered. Only the content goes grey - the
+   row itself stays opaque: semi-transparent cells let the table's own
+   (light) background show through, which turned the row into a pale slab
+   in dark themes, presets and the Nothing style. */
+html.dark-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td,
+html.light-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td {
+  color: var(--mute-2) !important;
+  transition: color var(--t) var(--ease);
+}
+
+html.dark-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td *,
+html.light-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td * {
+  color: inherit !important;
+  font-weight: inherit;
+}
+
+html.dark-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td .betterais-icon,
+html.light-mode tr:has(> td [data-sysid="stav-neaktivni"]) > td .betterais-icon {
+  opacity: .55;
+}
+
+html.dark-mode tr:has(> td [data-sysid="stav-neaktivni"]):hover > td,
+html.light-mode tr:has(> td [data-sysid="stav-neaktivni"]):hover > td {
+  color: var(--ink-2) !important;
+}
+
+html.dark-mode tr:has(> td [data-sysid="stav-neaktivni"]):hover > td .betterais-icon,
+html.light-mode tr:has(> td [data-sysid="stav-neaktivni"]):hover > td .betterais-icon {
+  opacity: 1;
+}
+
+/* ---- Výveska posts: section as a chip, quiet remove control ------------ */
+.zasadka.vyveska ul > li > div {
+  font-size: 0 !important; /* drops the bare "(" ")" around the section link */
+}
+
+html.dark-mode .zasadka.vyveska ul > li > div a,
+html.light-mode .zasadka.vyveska ul > li > div a {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--link) 9%, transparent);
+  color: var(--link) !important;
+  font-size: 11.5px !important;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+html.dark-mode .zasadka.vyveska .vyveska_hide_item .uf-icon,
+html.light-mode .zasadka.vyveska .vyveska_hide_item .uf-icon,
+html.dark-mode .zasadka.vyveska .vyveska_hide_item .betterais-icon,
+html.light-mode .zasadka.vyveska .vyveska_hide_item .betterais-icon {
+  color: var(--mute-2) !important;
+  transition: color var(--t-fast) var(--ease);
+}
+
+html.dark-mode .zasadka.vyveska .vyveska_hide_item a:hover .uf-icon,
+html.light-mode .zasadka.vyveska .vyveska_hide_item a:hover .uf-icon,
+html.dark-mode .zasadka.vyveska .vyveska_hide_item a:hover .betterais-icon,
+html.light-mode .zasadka.vyveska .vyveska_hide_item a:hover .betterais-icon {
+  color: var(--tone-danger) !important;
+}
+
+/* post layout: title on top, section chip on its own line below it - side
+   by side, a long section name ("Útvar medzinárodných...") was squeezed
+   into the leftover width and wrapped into a lumpy multi-line pill. The
+   chip stays on one line and truncates instead. */
+.zasadka.vyveska ul > li {
+  display: block !important;
+}
+
+.zasadka.vyveska ul > li > a:first-of-type {
+  display: block !important;
+  font-weight: 600;
+}
+
+.zasadka.vyveska ul > li > div {
+  display: block !important;
+  margin-top: 8px !important;
+  line-height: 0;
+}
+
+html.dark-mode .zasadka.vyveska ul > li > div a,
+html.light-mode .zasadka.vyveska ul > li > div a {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+/* Notices (Výveska and the rest of .zasadky-container) run the full content
+   width, like the breadcrumb bar above them, instead of sitting in a
+   one-third column. The container is a flex row on the UIS layout (and was
+   multicol before), so both are covered. */
+html.dark-mode .zasadky-container,
+html.light-mode .zasadky-container {
+  flex-wrap: wrap !important;
+  columns: auto !important;
+}
+
+html.dark-mode .zasadky-container > .zasadka,
+html.light-mode .zasadky-container > .zasadka {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  column-span: all !important;
+  box-sizing: border-box;
+}
+
+/* The site's #stranka wrapper insets the content 15px on each side, so the
+   notices, cards and tables never lined up with the breadcrumb bar's edges.
+   Drop the inset: everything shares the bar's left and right edge. */
+html.dark-mode #stranka,
+html.light-mode #stranka {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* File tables (submissions, document server, storage): the site centres the
+   file-type icon and right-aligns the size, while every other column - and
+   the headers - read from the left. Align those two the same way. */
+html.dark-mode td:has(> a > .uf-icon[data-sysid^="mime-"]),
+html.light-mode td:has(> a > .uf-icon[data-sysid^="mime-"]),
+html.dark-mode td[data-betterais-size],
+html.light-mode td[data-betterais-size] {
+  text-align: left !important;
+}
+
+html.dark-mode td:has(> a > .uf-icon[data-sysid^="mime-"]) > a,
+html.light-mode td:has(> a > .uf-icon[data-sysid^="mime-"]) > a {
+  display: inline-flex;
+  justify-content: flex-start;
+}
+
+/* ---- edit forms (table.form-edit: bank details, personal data, ...) ------
+   The site's generic edit form was never restyled: a bare two-column table
+   with fields of every width (their size="" attributes), spacer rows of
+   &nbsp; and section labels that looked like stray fields. Rebuilt as a
+   card of label | field rows. Row display is NOT !important, so the rows the
+   site hides inline (style="display: none", toggled by its own scripts)
+   stay hidden. */
+html.dark-mode .mainpage table.form-edit,
+html.light-mode .mainpage table.form-edit {
+  display: block !important;
+  width: 100% !important;
+  max-width: 880px;
+  box-sizing: border-box;
+  margin: 8px 0 20px !important;
+  padding: 6px 24px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--elev);
+}
+
+html.dark-mode .mainpage table.form-edit > tbody,
+html.light-mode .mainpage table.form-edit > tbody {
+  display: block !important;
+}
+
+/* label | field */
+html.dark-mode .mainpage table.form-edit > tbody > tr,
+html.light-mode .mainpage table.form-edit > tbody > tr {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  column-gap: 20px;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  background: none !important;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr > td,
+html.light-mode .mainpage table.form-edit > tbody > tr > td {
+  display: block !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  text-align: left !important;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr > td:first-child,
+html.light-mode .mainpage table.form-edit > tbody > tr > td:first-child {
+  color: var(--mute) !important;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+/* spacer rows (a single, empty &nbsp; cell): dropped.
+   A single cell WITH content - e.g. "[ ] Automaticky ukončiť platnosť
+   aktuálne aktívneho účtu" - is a real row, handled below. */
+html.dark-mode .mainpage table.form-edit > tbody > tr:not(:has(> td + td)):not(:has(input, select, textarea, a, b, span)),
+html.light-mode .mainpage table.form-edit > tbody > tr:not(:has(> td + td)):not(:has(input, select, textarea, a, b, span)) {
+  /* removed outright: even with its text hidden, the site's fixed line
+     height kept a ~30px hole; section headings bring their own top gap */
+  display: none !important;
+}
+
+/* single-cell rows with content (a checkbox + its sentence): full width,
+   in normal text colour, checkbox and text on one line */
+html.dark-mode .mainpage table.form-edit > tbody > tr:not(:has(> td + td)):has(input, select, textarea, a, b, span) > td,
+html.light-mode .mainpage table.form-edit > tbody > tr:not(:has(> td + td)):has(input, select, textarea, a, b, span) > td {
+  grid-column: 1 / -1;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink) !important;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+html.dark-mode .mainpage table.form-edit input[type="checkbox"],
+html.light-mode .mainpage table.form-edit input[type="checkbox"] {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--link);
+  cursor: pointer;
+}
+
+/* section rows (a label with an empty field cell): small caps heading */
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)),
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)) {
+  padding: 18px 0 6px;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)) > td:first-child,
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)) > td:first-child {
+  grid-column: 1 / -1;
+  color: var(--ink) !important;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)) > td:last-child,
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td):not(:has(input, select, textarea, a, b, span)) > td:last-child {
+  display: none !important;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr:last-child,
+html.light-mode .mainpage table.form-edit > tbody > tr:last-child {
+  border-bottom: none;
+}
+
+/* fields: one height, one look - whatever size="" the site asked for */
+html.dark-mode .mainpage table.form-edit :is(input[type="text"], input[type="password"], input:not([type]), select, textarea),
+html.light-mode .mainpage table.form-edit :is(input[type="text"], input[type="password"], input:not([type]), select, textarea) {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 460px;
+  min-height: 38px;
+  padding: 7px 12px !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+  font: 400 14px/1.4 var(--font-sans) !important;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+
+html.dark-mode .mainpage table.form-edit :is(input, select, textarea):focus,
+html.light-mode .mainpage table.form-edit :is(input, select, textarea):focus {
+  outline: none;
+  border-color: var(--link) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--link) 18%, transparent) !important;
+}
+
+html.dark-mode .mainpage table.form-edit :is(input, select)[disabled],
+html.light-mode .mainpage table.form-edit :is(input, select)[disabled] {
+  opacity: .55;
+}
+
+/* date fields: field + a small muted calendar button beside it */
+html.dark-mode .mainpage table.form-edit input.hasDatepicker,
+html.light-mode .mainpage table.form-edit input.hasDatepicker {
+  max-width: 180px;
+  vertical-align: middle;
+}
+
+@media (max-width: 760px) {
+  html.dark-mode .mainpage table.form-edit,
+  html.light-mode .mainpage table.form-edit {
+    padding: 4px 16px !important;
+  }
+
+  html.dark-mode .mainpage table.form-edit > tbody > tr,
+  html.light-mode .mainpage table.form-edit > tbody > tr {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+
+  html.dark-mode .mainpage table.form-edit :is(input[type="text"], input[type="password"], select, textarea),
+  html.light-mode .mainpage table.form-edit :is(input[type="text"], input[type="password"], select, textarea) {
+    max-width: none;
+  }
+}
+
+/* ---- date picker (jQuery UI, every date field on AIS) ----------------------
+   The site's datepicker is stock jQuery UI from years ago: a grey gradient
+   box with a raster calendar button. Rebuilt in the BetterAis language. */
+
+/* the calendar button beside a date field: the raster image is pushed out of
+   its own box (object-position) and our calendar glyph is painted in its
+   place as a mask over the theme's muted colour */
+html.dark-mode img.ui-datepicker-trigger,
+html.light-mode img.ui-datepicker-trigger {
+  box-sizing: border-box;
+  width: 22px !important;
+  height: 22px !important;
+  margin-left: 10px;
+  vertical-align: middle;
+  object-position: -9999px 0;
+  background: var(--mute);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 2a1 1 0 0 1 .993 .883l.007 .117v1h1a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h1v-1a1 1 0 0 1 1.993 -.117l.007 .117v1h6v-1a1 1 0 0 1 1 -1zm3 7h-14v9.625c0 .705 .386 1.286 .883 1.366l.117 .009h12c.513 0 .936 -.53 .993 -1.215l.007 -.16v-9.625z'/%3E%3Cpath d='M12 12a1 1 0 0 1 .993 .883l.007 .117v3a1 1 0 0 1 -1.993 .117l-.007 -.117v-2a1 1 0 0 1 -.117 -1.993l.117 -.007h1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 2a1 1 0 0 1 .993 .883l.007 .117v1h1a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h1v-1a1 1 0 0 1 1.993 -.117l.007 .117v1h6v-1a1 1 0 0 1 1 -1zm3 7h-14v9.625c0 .705 .386 1.286 .883 1.366l.117 .009h12c.513 0 .936 -.53 .993 -1.215l.007 -.16v-9.625z'/%3E%3Cpath d='M12 12a1 1 0 0 1 .993 .883l.007 .117v3a1 1 0 0 1 -1.993 .117l-.007 -.117v-2a1 1 0 0 1 -.117 -1.993l.117 -.007h1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+html.dark-mode img.ui-datepicker-trigger:hover,
+html.light-mode img.ui-datepicker-trigger:hover {
+  background: var(--link);
+}
+
+html.dark-mode #ui-datepicker-div,
+html.light-mode #ui-datepicker-div {
+  z-index: 1000 !important;
+  width: 284px !important;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 12px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .18) !important;
+  color: var(--ink) !important;
+  font: 400 13px/1.4 var(--font-sans) !important;
+}
+
+/* header: month + year in the middle, arrow buttons at the sides */
+html.dark-mode #ui-datepicker-div .ui-datepicker-header,
+html.light-mode #ui-datepicker-div .ui-datepicker-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  margin-bottom: 6px;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  color: var(--ink) !important;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-title,
+html.light-mode #ui-datepicker-div .ui-datepicker-title {
+  margin: 0 !important;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+html.dark-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next),
+html.light-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next) {
+  position: absolute !important;
+  top: 2px !important;
+  width: 30px !important;
+  height: 30px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: none !important;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-prev,
+html.light-mode #ui-datepicker-div .ui-datepicker-prev {
+  left: 0 !important;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-next,
+html.light-mode #ui-datepicker-div .ui-datepicker-next {
+  right: 0 !important;
+}
+
+html.dark-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next):hover,
+html.light-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next):hover {
+  background: var(--surface-2) !important;
+}
+
+/* the sprite arrows -> our chevrons */
+html.dark-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next) .ui-icon,
+html.light-mode #ui-datepicker-div :is(.ui-datepicker-prev, .ui-datepicker-next) .ui-icon {
+  position: absolute !important;
+  inset: 0 !important;
+  margin: auto !important;
+  width: 16px !important;
+  height: 16px !important;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: var(--ink) !important;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-prev .ui-icon,
+html.light-mode #ui-datepicker-div .ui-datepicker-prev .ui-icon {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 6l-6 6l6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 6l-6 6l6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-next .ui-icon,
+html.light-mode #ui-datepicker-div .ui-datepicker-next .ui-icon {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6l-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6l-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* the day grid */
+html.dark-mode #ui-datepicker-div table.ui-datepicker-calendar,
+html.light-mode #ui-datepicker-div table.ui-datepicker-calendar {
+  width: 100% !important;
+  margin: 0 !important;
+  border-collapse: separate !important;
+  border-spacing: 2px !important;
+  background: none !important;
+  border: none !important;
+  font-size: 13px !important;
+}
+
+html.dark-mode #ui-datepicker-div table.ui-datepicker-calendar th,
+html.light-mode #ui-datepicker-div table.ui-datepicker-calendar th {
+  padding: 4px 0 6px !important;
+  background: none !important;
+  border: none !important;
+  color: var(--mute) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+}
+
+html.dark-mode #ui-datepicker-div table.ui-datepicker-calendar td,
+html.light-mode #ui-datepicker-div table.ui-datepicker-calendar td {
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  text-align: center;
+}
+
+html.dark-mode #ui-datepicker-div td :is(a, span),
+html.light-mode #ui-datepicker-div td :is(a, span) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin: 0 auto;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: none !important;
+  color: var(--ink) !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+html.dark-mode #ui-datepicker-div td a:hover,
+html.light-mode #ui-datepicker-div td a:hover {
+  background: var(--surface-2) !important;
+}
+
+/* today: accent ring */
+html.dark-mode #ui-datepicker-div td a.ui-state-highlight,
+html.light-mode #ui-datepicker-div td a.ui-state-highlight {
+  box-shadow: inset 0 0 0 1.5px var(--link);
+  color: var(--link) !important;
+  font-weight: 700 !important;
+}
+
+/* chosen day: accent fill */
+html.dark-mode #ui-datepicker-div td a.ui-state-active,
+html.light-mode #ui-datepicker-div td a.ui-state-active {
+  background: var(--link) !important;
+  color: #ffffff !important;
+  box-shadow: none;
+}
+
+/* other months and disabled days recede */
+html.dark-mode #ui-datepicker-div td:is(.ui-datepicker-other-month, .ui-datepicker-unselectable) :is(a, span),
+html.light-mode #ui-datepicker-div td:is(.ui-datepicker-other-month, .ui-datepicker-unselectable) :is(a, span) {
+  color: var(--mute-2) !important;
+  opacity: .6;
+}
+
+/* "Akt. mesiac" / "Hotovo": pills */
+html.dark-mode #ui-datepicker-div .ui-datepicker-buttonpane,
+html.light-mode #ui-datepicker-div .ui-datepicker-buttonpane {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 0 0 !important;
+  padding: 10px 0 0 !important;
+  background: none !important;
+  border: none !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-buttonpane button,
+html.light-mode #ui-datepicker-div .ui-datepicker-buttonpane button {
+  float: none !important;
+  margin: 0 !important;
+  padding: 7px 14px !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: 999px !important;
+  background: none !important;
+  color: var(--ink) !important;
+  font: 600 12px/1 var(--font-sans) !important;
+  opacity: 1 !important;
+  cursor: pointer;
+}
+
+html.dark-mode #ui-datepicker-div .ui-datepicker-buttonpane button.ui-datepicker-close,
+html.light-mode #ui-datepicker-div .ui-datepicker-buttonpane button.ui-datepicker-close {
+  border-color: var(--link) !important;
+  background: var(--link) !important;
+  color: #ffffff !important;
+}
+
+/* Inline form rows (3+ cells, e.g. a filter: "[ ] Zobraziť aj historické
+   záznamy [Vykonať]"): one line - checkbox, its text, the button - instead
+   of being forced into the label | field grid above. */
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td),
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td) > td,
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td) > td {
+  display: flex !important;
+  align-items: center;
+  width: auto !important;
+  color: var(--ink) !important;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* the button sits a little apart from the option it applies */
+html.dark-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td) > td:has(> input[type="submit"]),
+html.light-mode .mainpage table.form-edit > tbody > tr:has(> td + td + td) > td:has(> input[type="submit"]) {
+  margin-left: 8px;
+}
+
+/* a one-row form (a filter bar) is a compact card, not a full form */
+html.dark-mode .mainpage table.form-edit:not(:has(tr + tr)),
+html.light-mode .mainpage table.form-edit:not(:has(tr + tr)) {
+  width: auto !important;
+  display: inline-block !important;
+  padding: 2px 16px !important;
+}
+
+/* buttons inside forms: normal text size, compact pill */
+html.dark-mode .mainpage table.form-edit :is(input[type="submit"], input[type="button"], button),
+html.light-mode .mainpage table.form-edit :is(input[type="submit"], input[type="button"], button) {
+  padding: 9px 18px !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* ---- dropdowns (every single-choice <select> on AIS) -----------------------
+   The open list was the OS's own: a white box with Windows-blue highlight,
+   foreign to the rest of the redesign. Where the browser supports
+   customizable selects (appearance: base-select - Chrome/Edge/Brave), the
+   list becomes a theme card with rounded rows and the chosen option in the
+   accent. Multi-selects and list boxes (multiple / size) keep their own
+   rendering. Elsewhere (Firefox) the native list at least takes the theme's
+   colours. */
+html.dark-mode select option,
+html.light-mode select option {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+@supports (appearance: base-select) {
+  html.dark-mode select:not([multiple]):not([size]),
+  html.light-mode select:not([multiple]):not([size]),
+  html.dark-mode select:not([multiple]):not([size])::picker(select),
+  html.light-mode select:not([multiple]):not([size])::picker(select) {
+    appearance: base-select;
+  }
+
+  html.dark-mode select:not([multiple]):not([size]),
+  html.light-mode select:not([multiple]):not([size]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  /* the arrow on the closed field */
+  html.dark-mode select:not([multiple]):not([size])::picker-icon,
+  html.light-mode select:not([multiple]):not([size])::picker-icon {
+    color: var(--mute);
+    transition: rotate var(--t-fast) var(--ease);
+  }
+
+  html.dark-mode select:not([multiple]):not([size]):open::picker-icon,
+  html.light-mode select:not([multiple]):not([size]):open::picker-icon {
+    rotate: 180deg;
+  }
+
+  /* the open list */
+  html.dark-mode select:not([multiple]):not([size])::picker(select),
+  html.light-mode select:not([multiple]):not([size])::picker(select) {
+    margin-top: 6px;
+    padding: 5px;
+    max-height: 320px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+    color: var(--ink);
+  }
+
+  html.dark-mode select:not([multiple]):not([size]) option,
+  html.light-mode select:not([multiple]):not([size]) option {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: none;
+    color: var(--ink);
+    font: 400 14px/1.35 var(--font-sans);
+    cursor: pointer;
+  }
+
+  html.dark-mode select:not([multiple]):not([size]) option:is(:hover, :focus-visible),
+  html.light-mode select:not([multiple]):not([size]) option:is(:hover, :focus-visible) {
+    background: var(--surface-2);
+    outline: none;
+  }
+
+  html.dark-mode select:not([multiple]):not([size]) option:checked,
+  html.light-mode select:not([multiple]):not([size]) option:checked {
+    background: color-mix(in srgb, var(--link) 12%, transparent);
+    color: var(--link);
+    font-weight: 600;
+  }
+
+  /* the default tick before the chosen option - the accent row says it */
+  html.dark-mode select:not([multiple]):not([size]) option::checkmark,
+  html.light-mode select:not([multiple]):not([size]) option::checkmark {
+    display: none;
+  }
+}
+
+/* ---- timeline (table.strom - the faculty's term schedule) ------------------
+   AIS draws it as a raster axis strip, black text, italic dates and dozens
+   of blank rows. Rebuilt as a vertical timeline: thin axis, milestone chips
+   (today in the accent), a dot and a card per event, finished ones muted. */
+
+/* table itself */
+html.dark-mode table.strom:has(td[background*="osa-"]),
+html.light-mode table.strom:has(td[background*="osa-"]) {
+  width: 100% !important;
+  height: auto !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: none !important;
+  border: none !important;
+  margin: 8px 0 !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) td,
+html.light-mode table.strom:has(td[background*="osa-"]) td {
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  font-style: normal !important;
+  vertical-align: middle;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) td[style*="color"],
+html.light-mode table.strom:has(td[background*="osa-"]) td[style*="color"] {
+  color: var(--ink) !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) font[color],
+html.light-mode table.strom:has(td[background*="osa-"]) font[color] {
+  color: inherit !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) .uf-icon,
+html.light-mode table.strom:has(td[background*="osa-"]) .uf-icon {
+  display: none !important;
+}
+
+
+/* empty rows only encode the time gap - keep the rhythm, lose the bulk */
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:not(:has(.flex-container, img, td[bgcolor])) > td,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:not(:has(.flex-container, img, td[bgcolor])) > td {
+  height: 4px !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+
+/* the axis: one thin line instead of the raster strip */
+html.dark-mode table.strom:has(td[background*="osa-"]) td:nth-child(2),
+html.light-mode table.strom:has(td[background*="osa-"]) td:nth-child(2) {
+  position: relative;
+  width: 28px !important;
+  min-width: 28px;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) td[background*="osa-"],
+html.light-mode table.strom:has(td[background*="osa-"]) td[background*="osa-"] {
+  background: linear-gradient(var(--line-2), var(--line-2)) center / 2px 100% no-repeat !important;
+}
+
+
+/* start cap and end arrow images -> a dot on top, a fade at the bottom */
+html.dark-mode table.strom:has(td[background*="osa-"]) td:nth-child(2) > img,
+html.light-mode table.strom:has(td[background*="osa-"]) td:nth-child(2) > img {
+  display: none !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:first-child > td,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:first-child > td {
+  height: 14px !important;
+  font-size: 0 !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:first-child > td:nth-child(2),
+html.light-mode table.strom:has(td[background*="osa-"]) tr:first-child > td:nth-child(2) {
+  background: linear-gradient(var(--line-2), var(--line-2)) center bottom / 2px 50% no-repeat !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:first-child > td:nth-child(2)::after,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:first-child > td:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-2);
+  transform: translate(-50%, -50%);
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:last-child > td,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:last-child > td {
+  height: 24px !important;
+  font-size: 0 !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:last-child > td:nth-child(2),
+html.light-mode table.strom:has(td[background*="osa-"]) tr:last-child > td:nth-child(2) {
+  background: linear-gradient(var(--line-2), transparent) center top / 2px 100% no-repeat !important;
+}
+
+
+/* the black rule between the admissions block and the semester */
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td[bgcolor]) > td,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td[bgcolor]) > td {
+  height: 0 !important;
+  font-size: 0 !important;
+  border-top: 1px dashed var(--line-2) !important;
+}
+
+
+/* milestone dates on the left: chips, today's one in the accent */
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child {
+  width: 1% !important;
+  padding: 6px 10px 6px 0 !important;
+  white-space: nowrap;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child .flex-container,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child .flex-container {
+  justify-content: flex-end;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child b,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child b {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--mute);
+  font: 600 12px/1.2 var(--font-sans);
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child font[color] b b,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child font[color] b b {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child font[color] > b,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:first-child font[color] > b {
+  background: var(--link);
+  border-color: var(--link);
+  color: #ffffff;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:nth-child(2)::after,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child .flex-container) > td:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--mute-2);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child font[color]) > td:nth-child(2)::after,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:first-child font[color]) > td:nth-child(2)::after {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--link);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--link) 22%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+
+/* events: a dot on the axis, a card on the right */
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(2)::after,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--link);
+  transform: translate(-50%, -50%);
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container):has(> td[style*="#727272"]) > td:nth-child(2)::after,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container):has(> td[style*="#727272"]) > td:nth-child(2)::after {
+  border-color: var(--mute-2);
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:is(:nth-child(3), :nth-child(4)),
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:is(:nth-child(3), :nth-child(4)) {
+  padding: 10px 14px !important;
+  border-top: 3px solid transparent !important;
+  border-bottom: 3px solid transparent !important;
+  background: var(--surface) padding-box !important;
+  line-height: 1.35 !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(3),
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(3) {
+  width: 1% !important;
+  padding-right: 4px !important;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  box-shadow: inset 1px 0 var(--line), inset 0 1px var(--line), inset 0 -1px var(--line);
+  color: var(--mute) !important;
+  font-size: 12px !important;
+  white-space: nowrap;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(3) b,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(3) b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(4),
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td:nth-child(4) {
+  width: auto !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  box-shadow: inset -1px 0 var(--line), inset 0 1px var(--line), inset 0 -1px var(--line);
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+
+/* finished events recede */
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td[style*="#727272"],
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td[style*="#727272"] {
+  background: none !important;
+  color: var(--mute) !important;
+}
+
+html.dark-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td[style*="#727272"] b,
+html.light-mode table.strom:has(td[background*="osa-"]) tr:has(> td:nth-child(3) .flex-container) > td[style*="#727272"] b {
+  color: var(--mute);
+}
+
+/* ---- study history bar chart (Moje štúdium: table of td#…tato_vs…) --------
+   Grey #F3F3F3 box, verdana 10px, pastel bars and a black today line.
+   Restyled to match the timeline: a card, muted years, rounded bars, the
+   running study in the accent and today as an accent line. Column widths
+   are left alone - the site positions the labels in px from them. */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]),
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) {
+  box-sizing: content-box;
+  padding: 10px 14px !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  padding-bottom: 26px !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) :is(th, td),
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) :is(th, td) {
+  background-color: transparent !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right-color: transparent !important;
+  color: var(--ink) !important;
+  font-family: var(--font-sans) !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:hover > td,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:hover > td {
+  background-color: transparent !important;
+}
+
+
+/* years: muted labels split by hairlines */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th {
+  padding: 0 0 8px !important;
+  border-right: none !important;
+  color: var(--mute) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 18px !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th + th,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th + th {
+  border-left: 1px solid var(--line) !important;
+}
+
+
+/* today: the accent line, like the timeline's today dot */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td:is([style*="border-right: solid 1px black"], [style*="border-right: solid black 1px"]),
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td:is([style*="border-right: solid 1px black"], [style*="border-right: solid black 1px"]) {
+  border-right: 2px solid var(--link) !important;
+}
+
+
+/* study bars: rounded, finished ones muted, the elapsed part of the running
+   study in the accent, the rest of it a lighter accent tint */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:has(> td[id*="tato_vsstud"]) > td,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:has(> td[id*="tato_vsstud"]) > td {
+  height: 26px;
+  font-size: 11px !important;
+  line-height: 26px !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"] {
+  border-radius: 7px;
+  background-color: var(--surface-2) !important;
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  color: var(--mute) !important;
+  font-weight: 600 !important;
+  white-space: nowrap;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"][style*="#92cddc"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"][style*="#92cddc"] {
+  background-color: var(--link) !important;
+  box-shadow: none;
+  color: #ffffff !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"][style*="#c0c0c0"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"][style*="#c0c0c0"] {
+  background-color: color-mix(in srgb, var(--link) 16%, transparent) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--link) 35%, transparent);
+  color: var(--link) !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"]:has(+ td[id*="tato_vsstud"]),
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"]:has(+ td[id*="tato_vsstud"]) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"] + td[id*="tato_vsstud"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td[id*="tato_vsstud"] + td[id*="tato_vsstud"] {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+/* gaps between bars */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:not(:has(> td[id*="tato_vsstud"])):has(> td[colspan="47"]) > td,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr:not(:has(> td[id*="tato_vsstud"])):has(> td[colspan="47"]) > td {
+  height: 6px;
+  line-height: 6px !important;
+}
+
+
+/* floating labels: degree after the bar, "Dnes" under the today line */
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td div[style*="position: relative"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td div[style*="position: relative"] {
+  color: var(--mute) !important;
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  font-weight: 600;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td div[style*="color: black"],
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) td div[style*="color: black"] {
+  color: var(--link) !important;
+  font-size: 10px !important;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) tr {
+  background: none !important;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th,
+html.light-mode table:has(> thead > tr.zahlavi):has(td[id*="tato_vs"]) thead th {
+  text-align: center !important;
+  background: none !important;
+}
+
+/* ---- Kontrola plánu (studijni_povinnosti.pl) ------------------------------ */
+
+/* the verdict lines on top ("Študijný plán nie je dosiaľ splnený."): a red
+   alert card, not a label/value grid with an icon as the label */
+html.dark-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]),
+html.light-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: color-mix(in srgb, var(--tone-danger) 7%, var(--surface)) !important;
+  border: 1px solid color-mix(in srgb, var(--tone-danger) 28%, transparent) !important;
+  border-radius: var(--radius) !important;
+  margin: 0 0 20px 0 !important;
+  padding: 6px 0 !important;
+}
+
+html.dark-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) tr:not(:has(.uf-icon)),
+html.light-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) tr:not(:has(.uf-icon)) {
+  display: none !important;
+}
+
+html.dark-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) td.odsazena,
+html.light-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) td.odsazena {
+  padding: 8px 14px !important;
+  border: none !important;
+  background: none !important;
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+
+html.dark-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) td.odsazena:first-child,
+html.light-mode .mainpage table:not(:has(.zahlavi)):has(> tbody > tr > td > .uf-icon[data-sysid="stav-nesplneno"]) td.odsazena:first-child {
+  width: 1% !important;
+  padding-right: 0 !important;
+}
+
+
+/* the plan table: one card, semesters as section headings, the per-section
+   column header rows quiet, groups as a tinted band, status as chips */
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi),
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  margin: 0 0 20px 0 !important;
+  font-size: 13.5px;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) td.odsazena {
+  padding: 11px 14px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: transparent !important;
+  color: var(--ink-2) !important;
+  vertical-align: middle;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan]:only-child):not(:has(span, a, b)),
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan]:only-child):not(:has(span, a, b)) {
+  display: none !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan]:only-child > span) > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan]:only-child > span) > td.odsazena {
+  padding: 22px 14px 10px !important;
+  text-align: left !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:first-child:has(> td[colspan]:only-child > span) > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:first-child:has(> td[colspan]:only-child > span) > td.odsazena {
+  padding-top: 14px !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:not(:first-child):has(> td[colspan]:only-child > span) > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:not(:first-child):has(> td[colspan]:only-child > span) > td.odsazena {
+  border-top: 1px solid var(--line-2) !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr > td[colspan]:only-child > span,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr > td[colspan]:only-child > span {
+  color: var(--ink) !important;
+  font: 700 16px/1.3 var(--font-sans) !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.zahlavi > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.zahlavi > td.odsazena {
+  padding: 9px 14px !important;
+  background: var(--surface-2) !important;
+  color: var(--mute) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan="5"]) > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan="5"]) > td.odsazena {
+  background: color-mix(in srgb, var(--tone-danger) 6%, var(--surface)) !important;
+  color: var(--ink) !important;
+  font-size: 13px;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan="5"]) > td.odsazena:first-child,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td[colspan="5"]) > td.odsazena:first-child {
+  width: 1% !important;
+  padding-right: 0 !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.sudy > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.sudy > td.odsazena {
+  background: var(--surface-2) !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.uis-hl-table:hover > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.uis-hl-table:hover > td.odsazena {
+  background: color-mix(in srgb, var(--link) 7%, var(--surface)) !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:last-child > td.odsazena,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:last-child > td.odsazena {
+  border-bottom: none !important;
+}
+
+html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.uis-hl-table > td.odsazena:first-child a,
+html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr.uis-hl-table > td.odsazena:first-child a {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+html.dark-mode :is(.mainpage table:has(> tbody > tr.zahlavi), .uisLegendContent) span.small[style*="color: blue"],
+html.light-mode :is(.mainpage table:has(> tbody > tr.zahlavi), .uisLegendContent) span.small[style*="color: blue"] {
+  display: inline-block;
+  padding: 3px 9px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--mute) !important;
+  font: 700 10.5px/1.3 var(--font-sans) !important;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+html.dark-mode :is(.mainpage table:has(> tbody > tr.zahlavi), .uisLegendContent) b > span.small[style*="color: blue"],
+html.light-mode :is(.mainpage table:has(> tbody > tr.zahlavi), .uisLegendContent) b > span.small[style*="color: blue"] {
+  border-color: color-mix(in srgb, var(--link) 30%, transparent);
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+  color: var(--link) !important;
+}
+
+
+/* phone: drop Ukončenie and Zapísané - code, name, credits and status fit */
+@media (max-width: 760px) {
+  html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) td.odsazena,
+  html.light-mode .mainpage table:has(> tbody > tr.zahlavi) td.odsazena {
+    padding: 10px !important;
+  }
+
+  html.dark-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td:nth-child(6)) > td:is(:nth-child(3), :nth-child(5)),
+  html.light-mode .mainpage table:has(> tbody > tr.zahlavi) > tbody > tr:has(> td:nth-child(6)) > td:is(:nth-child(3), :nth-child(5)) {
+    display: none !important;
+  }
+
+}
+
+/* ---- radio buttons -----------------------------------------------------------
+   Checkboxes were already themed; radios were still the OS's own (blue dot on
+   white, harsh in dark). Same 18px box as the checkbox, round, accent ring
+   with a dot when chosen. */
+html.dark-mode input[type="radio"],
+html.light-mode input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  margin: 0 4px;
+  border: 1.5px solid var(--line-2);
+  border-radius: 50%;
+  background: var(--bg);
+  vertical-align: middle;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+
+html.dark-mode input[type="radio"]:hover,
+html.light-mode input[type="radio"]:hover {
+  border-color: var(--link);
+}
+
+html.dark-mode input[type="radio"]:checked,
+html.light-mode input[type="radio"]:checked {
+  border-color: var(--link);
+  box-shadow: inset 0 0 0 3.5px var(--bg), inset 0 0 0 9px var(--link);
+}
+
+html.dark-mode input[type="radio"]:focus-visible,
+html.light-mode input[type="radio"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--link) 25%, transparent);
+}
+
+html.dark-mode input[type="radio"]:checked:focus-visible,
+html.light-mode input[type="radio"]:checked:focus-visible {
+  box-shadow: inset 0 0 0 3.5px var(--bg), inset 0 0 0 9px var(--link), 0 0 0 3px color-mix(in srgb, var(--link) 25%, transparent);
+}
+
+/* choice grids (Nastavenie -> who sees what: Nikde / Po prihlásení /
+   Verejnosti): the radio columns' headers sit centred over their radios */
+html.dark-mode table:has(> thead > tr.zahlavi):has(> tbody td > input[type="radio"]) th.zahlavi:has(~ th):not(:first-child):not(:nth-child(2)),
+html.light-mode table:has(> thead > tr.zahlavi):has(> tbody td > input[type="radio"]) th.zahlavi:has(~ th):not(:first-child):not(:nth-child(2)),
+html.dark-mode table:has(> thead > tr.zahlavi):has(> tbody td > input[type="radio"]) th.zahlavi:last-child:not(:nth-child(2)),
+html.light-mode table:has(> thead > tr.zahlavi):has(> tbody td > input[type="radio"]) th.zahlavi:last-child:not(:nth-child(2)) {
+  width: 1%;
+  text-align: center !important;
+  white-space: nowrap;
+}
+
+html.dark-mode table:has(> thead > tr.zahlavi) td.odsazena:has(> input[type="radio"]:only-child),
+html.light-mode table:has(> thead > tr.zahlavi) td.odsazena:has(> input[type="radio"]:only-child) {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  text-align: center !important;
+}
+
+/* phone: a choice grid card = the item as its title, then its options side
+   by side in one row (Nikde | Po prihlásení | Verejnosti) */
+@media (max-width: 760px) {
+  :root.dark-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr:not(.betterais-card-span),
+  :root.light-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr:not(.betterais-card-span) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    column-gap: 8px !important;
+  }
+
+  :root.dark-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:not(:has(input)),
+  :root.light-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:not(:has(input)) {
+    grid-column: 1 / -1 !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line) !important;
+    color: var(--ink) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+  }
+
+  :root.dark-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:not(:has(input))::before,
+  :root.light-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:not(:has(input))::before {
+    display: none !important;
+  }
+
+  :root.dark-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:has(> input[type="radio"]),
+  :root.light-mode #base table.betterais-cards:has(td > input[type="radio"]) > tbody > tr > td.odsazena:has(> input[type="radio"]) {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center !important;
+  }
 }

@@ -62,6 +62,7 @@
     'layout-list': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 3a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-2a3 3 0 0 1 3 -3z" /><path d="M18 13a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-2a3 3 0 0 1 3 -3z" /></svg>',
     'file-download': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm0 8a1 1 0 0 0 -1 1v3.585l-.793 -.792a1 1 0 0 0 -1.32 -.083l-.094 .083a1 1 0 0 0 0 1.414l2.5 2.5l.044 .042l.068 .055l.11 .071l.114 .054l.105 .035l.15 .03l.116 .006l.117 -.007l.117 -.02l.108 -.033l.081 -.034l.098 -.052l.092 -.064l.094 -.083l2.5 -2.5a1 1 0 0 0 0 -1.414l-.094 -.083a1 1 0 0 0 -1.32 .083l-.793 .791v-3.584a1 1 0 0 0 -.883 -.993zm2.999 -7.001l4.001 4.001h-4z" /></svg>',
     mail: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z"/><path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z"/></svg>',
+    pin: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.113 3.21l.094 .083l5.5 5.5a1 1 0 0 1 -1.175 1.59l-3.172 3.171l-1.424 3.797a1 1 0 0 1 -.158 .277l-.07 .08l-1.5 1.5a1 1 0 0 1 -1.32 .082l-.095 -.083l-2.793 -2.792l-3.793 3.792a1 1 0 0 1 -1.497 -1.32l.083 -.094l3.792 -3.793l-2.792 -2.793a1 1 0 0 1 -.083 -1.32l.083 -.094l1.5 -1.5a1 1 0 0 1 .258 -.187l.098 -.042l3.796 -1.425l3.171 -3.17a1 1 0 0 1 1.497 -1.26z"/></svg>',
   };
 
   // Shared with header.js, which runs after this file in the same
@@ -79,11 +80,13 @@
   // each theme; untoned icons simply inherit surrounding text color.
   const UF_ICON_MAP = {
     'base-home': { icon: 'home' },
+    'base-email': { icon: 'mail' },
     'base-help': { icon: 'help' },
     'crumbs-search': { icon: 'search' },
     'vypis-info': { icon: 'info-circle', tone: 'info' },
     'vypis-ko': { icon: 'alert-circle', tone: 'danger' },
     'stav-odebrat': { icon: 'x', tone: 'danger' },
+    'stav-nesplneno': { icon: 'alert-circle', tone: 'danger' },
     // Portál študenta "Reg./Zápisy" column - the site's sprite hardcodes a
     // white fill, so it vanished on light surfaces
     'studevid-zapis': { icon: 'notes' },
@@ -269,7 +272,9 @@
     root.querySelectorAll('.zasadky-info svg, .zasadky-crit svg, .zasadky-warning svg').forEach((svg) => {
       if (!siteIconId(svg)) return; // already ours
       const isWarn = !!svg.closest('.zasadky-crit, .zasadky-warning');
-      const markup = svgWithStyle(isWarn ? 'alert-circle' : 'info-circle', 'width:28px;height:28px');
+      // Výveska (bulletin board, menitka.svg#noticeboard) gets a pin
+      const isBoard = siteIconId(svg) === 'noticeboard';
+      const markup = svgWithStyle(isBoard ? 'pin' : isWarn ? 'alert-circle' : 'info-circle', 'width:28px;height:28px');
       if (!markup) return;
       svg.outerHTML = markup.replace(
         '<svg ',

@@ -67,6 +67,31 @@
     letter-spacing: -.01em;
   }
 
+  /* easter-egg unlock (10 quick clicks on the name) - no pointer cue */
+  .brand-name {
+    user-select: none;
+  }
+
+  /* hidden style switch (Nothing locked) - .segmented's display:flex would
+     otherwise override the hidden attribute */
+  .segmented[hidden] {
+    display: none !important;
+  }
+
+  .brand-toast {
+    margin: -8px 2px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--link);
+    min-height: 1em;
+    opacity: 0;
+    transition: opacity .2s var(--ease);
+  }
+
+  .brand-toast.is-on {
+    opacity: 1;
+  }
+
   .brand-sub {
     font-size: 11px;
     font-family: var(--font-mono);
@@ -195,8 +220,18 @@
     margin-top: 10px;
   }
 
+  /* the times only show while the schedule is on - they fold away into the
+     switch row when it's off, and unfold when it's turned on */
+  .schedule-times {
+    max-height: 90px;
+    overflow: hidden;
+    transition: max-height .28s var(--ease), opacity .2s var(--ease), margin-top .28s var(--ease);
+  }
+
   .schedule-times.disabled {
-    opacity: .45;
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
     pointer-events: none;
   }
 
@@ -262,10 +297,11 @@
   }
 
   /* color grid */
+  /* 15 accents as 5 x 3 - in 3 columns the popup grew five rows tall */
   .color-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 9px;
   }
 
   .color-option {
@@ -494,9 +530,10 @@
 <body class="dark-mode">
   <div class="brand">
     <span class="brand-dot"></span>
-    <span class="brand-name">BetterAis</span>
+    <span class="brand-name">BetterUis</span>
     <span class="brand-sub" data-i18n="brandSub">for is.stuba.sk</span>
   </div>
+  <p class="brand-toast" id="brandToast" aria-live="polite"></p>
 
   <div class="card">
     <p class="card-title" data-i18n="theme">Theme</p>
@@ -526,6 +563,28 @@
   </div>
 
   <div class="card">
+    <p class="card-title" data-i18n="accent">Accent color</p>
+    <div class="color-grid" id="colorGrid">
+      <span class="color-option" style="background-color: #7a1030; color: #7a1030;" data-color="#7a1030"></span>
+      <span class="color-option" style="background-color: #dc2626; color: #dc2626;" data-color="#dc2626"></span>
+      <span class="color-option" style="background-color: #f97316; color: #f97316;" data-color="#f97316"></span>
+      <span class="color-option" style="background-color: #ca8a04; color: #ca8a04;" data-color="#ca8a04"></span>
+      <span class="color-option" style="background-color: #65a30d; color: #65a30d;" data-color="#65a30d"></span>
+      <span class="color-option" style="background-color: #22c55e; color: #22c55e;" data-color="#22c55e"></span>
+      <span class="color-option" style="background-color: #0d9488; color: #0d9488;" data-color="#0d9488"></span>
+      <span class="color-option" style="background-color: #06b6d4; color: #06b6d4;" data-color="#06b6d4"></span>
+      <span class="color-option" style="background-color: #4a90e2; color: #4a90e2;" data-color="#4a90e2"></span>
+      <span class="color-option" style="background-color: #1e40af; color: #1e40af;" data-color="#1e40af"></span>
+      <span class="color-option" style="background-color: #6366f1; color: #6366f1;" data-color="#6366f1"></span>
+      <span class="color-option" style="background-color: #a855f7; color: #a855f7;" data-color="#a855f7"></span>
+      <span class="color-option" style="background-color: #ec4899; color: #ec4899;" data-color="#ec4899"></span>
+      <span class="color-option" style="background-color: #92400e; color: #92400e;" data-color="#92400e"></span>
+      <span class="color-option" style="background-color: #475569; color: #475569;" data-color="#475569"></span>
+    </div>
+    <p class="schedule-hint" id="accentHint"></p>
+  </div>
+
+  <div class="card">
     <p class="card-title" data-i18n="uiStyle">Style</p>
     <div class="segmented" id="styleSwitch">
       <button type="button" data-ui-style="default" data-i18n="uiStyleDefault">Default</button>
@@ -540,21 +599,14 @@
       </label>
       <p class="schedule-hint" data-i18n="motionHint">Plays animations even when Windows has them turned off.</p>
     </div>
-  </div>
 
-  <div class="card">
-    <p class="card-title" data-i18n="accent">Accent color</p>
-    <div class="color-grid" id="colorGrid">
-      <span class="color-option" style="background-color: #7a1030; color: #7a1030;" data-color="#7a1030"></span>
-      <span class="color-option" style="background-color: #4a90e2; color: #4a90e2;" data-color="#4a90e2"></span>
-      <span class="color-option" style="background-color: #6366f1; color: #6366f1;" data-color="#6366f1"></span>
-      <span class="color-option" style="background-color: #a855f7; color: #a855f7;" data-color="#a855f7"></span>
-      <span class="color-option" style="background-color: #ec4899; color: #ec4899;" data-color="#ec4899"></span>
-      <span class="color-option" style="background-color: #f97316; color: #f97316;" data-color="#f97316"></span>
-      <span class="color-option" style="background-color: #22c55e; color: #22c55e;" data-color="#22c55e"></span>
-      <span class="color-option" style="background-color: #06b6d4; color: #06b6d4;" data-color="#06b6d4"></span>
+    <div class="schedule">
+      <label class="schedule-toggle">
+        <span class="schedule-label" data-i18n="pfpLabel">Profile photo in the header</span>
+        <input type="checkbox" id="pfpEnabled" checked />
+        <span class="switch" aria-hidden="true"></span>
+      </label>
     </div>
-    <p class="schedule-hint" id="accentHint"></p>
   </div>
 
   <div class="card">

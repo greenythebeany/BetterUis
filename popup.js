@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorGrid = document.getElementById('colorGrid');
     // Animácie: on by default; content.js -> html[data-motion], motion.js
     const animationsEnabled = document.getElementById('animationsEnabled');
+    // Profilová fotka: header photo, on by default (content.js -> html[data-pfp])
+    const pfpEnabled = document.getElementById('pfpEnabled');
     const accentHint = document.getElementById('accentHint');
     // Nothing style always uses Nothing red - must match nothing.css
     const NOTHING_RED = '#d71921';
@@ -187,8 +189,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load saved preferences (defaults must match content.js)
-    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations'], function (data) {
+    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations', 'showPfp', 'nothingUnlocked'], function (data) {
+        // whoever is already using Nothing keeps it unlocked
+        nothingUnlocked = data.nothingUnlocked === true || data.uiStyle === 'nothing';
+        applyUnlock();
         animationsEnabled.checked = data.animations !== false;
+        pfpEnabled.checked = data.showPfp !== false;
         const linkColor = data.linkColor || '#7a1030';
         const forcedTheme = data.forcedTheme || '';
         const schedule = Object.assign({ enabled: false, start: '22:00', end: '06:00' }, data.schedule || {});
@@ -247,10 +253,57 @@ document.addEventListener('DOMContentLoaded', function () {
     // previews it on itself too
     const styleButtons = document.querySelectorAll('#styleSwitch button');
 
+    pfpEnabled.addEventListener('change', function () {
+        const showPfp = this.checked;
+        chrome.storage.local.set({ showPfp });
+        notifyContentScript({ showPfp });
+    });
+
     animationsEnabled.addEventListener('change', function () {
         const animations = this.checked;
         chrome.storage.local.set({ animations });
         notifyContentScript({ animations });
+    });
+
+    // Nothing is a hidden style: 10 quick clicks on the "BetterAis" name
+    // (each within CLICK_GAP of the last) unlock it, the same again hides it -
+    // switching back to the default style if Nothing was active.
+    const styleSwitch = document.getElementById('styleSwitch');
+    const brandName = document.querySelector('.brand-name');
+    const brandToast = document.getElementById('brandToast');
+    const UNLOCK_CLICKS = 10;
+    const CLICK_GAP = 500;
+    let nothingUnlocked = false;
+    let clickCount = 0;
+    let lastClick = 0;
+    let toastTimer = 0;
+
+    function applyUnlock() {
+        styleSwitch.hidden = !nothingUnlocked;
+    }
+
+    function toast(key) {
+        brandToast.textContent = t(key);
+        brandToast.classList.add('is-on');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => brandToast.classList.remove('is-on'), 2200);
+    }
+
+    brandName.addEventListener('click', function () {
+        const now = Date.now();
+        clickCount = now - lastClick <= CLICK_GAP ? clickCount + 1 : 1;
+        lastClick = now;
+        if (clickCount < UNLOCK_CLICKS) return;
+        clickCount = 0;
+        nothingUnlocked = !nothingUnlocked;
+        chrome.storage.local.set({ nothingUnlocked });
+        applyUnlock();
+        if (!nothingUnlocked && currentStyle === 'nothing') {
+            chrome.storage.local.set({ uiStyle: 'default' });
+            setStyle('default');
+            notifyContentScript({ uiStyle: 'default' });
+        }
+        toast(nothingUnlocked ? 'nothingUnlocked' : 'nothingLocked');
     });
 
     function setStyle(uiStyle) {
@@ -308,17 +361,17 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({ url: chrome.runtime.getURL('licenses.html') });
     });
 
-    // Reload the current tab so updated CSS/content scripts take effect.
-    //
-    // Do NOT call chrome.runtime.reload() here: it tears down the extension
-    // synchronously, killing this popup's own JS context before the async
-    // tabs callback can run - so the tab never actually reloaded. Reloading
-    // the tab alone is enough, since content scripts and CSS are re-injected
-    // on every page load anyway.
+    // Apply & reload: reload the whole extension (re-reads every file from
+    // disk - a tab reload alone kept running the old CSS/scripts) and then
+    // hard-reload the current tab. chrome.runtime.reload() kills this popup
+    // at once, so the tab is noted first and background.js, starting with
+    // the reloaded extension, does the tab reload.
     reloadButton.addEventListener('click', function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            if (tabs[0]) chrome.tabs.reload(tabs[0].id);
-            window.close();
+            const tabId = tabs[0] && tabs[0].id;
+            chrome.storage.local.set({ pendingReloadTab: tabId }, function () {
+                chrome.runtime.reload();
+            });
         });
     });
 });

@@ -1,12 +1,12 @@
-# BetterAis - STU AIS Visual Redesign
+# BetterUis - STU UIS Visual Redesign
 
-BetterAis is a browser extension that rebuilds the interface of the STU Academic Information System
+BetterUis is a browser extension that rebuilds the interface of the STU Academic Information System
 ([is.stuba.sk](https://is.stuba.sk)). The site's own layout dates from the mid-2000s: fixed-width banner
 tables, hardcoded pixel widths, inline `font-size: 10px` cells and a maroon header graphic. This extension
 replaces that with a flat, modern intranet design in light and dark themes, without breaking any of the
 site's functionality.
 
-**Version 4.1**
+**Version 4.1.1**
 
 ---
 
@@ -97,7 +97,7 @@ the login page.
 
 ## Installation
 
-BetterAis isn't published in any extension store, so you install it from this repository. It takes about
+BetterUis isn't published in any extension store, so you install it from this repository. It takes about
 two minutes. Pick your browser below.
 
 | Browser | Works | How it stays installed |
@@ -107,15 +107,15 @@ two minutes. Pick your browser below.
 | Firefox for Android | ✅ | Until Firefox restarts (pushed from a PC over USB) |
 | Brave / Chrome on Android, Safari, iOS | ❌ | These browsers can't run extensions at all |
 
-### Step 1 - Download BetterAis
+### Step 1 - Download BetterUis
 
-**Easiest:** on the [GitHub page](https://github.com/greenythebeany/BetterAis) click the green **Code** button →
-**Download ZIP**, then unzip it somewhere you'll keep it (e.g. `Documents\BetterAis`). Don't delete or move that
-folder afterwards - the browser loads BetterAis from it.
+**Easiest:** on the [GitHub page](https://github.com/greenythebeany/BetterUis) click the green **Code** button →
+**Download ZIP**, then unzip it somewhere you'll keep it (e.g. `Documents\BetterUis`). Don't delete or move that
+folder afterwards - the browser loads BetterUis from it.
 
 **With git** (makes updating a single command):
 ```bash
-git clone https://github.com/greenythebeany/BetterAis.git
+git clone https://github.com/greenythebeany/BetterUis.git
 ```
 
 You should now have a folder with `manifest.json` directly inside it.
@@ -127,8 +127,8 @@ You should now have a folder with `manifest.json` directly inside it.
    - Brave: `brave://extensions`
    - Edge: `edge://extensions`
 2. Turn on **Developer mode** (switch in the top-right corner; in Edge it's on the left).
-3. Click **Load unpacked** and select the BetterAis folder (the one containing `manifest.json`).
-4. Click the puzzle-piece icon in the toolbar and pin **BetterAis**, so its settings are one click away.
+3. Click **Load unpacked** and select the BetterUis folder (the one containing `manifest.json`).
+4. Click the puzzle-piece icon in the toolbar and pin **BetterUis**, so its settings are one click away.
 5. Open [is.stuba.sk](https://is.stuba.sk) - done.
 
 It stays installed across restarts. The browser may occasionally show a "developer mode extensions" warning
@@ -139,17 +139,17 @@ on startup - that's normal for anything not from the store; just close it.
 **Quick try (until Firefox restarts):**
 1. Type `about:debugging#/runtime/this-firefox` into the address bar.
 2. Click **Load Temporary Add-on…**.
-3. Select `manifest.json` inside the BetterAis folder.
+3. Select `manifest.json` inside the BetterUis folder.
 
 Firefox removes it when it closes, because it isn't signed by Mozilla.
 
-**Permanently - autoload tool (Windows):** loads BetterAis automatically every time Firefox starts.
+**Permanently - autoload tool (Windows):** loads BetterUis automatically every time Firefox starts.
 1. Open `tools\firefox-autoload\betterais.cfg` in Notepad and change the path on the
-   `const BETTERAIS_DIR = ...` line to where *your* BetterAis folder is. Use double backslashes, e.g.
-   `"C:\\Users\\you\\Documents\\BetterAis"`.
+   `const BETTERAIS_DIR = ...` line to where *your* BetterUis folder is. Use double backslashes, e.g.
+   `"C:\\Users\\you\\Documents\\BetterUis"`.
 2. Close Firefox completely.
 3. Double-click `tools\firefox-autoload\install.cmd` and allow the administrator prompt.
-4. Start Firefox - BetterAis is loaded.
+4. Start Firefox - BetterUis is loaded.
 
 To remove it again, run `uninstall.cmd` from the same folder.
 
@@ -162,12 +162,12 @@ This produces a signed `.xpi` in `web-ext-artifacts/`; drag it into Firefox to i
 
 ### Step 2c - Firefox for Android
 
-Firefox for Android can't load a folder by itself; you push BetterAis from a PC over a USB cable:
+Firefox for Android can't load a folder by itself; you push BetterUis from a PC over a USB cable:
 
 1. On the phone: enable **Developer options → USB debugging** in Android settings, and in Firefox
    **Settings → Remote debugging via USB**.
 2. Connect the phone, accept the "Allow USB debugging?" prompt.
-3. On the PC, in the BetterAis folder (needs [Node.js](https://nodejs.org) and
+3. On the PC, in the BetterUis folder (needs [Node.js](https://nodejs.org) and
    [adb](https://developer.android.com/tools/releases/platform-tools)):
    ```bash
    npx web-ext run --target firefox-android --firefox-apk org.mozilla.firefox --android-device <device-id>
@@ -180,7 +180,7 @@ menu, then **Settings → Install extension from file**.
 
 ### Using it
 
-- Click the **BetterAis** icon in the toolbar for settings: light/dark theme (with an optional dark-mode
+- Click the **BetterUis** icon in the toolbar for settings: light/dark theme (with an optional dark-mode
   schedule), accent colour, preset themes, the **Default / Nothing** style, animations and language.
 - Changes apply to open AIS tabs immediately.
 - On the timetable page, **Export to calendar (.ics)** downloads your semester for Google, Apple or
@@ -188,21 +188,21 @@ menu, then **Settings → Install extension from file**.
 
 ### Updating
 
-- **Downloaded ZIP:** download the new ZIP and replace the contents of your BetterAis folder (keep the
+- **Downloaded ZIP:** download the new ZIP and replace the contents of your BetterUis folder (keep the
   folder where it is).
 - **git:** `git pull` in the folder.
 
-Then reload it: Chrome/Brave/Edge - click ⟳ on the BetterAis card in the extensions page; Firefox with the
+Then reload it: Chrome/Brave/Edge - click ⟳ on the BetterUis card in the extensions page; Firefox with the
 autoload tool - restart Firefox; temporary Firefox install - **Reload** in `about:debugging`. Finally
 refresh the AIS tab with `Ctrl+Shift+R`.
 
 ### Troubleshooting
 
-- **Nothing changed on AIS** - make sure BetterAis is enabled on the extensions page, then reload it (⟳)
+- **Nothing changed on AIS** - make sure BetterUis is enabled on the extensions page, then reload it (⟳)
   and hard-refresh the page (`Ctrl+Shift+R`).
 - **"Manifest file is missing"** - you selected the wrong folder; pick the one that directly contains
   `manifest.json` (unzipping often creates a folder inside a folder).
-- **Firefox lost BetterAis after a restart** - expected for a temporary install; use the autoload tool or a
+- **Firefox lost BetterUis after a restart** - expected for a temporary install; use the autoload tool or a
   signed `.xpi`.
 - **The page looks broken after an update** - reload the extension; old and new files mixed in memory
   are the usual cause.
@@ -210,7 +210,7 @@ refresh the AIS tab with `Ctrl+Shift+R`.
 ### Applying changes during development
 CSS and content scripts are only re-read when the extension itself is reloaded. After editing any file:
 
-1. Open `chrome://extensions/` and click the reload icon on the BetterAis card.
+1. Open `chrome://extensions/` and click the reload icon on the BetterUis card.
 2. Hard-refresh the AIS tab with `Ctrl+Shift+R`.
 
 Changing theme or accent color in the popup applies live and does not need either step.
@@ -220,7 +220,7 @@ Changing theme or accent color in the popup applies live and does not need eithe
 ## File structure
 
 ```plaintext
-BetterAis/
+BetterUis/
 ├── manifest.json     Extension configuration (Manifest V3)
 ├── content.js        Applies theme and accent at document_start
 ├── icons.js          Replaces the site's icon systems with Tabler Icons
@@ -255,7 +255,7 @@ Icons are [Tabler Icons](https://tabler.io/icons), MIT licensed.
 
 ## Credits and licenses
 
-BetterAis is an independent, unofficial project and is not affiliated with or endorsed by STU. All
+BetterUis is an independent, unofficial project and is not affiliated with or endorsed by STU. All
 third-party material it uses (Tabler Icons, the Roboto, Doto and Space Mono fonts, and the preset theme palettes) is free and
 openly licensed. Sources, licenses and full license texts are in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and in the extension itself under **Credits & licenses**

@@ -132,6 +132,12 @@
     const help = document.querySelector('[aria-label="breadcrumb"] .helpinbreadcrumbs .uf-icon')
       || document.querySelector('[aria-label="breadcrumb"] .searchinbreadcrumbs .uf-icon');
     if (!logout || !help) return;
+    // with the photo shown it sits where the logout icon would align - so
+    // drop the alignment and use the default inset (style.css)
+    if (document.documentElement.getAttribute('data-pfp') !== 'off') {
+      header.style.removeProperty('--header-pad-r');
+      return;
+    }
     const centre = (el) => {
       const r = el.getBoundingClientRect();
       return r.left + r.width / 2;
@@ -142,6 +148,21 @@
     const current = parseFloat(getComputedStyle(header).paddingRight) || 0;
     header.style.setProperty('--header-pad-r', `${Math.max(0, current - dx)}px`);
   }
+
+  // The photo does what clicking the name does - opens the profile (the
+  // name link's own href/target) - instead of the site's popup menu. Capture
+  // phase on document runs before the site's handler on #pfp, and stopping
+  // the event there keeps that handler from ever seeing the click.
+  document.addEventListener('click', (event) => {
+    const pfp = event.target.closest && event.target.closest('#header #pfp');
+    if (!pfp) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const profile = document.querySelector('#menu-popup .user-info a, .betterais-usermenu-name');
+    if (!profile) return;
+    if (profile.target === '_blank') window.open(profile.href, '_blank', 'noopener');
+    else window.location.href = profile.href;
+  }, true);
 
   let resizeFrame = 0;
   window.addEventListener('resize', () => {

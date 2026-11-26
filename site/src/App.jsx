@@ -251,10 +251,10 @@ const SHOTS = [
   { id: 'public', sk: 'Verejná časť', en: 'Public pages' },
 ];
 
-// Before/after strip: the page screenshots glide from right to left in an
+// Before/after strip: the page screenshots glide from left to right in an
 // endless loop, while the divider stays in the middle - everything left of
 // it shows the original UIS, everything right of it BetterUis, so each page
-// turns from new to old as it passes. Grabbing the divider pauses the strip,
+// turns from old to new as it passes. Grabbing the divider pauses the strip,
 // centres the nearest page under it and lets you drag; letting go eases the
 // divider back to the middle and the strip glides on.
 const STRIP_SPEED = 55; // px per second
@@ -300,7 +300,7 @@ function BeforeAfter() {
         offsetRef.current = snap.from + (snap.to - snap.from) * eased;
         if (t >= 1) snapRef.current = null;
       } else if (!draggingRef.current && !pausedRef.current && !document.documentElement.classList.contains('still') && loop) {
-        offsetRef.current += STRIP_SPEED * dt;
+        offsetRef.current -= STRIP_SPEED * dt;
       }
       if (loop) offsetRef.current = ((offsetRef.current % loop) + loop) % loop;
       paint();

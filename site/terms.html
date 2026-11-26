@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms of Use – BetterUis</title>
+  <meta name="description" content="BetterUis terms of use: a free, unofficial extension for STU UIS / AIS (is.stuba.sk), provided as is.">
+  <link rel="canonical" href="https://betteruis.greenybeany.dev/terms.html">
+  <meta name="theme-color" content="#7a1030">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script>
+    try {
+      const t = localStorage.getItem('bu-theme');
+      document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch (_) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
+</head>
+<body>
+  <!-- plain HTML, like the privacy policy: readable without JavaScript -->
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="BetterUis home">
+        <img src="/assets/icon128.png" alt="" width="32" height="32">
+        <span>BetterUis</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="doc">
+    <div class="wrap narrow">
+      <h1>Terms of Use</h1>
+      <p><em>Last updated: 26 November 2026</em></p>
+      <p>These terms apply to the BetterUis browser extension and to this website (betteruis.greenybeany.dev). By installing or using BetterUis you agree to them.</p>
+
+      <h2>What BetterUis is</h2>
+      <p>BetterUis is a free, unofficial browser extension that changes how the STU university information system (UIS / AIS, is.stuba.sk) looks. It only changes the appearance of pages in your own browser. It is not made by, endorsed by, or affiliated with the Slovak University of Technology in Bratislava (STU) or the information system's vendor.</p>
+
+      <h2>Use at your own risk</h2>
+      <p>BetterUis is provided "as is", without warranty of any kind, express or implied, including fitness for a particular purpose. Every form, button and link on is.stuba.sk keeps doing what the site itself does, but a restyled page can look different from the original. Before anything important - registering for exams, enrolling, submitting work, confirming documents - check the result; if anything looks wrong, switch the extension off and use the original site. The author is not liable for any loss or damage arising from the use of BetterUis, including missed deadlines or registrations.</p>
+
+      <h2>The university's rules still apply</h2>
+      <p>Your use of is.stuba.sk remains governed by STU's own rules and terms. BetterUis does not change what you are allowed to do there, does not bypass any restriction, and does not act on the site on your behalf.</p>
+
+      <h2>Privacy</h2>
+      <p>BetterUis collects no personal data. Details are in the <a href="/privacy.html">Privacy Policy</a>.</p>
+
+      <h2>Names and trademarks</h2>
+      <p>"STU", "Slovenská technická univerzita v Bratislave", "UIS" and related names and logos belong to their owners. They are used only to describe what the extension works with. Screenshots on this website show the original site and its restyled version for illustration.</p>
+
+      <h2>Copyright</h2>
+      <p>© 2026 GreenyBeany. The extension's source code is published on <a href="https://github.com/greenythebeany/BetterUis">GitHub</a> for transparency. Third-party components (icons, fonts, colour palettes) are used under their own licenses, listed in the extension under Credits &amp; licenses.</p>
+
+      <h2>Changes</h2>
+      <p>The extension and these terms may change over time. The current version is always on this page; continued use after a change means you accept the updated terms.</p>
+
+      <h2>Contact</h2>
+      <p>Questions or issues: <a href="https://github.com/greenythebeany/BetterUis/issues">github.com/greenythebeany/BetterUis/issues</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p class="muted small">BetterUis is unofficial and not affiliated with the Slovak University of Technology in Bratislava.</p>
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="https://github.com/greenythebeany/BetterUis">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -444,11 +444,6 @@ h1 {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .strip {
-    transition: none;
-  }
-}
 
 /* ---- features ---- */
 .features {
@@ -690,8 +685,65 @@ details p {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* ---- motion switch (top bar) - our own setting, like
+   triptych.greenybeany.dev: on by default whatever the system says ---- */
+.motion-btn {
+  gap: 8px;
+}
+
+.motion-switch {
+  position: relative;
+  width: 26px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+}
+
+.motion-switch::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateX(12px);
+  transition: transform .3s var(--ease);
+}
+
+html.still .motion-switch::after {
+  transform: none;
+}
+
+.motion-label {
+  font-size: 12.5px;
+}
+
+@media (max-width: 640px) {
+  .motion-label {
+    display: none;
   }
+}
+
+html.still {
+  scroll-behavior: auto;
+}
+
+html.still *,
+html.still *::before,
+html.still *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.version-chip {
+  display: inline-block;
+  padding: 1px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--mute);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
 }

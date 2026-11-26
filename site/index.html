@@ -3,15 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BetterUis – moderný vzhľad pre AIS STU</title>
-  <meta name="description" content="Neoficiálne rozšírenie prehliadača, ktoré dáva informačnému systému STU (is.stuba.sk) moderný a prehľadný vzhľad: svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie.">
+  <title>BetterUis – moderný vzhľad a tmavý režim pre UIS / AIS STU (is.stuba.sk)</title>
+  <meta name="description" content="BetterUis je bezplatné neoficiálne rozšírenie pre Chrome, Brave, Edge a Firefox, ktoré dáva informačnému systému STU (UIS, AIS, is.stuba.sk) moderný vzhľad: tmavý režim, vlastná farba, prehľadný rozvrh, dochádzka a tabuľky aj na mobile.">
+  <meta name="keywords" content="BetterUis, BetterAis, UIS STU, AIS STU, is.stuba.sk, STU informačný systém, akademický informačný systém STU, univerzitný informačný systém, AIS STU tmavý režim, UIS dark mode, rozšírenie Chrome STU, doplnok Firefox STU, rozvrh STU, dochádzka STU, FEI STU, FIIT STU, SjF STU, Slovenská technická univerzita, STU Bratislava, redizajn AIS, AIS rozšírenie">
+  <meta name="author" content="GreenyBeany">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://betteruis.greenybeany.dev/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="BetterUis – moderný vzhľad pre AIS STU">
-  <meta property="og:description" content="Svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie pre is.stuba.sk.">
+  <meta property="og:site_name" content="BetterUis">
+  <meta property="og:locale" content="sk_SK">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="BetterUis – moderný vzhľad a tmavý režim pre UIS / AIS STU">
+  <meta property="og:description" content="Tmavý režim, vlastná farba, prehľadný rozvrh a tabuľky aj na mobile pre is.stuba.sk. Zadarmo pre Chrome, Brave, Edge a Firefox.">
   <meta property="og:image" content="https://betteruis.greenybeany.dev/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://betteruis.greenybeany.dev/">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BetterUis – moderný vzhľad pre UIS / AIS STU">
+  <meta name="twitter:description" content="Tmavý režim, vlastná farba a prehľadné tabuľky pre is.stuba.sk.">
+  <meta name="twitter:image" content="https://betteruis.greenybeany.dev/assets/og.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://betteruis.greenybeany.dev/#site",
+        "url": "https://betteruis.greenybeany.dev/",
+        "name": "BetterUis",
+        "alternateName": ["BetterAis", "Better UIS", "Better AIS"],
+        "inLanguage": ["sk", "en"],
+        "publisher": { "@id": "https://betteruis.greenybeany.dev/#author" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://betteruis.greenybeany.dev/#author",
+        "name": "GreenyBeany",
+        "url": "https://greenybeany.dev/",
+        "sameAs": ["https://github.com/greenythebeany"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "BetterUis",
+        "alternateName": "BetterAis",
+        "url": "https://betteruis.greenybeany.dev/",
+        "description": "Neoficiálne rozšírenie prehliadača pre informačný systém STU (UIS / AIS, is.stuba.sk): tmavý a svetlý režim, vlastná farba zvýraznenia, jednotné ikony, prehľadný rozvrh, dochádzka a tabuľky aj na mobile.",
+        "applicationCategory": "BrowserApplication",
+        "operatingSystem": "Chrome, Brave, Edge, Opera, Vivaldi, Firefox",
+        "image": "https://betteruis.greenybeany.dev/assets/og.png",
+        "downloadUrl": "https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc",
+        "softwareVersion": "__APP_VERSION__",
+        "license": "https://github.com/greenythebeany/BetterUis",
+        "inLanguage": ["sk", "cs", "en"],
+        "author": { "@id": "https://betteruis.greenybeany.dev/#author" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Je BetterUis oficiálny produkt STU?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Nie. BetterUis je neoficiálny, nezávislý projekt študenta. Nevytvorila ho STU ani dodávateľ informačného systému a nie je s nimi spojený." }
+          },
+          {
+            "@type": "Question",
+            "name": "Vidí BetterUis moje známky alebo správy v UIS?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Stránky is.stuba.sk upravuje priamo v prehliadači, ale nič neukladá ani nikam neposiela. Žiadne sledovanie, žiadne zbieranie údajov." }
+          },
+          {
+            "@type": "Question",
+            "name": "Ako zapnúť tmavý režim v AIS / UIS STU?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Nainštaluj rozšírenie BetterUis pre Chrome, Brave, Edge alebo Firefox a v jeho okne vyber tému Tmavá, prípadne zapni tmavý režim podľa času." }
+          },
+          {
+            "@type": "Question",
+            "name": "Funguje BetterUis na mobile?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Áno, vo Firefoxe pre Android, ktorý vie spúšťať rozšírenia. Chrome ani Safari na mobile rozšírenia nepodporujú." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <meta name="google-site-verification" content="MkC5D0HggK8Ek28sAdHGMszICNyz8m2h24VIr23U5gM">
   <meta name="theme-color" content="#7a1030">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -29,6 +104,11 @@
       document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     } catch (_) {
       document.documentElement.dataset.theme = 'light';
+    }
+    try {
+      if (localStorage.getItem('bu-motion') === 'off') document.documentElement.classList.add('still');
+    } catch (_) {
+      // storage blocked: animations stay on
     }
   </script>
 </head>

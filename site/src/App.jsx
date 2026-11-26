@@ -1,6 +1,10 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { STORE_LIVE, STORE_URL, FIREFOX_LIVE, FIREFOX_URL, RELEASE_URL, ISSUES_URL, INSTALL_GUIDE_URL, REPO_URL } from './config.js';
 
+// extension version, read from ../manifest.json at build time (vite.config.js)
+// eslint-disable-next-line no-undef
+const APP_VERSION = __APP_VERSION__;
+
 // ---- language: every string is written as <T sk="…" en="…" /> ------------
 const LangContext = createContext('sk');
 
@@ -104,7 +108,7 @@ function ChromeMark() {
 }
 
 // ---- sections ----------------------------------------------------------------
-function TopBar({ lang, setLang, theme, setTheme }) {
+function TopBar({ lang, setLang, theme, setTheme, motion, setMotion }) {
   return (
     <header className="topbar">
       <div className="wrap topbar-inner">
@@ -119,6 +123,17 @@ function TopBar({ lang, setLang, theme, setTheme }) {
           <a href="#faq"><T sk="Otázky" en="FAQ" /></a>
         </nav>
         <div className="topbar-tools">
+          <button
+            type="button"
+            className="icon-btn motion-btn"
+            role="switch"
+            aria-checked={motion}
+            onClick={() => setMotion(!motion)}
+            title={lang === 'en' ? 'Animations' : 'Animácie'}
+          >
+            <span className="motion-switch" aria-hidden="true" />
+            <span className="motion-label">{lang === 'en' ? 'Motion' : 'Pohyb'}</span>
+          </button>
           <button
             type="button"
             className="icon-btn"
@@ -160,8 +175,8 @@ function Hero() {
           <h1><T sk="Informačný systém STU, konečne moderný." en="The STU information system, finally modern." /></h1>
           <p className="lead">
             <T
-              sk="BetterUis prekreslí AIS do čistého, súčasného dizajnu – svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a rozloženie, ktoré funguje aj na mobile. Mení len to, ako stránky vyzerajú."
-              en="BetterUis redraws AIS in a clean, current design – light and dark themes, your own accent colour, readable tables and a layout that works on a phone. It only changes how the pages look."
+              sk="BetterUis prekreslí UIS do čistého, súčasného dizajnu – svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a rozloženie, ktoré funguje aj na mobile. Mení len to, ako stránky vyzerajú."
+              en="BetterUis redraws UIS in a clean, current design – light and dark themes, your own accent colour, readable tables and a layout that works on a phone. It only changes how the pages look."
             />
           </p>
           <div className="cta">
@@ -173,12 +188,16 @@ function Hero() {
               sk="Zadarmo a s otvoreným kódom. Chrome, Brave, Edge, Opera, Vivaldi aj Firefox."
               en="Free and open source. Chrome, Brave, Edge, Opera, Vivaldi and Firefox."
             />
+            {' '}
+            <span className="version-chip">
+              <T sk="Verzia" en="Version" /> {APP_VERSION}
+            </span>
           </p>
         </div>
         <div className="hero-shot">
           <img
             src="/assets/home-after.webp"
-            alt={lang === 'en' ? 'The AIS home page with BetterUis' : 'Domovská stránka AIS s rozšírením BetterUis'}
+            alt={lang === 'en' ? 'The UIS home page with BetterUis' : 'Domovská stránka UIS s rozšírením BetterUis'}
             width="2840"
             height="1456"
           />
@@ -198,12 +217,11 @@ const SHOTS = [
 
 // Before/after strip: the page screenshots glide from right to left in an
 // endless loop, while the divider stays in the middle - everything left of
-// it shows the original AIS, everything right of it BetterUis, so each page
+// it shows the original UIS, everything right of it BetterUis, so each page
 // turns from new to old as it passes. Grabbing the divider pauses the strip,
 // centres the nearest page under it and lets you drag; letting go eases the
 // divider back to the middle and the strip glides on.
 const STRIP_SPEED = 55; // px per second
-const STRIP_SPEED_CALM = 22; // with the system's reduce-motion setting on
 const CARD_GAP = 24; // px between screenshots
 
 function BeforeAfter() {
@@ -218,7 +236,6 @@ function BeforeAfter() {
   const offsetRef = useRef(0);
   const draggingRef = useRef(false);
   const snapRef = useRef(null);
-  const reduceMotion = useRef(typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   // one loop = all pages once; the strip holds them twice so it can wrap
   const loopWidth = () => {
@@ -246,8 +263,8 @@ function BeforeAfter() {
         const eased = 1 - Math.pow(1 - t, 3);
         offsetRef.current = snap.from + (snap.to - snap.from) * eased;
         if (t >= 1) snapRef.current = null;
-      } else if (!draggingRef.current && !pausedRef.current && loop) {
-        offsetRef.current += (reduceMotion.current ? STRIP_SPEED_CALM : STRIP_SPEED) * dt;
+      } else if (!draggingRef.current && !pausedRef.current && !document.documentElement.classList.contains('still') && loop) {
+        offsetRef.current += STRIP_SPEED * dt;
       }
       if (loop) offsetRef.current = ((offsetRef.current % loop) + loop) % loop;
       paint();
@@ -307,7 +324,7 @@ function BeforeAfter() {
       <figure className="strip-card" key={`${variant}-${i}`} aria-hidden={i >= SHOTS.length}>
         <img
           src={`/assets/${s.id}-${variant}.webp`}
-          alt={i < SHOTS.length ? `${name(s)} – ${variant === 'after' ? 'BetterUis' : lang === 'en' ? 'original AIS' : 'pôvodný AIS'}` : ''}
+          alt={i < SHOTS.length ? `${name(s)} – ${variant === 'after' ? 'BetterUis' : lang === 'en' ? 'original UIS' : 'pôvodný UIS'}` : ''}
           width="2840"
           height="1456"
           draggable="false"
@@ -322,8 +339,8 @@ function BeforeAfter() {
         <h2><T sk="Pred a po" en="Before and after" /></h2>
         <p className="section-lead">
           <T
-            sk="Vľavo od deliacej čiary pôvodný AIS, vpravo BetterUis. Chyť posúvač a porovnaj – po pustení sa prehliadka pohne ďalej."
-            en="Left of the divider the original AIS, right of it BetterUis. Grab the handle to compare – let go and the tour moves on."
+            sk="Vľavo od deliacej čiary pôvodný UIS, vpravo BetterUis. Chyť posúvač a porovnaj – po pustení sa prehliadka pohne ďalej."
+            en="Left of the divider the original UIS, right of it BetterUis. Grab the handle to compare – let go and the tour moves on."
           />
         </p>
       </div>
@@ -503,8 +520,12 @@ const FAQ = [
     en: ['Does it see my grades or messages?', 'It restyles the pages inside your browser, but nothing is saved or sent anywhere. There is no tracking and no data collection.'],
   },
   {
-    sk: ['Môže na AIS niečo pokaziť?', 'Mení len vzhľad – každý formulár, tlačidlo a odkaz robí to isté ako predtým. Ak by niečo vyzeralo zle, vypni rozšírenie a pôvodná stránka je späť.'],
-    en: ['Can it break something on AIS?', 'It only changes how pages look – every form, button and link still does what the site does. If something ever looks off, switch the extension off and the original site is back.'],
+    sk: ['Ako zapnúť tmavý režim v AIS / UIS STU?', 'Nainštaluj BetterUis pre Chrome, Brave, Edge alebo Firefox a v jeho okne vyber tému Tmavá, prípadne zapni tmavý režim podľa času.'],
+    en: ['How do I turn on dark mode in STU AIS / UIS?', 'Install BetterUis for Chrome, Brave, Edge or Firefox and pick the Dark theme in its popup, or let dark mode switch on by time of day.'],
+  },
+  {
+    sk: ['Môže na UIS niečo pokaziť?', 'Mení len vzhľad – každý formulár, tlačidlo a odkaz robí to isté ako predtým. Ak by niečo vyzeralo zle, vypni rozšírenie a pôvodná stránka je späť.'],
+    en: ['Can it break something on UIS?', 'It only changes how pages look – every form, button and link still does what the site does. If something ever looks off, switch the extension off and the original site is back.'],
   },
   {
     sk: ['Funguje na mobile?', 'Áno, vo Firefoxe pre Android, ktorý vie spúšťať rozšírenia. Chrome ani Safari na mobile rozšírenia nepodporujú.'],
@@ -544,6 +565,7 @@ function Footer() {
     <footer className="footer">
       <div className="wrap footer-inner">
         <p className="muted small">
+          BetterUis {APP_VERSION} ·{' '}
           <T
             sk="BetterUis je neoficiálny a nie je spojený so Slovenskou technickou univerzitou v Bratislave."
             en="BetterUis is unofficial and not affiliated with the Slovak University of Technology in Bratislava."
@@ -551,7 +573,8 @@ function Footer() {
         </p>
         <nav className="footer-links">
           <a href={REPO_URL}>GitHub</a>
-          <a href="/privacy.html"><T sk="Súkromie" en="Privacy" /></a>
+          <a href="/privacy.html"><T sk="Ochrana súkromia" en="Privacy policy" /></a>
+          <a href="/terms.html"><T sk="Podmienky používania" en="Terms of use" /></a>
           <a href={ISSUES_URL}><T sk="Podpora" en="Support" /></a>
         </nav>
       </div>
@@ -563,10 +586,11 @@ export default function App() {
   const [lang, setLangState] = useState(initialLang);
   const [theme, setThemeState] = useState(() => document.documentElement.dataset.theme || 'light');
   const [accent, setAccent] = useState(ACCENTS[0]);
+  const [motion, setMotionState] = useState(() => !document.documentElement.classList.contains('still'));
 
   useEffect(() => {
     document.documentElement.lang = lang;
-    document.title = lang === 'en' ? 'BetterUis – a modern look for STU AIS' : 'BetterUis – moderný vzhľad pre AIS STU';
+    document.title = lang === 'en' ? 'BetterUis – a modern look and dark mode for STU UIS / AIS (is.stuba.sk)' : 'BetterUis – moderný vzhľad a tmavý režim pre UIS / AIS STU (is.stuba.sk)';
   }, [lang]);
 
   useEffect(() => {
@@ -577,6 +601,14 @@ export default function App() {
     setLangState(next);
     writeStored('bu-lang', next);
   };
+  // our own switch, like triptych.greenybeany.dev: animations run by default
+  // (the system's reduce-motion setting is not consulted) and can be
+  // switched off here; remembered per browser
+  const setMotion = (next) => {
+    setMotionState(next);
+    document.documentElement.classList.toggle('still', !next);
+    writeStored('bu-motion', next ? 'on' : 'off');
+  };
   const setTheme = (next) => {
     setThemeState(next);
     document.documentElement.dataset.theme = next;
@@ -585,7 +617,7 @@ export default function App() {
 
   return (
     <LangContext.Provider value={lang}>
-      <TopBar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
+      <TopBar lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} motion={motion} setMotion={setMotion} />
       <main id="top">
         <Hero />
         <BeforeAfter />

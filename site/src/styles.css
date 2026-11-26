@@ -276,6 +276,8 @@ h1 {
 .btn-primary.is-pending {
   opacity: .75;
   cursor: default;
+  line-height: 1.3;
+  text-align: center;
 }
 
 .btn-ghost {
@@ -684,7 +686,12 @@ details p {
 
 .footer-links {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.footer-links a {
+  white-space: nowrap;
 }
 
 .footer-links a {

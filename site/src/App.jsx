@@ -97,6 +97,9 @@ function detectBrowser() {
 }
 
 const BROWSER = detectBrowser();
+// phones: only Firefox for Android runs extensions; iPhone/iPad browsers don't
+const IS_IOS = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+const IS_PHONE = typeof navigator !== 'undefined' && (IS_IOS || /Android|Mobile/i.test(navigator.userAgent));
 const BROWSER_NAMES = { chrome: 'Chrome', firefox: 'Firefox', brave: 'Brave', edge: 'Edge', opera: 'Opera', vivaldi: 'Vivaldi' };
 // Slovak "do …" (into …) forms
 const BROWSER_INTO_SK = { chrome: 'Chrome', firefox: 'Firefoxu', brave: 'Brave', edge: 'Edge', opera: 'Opery', vivaldi: 'Vivaldi' };
@@ -116,6 +119,21 @@ function BrowserIcon({ browser }) {
 function StoreButton({ className = 'btn btn-primary' }) {
   const into = BROWSER_INTO_SK[BROWSER];
   const name = BROWSER_NAMES[BROWSER];
+  if (IS_IOS) {
+    return (
+      <span className={`${className} is-pending`} aria-disabled="true">
+        <T sk="Na iPhone rozšírenia nefungujú – otvor na počítači" en="iPhone browsers can't run extensions – open this on a computer" />
+      </span>
+    );
+  }
+  if (IS_PHONE && BROWSER !== 'firefox') {
+    return (
+      <a className={className} href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}>
+        <BrowserIcon browser="firefox" />
+        <T sk="Na mobile cez Firefox pre Android" en="On a phone: Firefox for Android" />
+      </a>
+    );
+  }
   if (BROWSER === 'firefox') {
     return (
       <a className={className} href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}>

@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('updateAction').addEventListener('click', function () {
-        chrome.tabs.create({ url: BetterUisUpdate.REPO_URL });
+        chrome.tabs.create({ url: BetterUisUpdate.RELEASE_URL });
     });
 
     if (window.BetterUisUpdate) {

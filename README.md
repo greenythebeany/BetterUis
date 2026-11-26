@@ -233,8 +233,8 @@ menu, then **Settings → Install extension from file**.
 
 ### Updating
 
-BetterUis checks this repository for a newer version (at most every 6 hours). When one is out, the toolbar
-icon shows a small badge and the popup shows a banner with a button that opens this page.
+BetterUis checks this repository's latest release for a newer version (at most every 6 hours). When one is out, the toolbar
+icon shows a small badge and the popup shows a banner with a button that opens the latest release.
 
 - **Downloaded ZIP:** download the new ZIP and replace the contents of your BetterUis folder (keep the
   folder where it is).

@@ -1,14 +1,17 @@
 // Update check. BetterUis is installed from its GitHub repository, not a
 // store, so nothing tells the user a new version exists. This reads the
-// version in the repository's manifest.json and compares it with the
-// installed one. The request carries no user data; the answer is cached
+// tag of the repository's latest GitHub release (v4.2.0 -> 4.2.0) and
+// compares it with the installed one - so the banner only appears once
+// there is a release ZIP to download. The request carries no user data; the answer is cached
 // for CHECK_EVERY_MS so it runs at most a few times a day. Shared by the
 // background script (toolbar badge) and the popup (banner).
 (function (global) {
   'use strict';
 
   const REPO_URL = 'https://github.com/greenythebeany/BetterUis';
-  const MANIFEST_URL = 'https://raw.githubusercontent.com/greenythebeany/BetterUis/main/manifest.json';
+  // the banner's download button lands on the newest release and its ZIP
+  const RELEASE_URL = REPO_URL + '/releases/latest';
+  const LATEST_API = 'https://api.github.com/repos/greenythebeany/BetterUis/releases/latest';
   const CHECK_EVERY_MS = 6 * 60 * 60 * 1000;
 
   // "4.1.10" > "4.1.9"; missing parts count as 0
@@ -33,9 +36,13 @@
     const fresh = updateCheck && Date.now() - updateCheck.at < CHECK_EVERY_MS;
     if (force || !fresh) {
       try {
-        const response = await fetch(MANIFEST_URL, { cache: 'no-store' });
+        const response = await fetch(LATEST_API, {
+          cache: 'no-store',
+          headers: { Accept: 'application/vnd.github+json' },
+        });
         if (response.ok) {
-          latest = (await response.json()).version || latest;
+          const tag = String((await response.json()).tag_name || '');
+          latest = tag.replace(/^v/i, '') || latest;
           await chrome.storage.local.set({ updateCheck: { at: Date.now(), latest } });
         }
       } catch (_) {
@@ -57,5 +64,5 @@
     }
   }
 
-  global.BetterUisUpdate = { REPO_URL, check, updateBadge, isNewer };
+  global.BetterUisUpdate = { REPO_URL, RELEASE_URL, check, updateBadge, isNewer };
 })(typeof self !== 'undefined' ? self : window);

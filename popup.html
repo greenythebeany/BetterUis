@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="themes.css">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -693,6 +694,17 @@
     background: var(--ink);
     color: var(--bg);
     border-radius: 999px;
+  }
+
+  /* a preset theme (themes.css, html[data-theme]) repaints the popup too -
+     beats both the light/dark and the Nothing palettes, like on the site */
+  html[data-theme] body:is(.dark-mode, .light-mode) {
+    --bg: var(--bg-void);
+    --surface: var(--bg-base);
+    --ink: var(--text-primary);
+    --mute: var(--text-tertiary);
+    --line: var(--border-subtle);
+    --link: var(--accent);
   }
 </style>
 </head>

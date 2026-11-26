@@ -17,7 +17,7 @@ const PRESET_THEMES = [
     { slug: 'rose-pine-dawn', label: 'Rosé Pine Dawn', bg: '#faf4ed', accent: '#907aa9' },
     { slug: 'kanagawa', label: 'Kanagawa', bg: '#1f1f28', accent: '#957fb8' },
     { slug: 'solarized-dark', label: 'Solarized Dark', bg: '#002b36', accent: '#268bd2' },
-    { slug: 'solarized-light', label: 'Solarized Light', bg: '#fdf6e3', accent: '#268bd2' },
+    { slug: 'solarized-light', label: 'Solarized Light', bg: '#ffffff', accent: '#268bd2' },
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -143,9 +143,25 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // light presets - must match LIGHT_PRESETS in content.js
+    const LIGHT_PRESETS = new Set(['catppuccin-latte', 'gruvbox-light', 'solarized-light', 'rose-pine-dawn']);
+    let activePreset = '';
+    let lastTheme = 'light';
+
+    // An active preset decides the popup's light/dark-ness and palette, as
+    // it does on the site; without one the Theme switch does.
     function setPopupTheme(theme) {
-        document.body.classList.toggle('dark-mode', theme === 'dark');
-        document.body.classList.toggle('light-mode', theme === 'light');
+        lastTheme = theme;
+        const effective = activePreset ? (LIGHT_PRESETS.has(activePreset) ? 'light' : 'dark') : theme;
+        document.body.classList.toggle('dark-mode', effective === 'dark');
+        document.body.classList.toggle('light-mode', effective === 'light');
+    }
+
+    function setPopupPreset(slug) {
+        activePreset = slug || '';
+        if (activePreset) document.documentElement.setAttribute('data-theme', activePreset);
+        else document.documentElement.removeAttribute('data-theme');
+        setPopupTheme(lastTheme);
     }
 
     // Reflects the schedule in the UI: locks the manual switch, highlights
@@ -283,6 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
         savedLink = linkColor;
         paintAccent();
         buildThemeGrid(forcedTheme);
+        setPopupPreset(forcedTheme);
         // Stored under `uiLanguage`, not the old `language` key: that one was
         // also written by AIS flag clicks (removed UA/RU feature), so it could
         // hold a pick the user never made here and pin the wrong language.
@@ -307,6 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         chrome.storage.local.set({ forcedTheme });
         setActiveThemeChip(forcedTheme);
+        setPopupPreset(forcedTheme);
         notifyContentScript({ forcedTheme });
     });
 
@@ -317,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             manualTheme = theme;
             chrome.storage.local.set({ theme, forcedTheme: '' });
+            setPopupPreset('');
             setPopupTheme(theme);
             setThemeButtons(theme);
             setActiveThemeChip('');
@@ -430,6 +449,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             chrome.storage.local.set({ linkColor, forcedTheme: '' });
             savedLink = linkColor;
+            setPopupPreset('');
             paintAccent();
             colorOptions.forEach(opt => opt.classList.remove('selected'));
             this.classList.add('selected');

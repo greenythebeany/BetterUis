@@ -76,7 +76,7 @@
   }
 
   function labelTables(root) {
-    root.querySelectorAll('table:not(.betterais-cards):not(.portal_menu)').forEach((table) => {
+    root.querySelectorAll('table:not(.betterais-cards):not(.portal_menu):not(.ba-mail-list)').forEach((table) => {
       const headRow = table.querySelector(':scope > thead > tr.zahlavi');
       const bodyRows = Array.from(table.querySelectorAll(':scope > tbody > tr'));
 
@@ -451,9 +451,121 @@
     });
   }
 
+  // ---- Pošta (mail folder) -------------------------------------------------
+  // The folder page is one big layout table: folder tree + stats + legend on
+  // the left, the message list on the right. Hooks are added here so
+  // style.css can address the parts (a sidebar, a list, a quota meter), the
+  // message columns get names, and the &nbsp; runs the site pads subjects
+  // and labels with are dropped.
+  const MAIL_COLS = ['check', 'attach', 'tags', 'from', 'subject', 'date', 'size', 'ops'];
+
+  function trimLeadingSpace(cell) {
+    let n = cell.firstChild;
+    while (n && n.nodeType === Node.TEXT_NODE && !n.textContent.replace(/\s+/g, '')) {
+      const next = n.nextSibling;
+      n.remove();
+      n = next;
+    }
+    if (n && n.nodeType === Node.TEXT_NODE) n.textContent = n.textContent.replace(/^\s+/, '');
+  }
+
+  function polishMail(root) {
+    const form = root.querySelector('form[name="post_slozka"]:not(.ba-mail)');
+    if (!form) return;
+    const cols = form.querySelectorAll(':scope > table > tbody > tr > td');
+    if (cols.length !== 2) return;
+    form.classList.add('ba-mail');
+    cols[0].classList.add('ba-mail-side');
+    cols[1].classList.add('ba-mail-main');
+
+    cols[0].querySelectorAll('.tree .node-label').forEach((label) => {
+      const span = label.querySelector('.nowrap') || label;
+      Array.from(span.childNodes).forEach((n) => {
+        if (n.nodeType === Node.TEXT_NODE) {
+          const text = n.textContent.replace(/\s+/g, ' ').trim();
+          if (!text) n.remove();
+          else n.replaceWith(el('span', 'ba-mail-count', text.replace(/[()]/g, '')));
+        }
+      });
+      if (!label.querySelector('a')) label.closest('.node-container').classList.add('is-current');
+    });
+
+    cols[0].querySelectorAll('td').forEach((td) => {
+      if (td.querySelector('table, .tree')) return;
+      if (td.matches('[style*="solid 1px"]')) return; // quota meter track
+      if (td.querySelector('.uf-icon')) {
+        Array.from(td.childNodes).forEach((n) => {
+          if (n.nodeType === Node.TEXT_NODE) {
+            const text = n.textContent.replace(/\s+/g, ' ').trim();
+            if (!text) n.remove();
+            else n.replaceWith(el('span', '', text));
+          }
+        });
+        td.classList.add('ba-mail-iconrow');
+        // legend rows are the icon rows without a link
+        if (!td.querySelector('a')) td.closest('tr').classList.add('ba-mail-legend');
+      } else if (!td.textContent.replace(/\s+/g, '')) {
+        td.closest('tr').classList.add('ba-mail-gap');
+      } else {
+        td.classList.add('ba-mail-stat');
+      }
+    });
+    // quota meter: the site sizes the fill in px of a 150px box; restate
+    // it as a percentage so the meter can take the sidebar's width
+    const firstLegend = cols[0].querySelector('tr.ba-mail-legend');
+    const legendTitle = firstLegend && firstLegend.previousElementSibling;
+    if (legendTitle && legendTitle.querySelector('td.ba-mail-stat')) legendTitle.classList.add('ba-mail-legend');
+    const bar = cols[0].querySelector('td[style*="solid 1px"]');
+    if (bar) {
+      bar.closest('table').classList.add('ba-mail-quota');
+      const fill = bar.querySelector('div');
+      const box = parseFloat(bar.style.width);
+      if (fill && box) fill.style.setProperty('width', (parseFloat(fill.style.width) / box) * 100 + '%', 'important');
+    }
+
+    const list = cols[1].querySelector('table[id^="tmtab_"]');
+    if (list) {
+      list.classList.add('ba-mail-list');
+      list.querySelectorAll('tr').forEach((tr) => {
+        if (tr.children.length !== MAIL_COLS.length) return;
+        Array.from(tr.children).forEach((cell, i) => {
+          cell.classList.add('ba-m-' + MAIL_COLS[i]);
+          if (MAIL_COLS[i] === 'subject') trimLeadingSpace(cell);
+        });
+      });
+    }
+  }
+
+  // ---- jQuery UI dialogs ("Pridať tag", ...) -------------------------------
+  // The tag "+" is an <a href="#">: following it jumps the page to the top
+  // while the dialog opens where the click was. Only the default jump is
+  // cancelled - the site's own click handler still runs. Inside dialogs,
+  // rows holding nothing but &nbsp; are spacers; they're marked so CSS can
+  // drop them.
+  function tidyDialog(dialog) {
+    dialog.querySelectorAll('.ui-dialog-content tr').forEach((tr) => {
+      const empty = !tr.textContent.replace(/\s+/g, '') &&
+        !tr.querySelector('input:not([type="hidden"]), select, textarea, img, svg, button');
+      tr.classList.toggle('ba-dialog-spacer', empty);
+    });
+  }
+
+  function watchDialogs() {
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest && event.target.closest('a.tag-add[href="#"]');
+      if (link) event.preventDefault();
+    }, true);
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.ui-dialog').forEach(tidyDialog);
+    });
+    observer.observe(document.body, { childList: true, subtree: false });
+  }
+
   function run() {
     buildAttendance(document);
     buildPublicSections(document);
+    polishMail(document);
+    watchDialogs();
     window.addEventListener('load', () => buildAttendance(document), { once: true });
     labelTables(document);
     buildMobileNav();

@@ -1976,6 +1976,13 @@ html.light-mode .uf-icon svg:not([style*="--uc-fill-inner"]) {
   stroke: none !important;
 }
 
+/* outline glyphs (no filled original in Tabler) draw with a stroke */
+.uf-icon svg.betterais-icon[fill="none"],
+.uf-icon svg.betterais-icon[fill="none"] * {
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
 
 /* Untoned icons (breadcrumb home / search / help) follow the theme's text
    color. Set explicitly on the wrapper in BOTH themes rather than relying on
@@ -8294,4 +8301,941 @@ html.light-mode .zasadky-container > .zasadka:not(.vyveska) {
     color: var(--link) !important;
     font-size: 13.5px;
   }
+}
+
+/* ---- Pošta: mail folder page ------------------------------------------------
+   mobile.js tags the parts (.ba-mail-side / .ba-mail-main, the message
+   columns .ba-m-*). The sidebar becomes one card: folder list without the
+   tree's connector lines, current folder tinted, counts as quiet pills,
+   stats as label rows and the quota as a slim meter. The list keeps its
+   table but loses the empty spacer width; actions are small icon buttons. */
+:root:is(.dark-mode, .light-mode) #base form.ba-mail > table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+:root:is(.dark-mode, .light-mode) #base form.ba-mail > table > tbody > tr > td {
+  padding: 0 !important;
+  vertical-align: top;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side {
+  width: 260px;
+  min-width: 260px;
+  padding-right: 20px !important;
+}
+
+/* the sidebar's nested tables are only stacking - render them as blocks
+   so rows can be flex lines at full width */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side :is(table, tbody, tr) {
+  display: block !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td:not(.ba-mail-iconrow) {
+  display: block !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table {
+  width: 100% !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td {
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:has(.tree) {
+  padding: 10px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > p:empty {
+  display: none;
+}
+
+/* refresh link above the card */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:first-child {
+  margin-bottom: 12px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:first-child td > div {
+  gap: 8px !important;
+  min-height: 38px;
+  padding: 0 12px;
+  white-space: nowrap;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:first-child .uf-icon {
+  width: 16px !important;
+  height: 16px !important;
+  color: var(--mute);
+}
+
+/* folder tree -> plain list */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree,
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree * {
+  background-image: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree li {
+  margin: 0;
+  padding: 0;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree li:has(> .node-container.root),
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree :is(.border-top, .border-bottom, .node-icon, .clear) {
+  display: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-container {
+  height: auto !important;
+  margin: 0 0 2px;
+  padding: 0 !important;
+  border-radius: var(--radius-sm);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-icon-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-label {
+  float: none !important;
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-label > .nowrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 10px;
+  color: var(--ink);
+  font-size: 13.5px;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-label a {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink) !important;
+  text-decoration: none;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-label b {
+  flex: 1;
+  font-weight: 700;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-container:not(.is-current):hover {
+  background: color-mix(in srgb, var(--ink) 6%, transparent) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-container.is-current {
+  background: color-mix(in srgb, var(--link) 12%, transparent) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .is-current :is(b, .uf-icon) {
+  color: var(--link) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .uf-icon,
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .ba-mail-iconrow .uf-icon {
+  flex: none;
+  width: 18px !important;
+  height: 18px !important;
+  color: var(--mute);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .uf-icon > svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .ba-mail-count {
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  color: var(--mute);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* "Správa priečinkov" + legend rows */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  padding: 0 10px !important;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow > a:has(.uf-icon) {
+  display: contents;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow .betterais-icon-danger {
+  color: var(--tone-danger);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-gap td {
+  height: 0;
+  padding: 0 !important;
+  vertical-align: middle;
+  font-size: 0;
+  line-height: 0;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-gap td::after {
+  content: '';
+  display: block;
+  margin: 8px 10px;
+  border-top: 1px solid var(--line);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-stat {
+  padding: 3px 10px !important;
+  color: var(--mute);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* quota meter */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota {
+  width: calc(100% - 20px);
+  margin: 6px 10px 4px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota td[style] {
+  width: auto !important;
+  height: 6px;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 10%, transparent) !important;
+  line-height: 0 !important;
+  overflow: hidden;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota td[style] > div {
+  max-width: 100%;
+  min-width: 6px;
+  height: 6px !important;
+  border-radius: var(--radius-pill);
+  background: var(--link) !important;
+}
+
+/* ---- message list ---- */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table {
+  width: 100%;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(.ba-m-check, .ba-m-attach, .ba-m-tags) {
+  width: 1%;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  white-space: nowrap;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(.ba-m-from, .ba-m-date, .ba-m-size, .ba-m-ops),
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(.ba-m-from, .ba-m-date, .ba-m-size, .ba-m-ops) * {
+  white-space: nowrap !important;
+  word-break: normal !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-from {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-subject {
+  width: 100%;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-subject a {
+  color: var(--ink) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td:is(.ba-m-date, .ba-m-size) {
+  color: var(--mute);
+  font-size: 12.5px;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-attach .uf-icon {
+  width: 16px !important;
+  height: 16px !important;
+  color: var(--mute);
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-tags,
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-tags * {
+  color: var(--mute) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops {
+  font-size: 0;
+  text-align: right !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 2px;
+  border-radius: var(--radius-sm);
+  color: var(--mute) !important;
+  vertical-align: middle;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops > a:hover {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops .uf-icon {
+  width: 17px !important;
+  height: 17px !important;
+  color: inherit;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops .uf-icon > svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops > a:hover .betterais-icon-danger {
+  color: var(--tone-danger);
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(th, td).ba-m-from {
+  padding-left: 14px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list th.ba-m-ops {
+  text-align: right !important;
+  padding-right: 16px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-tags .uf-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* checkbox, paperclip and tag "+" sit on one even rhythm: equal-width
+   centred slots with the same gap between each */
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(th, td):is(.ba-m-attach, .ba-m-tags) {
+  width: 30px;
+  min-width: 30px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(th, td).ba-m-check {
+  width: 30px;
+  padding-left: 12px !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td:is(.ba-m-check, .ba-m-attach, .ba-m-tags) :is(input, .uf-icon, a) {
+  margin: 0 !important;
+  vertical-align: middle;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td:is(.ba-m-attach, .ba-m-tags) .uf-icon {
+  display: inline-block;
+}
+
+/* forwarding notice sits on the page, not on a grey slab */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child,
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child td {
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* the forwarding notice is a standing state, not an error - a slim
+   one-line note instead of a full-width alert card */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child .uis_msg {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  width: auto !important;
+  max-width: 100%;
+  min-height: 0 !important;
+  margin: 0 0 12px !important;
+  padding: 6px 12px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-pill) !important;
+  background: var(--surface) !important;
+  box-shadow: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child .uis_msg::before {
+  display: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child .uis_msg .uf-icon {
+  width: 15px !important;
+  height: 15px !important;
+  margin: 0 !important;
+  color: var(--mute) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child .uis_msg .uf-icon svg {
+  color: var(--mute) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main > table:first-child .uis_msg :is(div, .text) {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--mute) !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+}
+
+/* select-all helpers are secondary - quiet outlined buttons */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-main input:is([name="oznac_vse"], [name="odznac_vse"]) {
+  border: 1px solid var(--line) !important;
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+}
+
+/* phone: sidebar stacks above the list */
+@media (max-width: 760px) {
+  :root:is(.dark-mode, .light-mode) #base form.ba-mail > table,
+  :root:is(.dark-mode, .light-mode) #base form.ba-mail > table > tbody,
+  :root:is(.dark-mode, .light-mode) #base form.ba-mail > table > tbody > tr,
+  :root:is(.dark-mode, .light-mode) #base form.ba-mail > table > tbody > tr > td {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side {
+    min-width: 0;
+    padding: 0 0 18px !important;
+  }
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side :is(table, tbody, tr, td:not(.ba-mail-iconrow), .tree, .tree > ul) {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* ---- jQuery UI dialogs ("Pridať tag", confirmations) ------------------------
+   Appended to <body>, outside #base, and drawn by the jQuery UI theme: a
+   white box with a grey title bar and bevelled buttons, whatever the
+   BetterUis theme. Redrawn as a BetterUis card: surface, hairline, large
+   radius, plain title, ghost close button, accent primary button. */
+:root:is(.dark-mode, .light-mode) .ui-widget-overlay {
+  background: rgba(0, 0, 0, .45) !important;
+  opacity: 1 !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog.ui-widget {
+  padding: 0 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface) !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .28) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-sans) !important;
+  overflow: hidden;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-titlebar {
+  display: flex;
+  align-items: center;
+  padding: 16px 18px 6px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-title {
+  float: none !important;
+  flex: 1;
+  width: auto !important;
+  margin: 0 !important;
+  color: var(--ink) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-titlebar-close {
+  position: static !important;
+  flex: none;
+  width: 30px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: var(--radius-sm) !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--mute) !important;
+  font-size: 0 !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-titlebar-close:hover {
+  background: color-mix(in srgb, var(--ink) 8%, transparent) !important;
+  color: var(--ink) !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-titlebar-close .ui-icon {
+  display: block;
+  position: static !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 auto !important;
+  background: currentColor !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+  text-indent: -9999px;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content {
+  min-height: 0 !important;
+  padding: 10px 18px 16px !important;
+  border: 0 !important;
+  background: none !important;
+  color: var(--ink) !important;
+  font-size: 13.5px;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content :is(table, tbody, tr, td) {
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content p:empty,
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content br:first-child {
+  display: none;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content input:is([type="text"], :not([type])) {
+  width: 100%;
+  margin: 4px 0 0;
+  background-color: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane {
+  margin: 0 !important;
+  padding: 12px 18px 16px !important;
+  border-top: 1px solid var(--line) !important;
+  background: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonset {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  float: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane button {
+  margin: 0 !important;
+  padding: 8px 18px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-pill) !important;
+  background: var(--surface) !important;
+  box-shadow: none !important;
+  color: var(--ink) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane button:first-child {
+  border-color: var(--link) !important;
+  background: var(--link) !important;
+  color: #fff !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane button:hover {
+  filter: brightness(1.08);
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:first-child td > div,
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* dialog: the site pads the form with empty spacer rows, and puts the
+   label beside a tiny input - collapse the spacers, stack label over input */
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content td {
+  padding: 0 !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content tr:has(input:not([type="hidden"]), select, textarea) {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content tr:has(input:not([type="hidden"]), select, textarea) > td {
+  display: block;
+  width: 100% !important;
+  color: var(--mute);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content table {
+  width: 100%;
+}
+
+/* ---- Pošta on a phone ------------------------------------------------------
+   Sidebar: refresh as a full-width row, folders as a scrollable chip strip,
+   stats on two short lines, legend hidden (the icons say it). Messages: one
+   card per row - sender and date, subject, then size / tags / actions -
+   instead of an eight-column table. */
+@media (max-width: 760px) {
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side > table:has(.tree) {
+    padding: 8px !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree > ul {
+    display: flex !important;
+    gap: 6px;
+    margin: 0 -8px !important;
+    padding: 0 8px 2px !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: calc(100% + 16px) !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree > ul > li {
+    flex: none;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-container {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-container.is-current {
+    border-color: transparent;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side .tree .node-label > .nowrap {
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-legend {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side tr:has(> td.ba-mail-stat) {
+    display: inline-block !important;
+    width: auto !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-side tr:has(> td.ba-mail-stat) > td {
+    width: auto !important;
+    padding: 2px 14px 2px 10px !important;
+  }
+
+  /* message cards */
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main,
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main > table,
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main > table > tbody,
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main > table > tbody > tr,
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main > table > tbody > tr > td {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list {
+    display: block !important;
+    width: 100% !important;
+    overflow: hidden;
+    border: 1px solid var(--line) !important;
+    border-radius: var(--radius-lg) !important;
+    background: var(--surface) !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > thead {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody {
+    display: block !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr {
+    display: grid !important;
+    grid-template-columns: 22px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "check from from date"
+      "check subject subject attach"
+      "check size tags ops";
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 2px;
+    padding: 12px 12px 8px 14px;
+    border: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    background: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr:last-child {
+    border-bottom: 0 !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr > td {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    text-align: left !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr > td::before {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-check {
+    grid-area: check;
+    align-self: start;
+    padding-top: 1px !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-from {
+    grid-area: from;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-date {
+    grid-area: date;
+    font-size: 12px;
+    text-align: right !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-subject {
+    grid-area: subject;
+    min-width: 0;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-attach {
+    grid-area: attach;
+    justify-self: end;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-size {
+    grid-area: size;
+    font-size: 12px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-tags {
+    grid-area: tags;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops {
+    grid-area: ops;
+    margin-right: -6px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-ops > a {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* sort bar, select-all, bulk actions wrap instead of overflowing */
+  :root:is(.dark-mode, .light-mode) #base .ba-mail-main table:not(.ba-mail-list) td:has(> select) {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+}
+
+/* counts pinned to the row's right edge; "Správa priečinkov" reads as one
+   more row of the folder list (same height, size and colour, one line) */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side .ba-mail-count {
+  flex: none;
+  margin-left: auto;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow {
+  min-height: 38px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side td.ba-mail-iconrow > a:not(:has(.uf-icon)) {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink) !important;
+  text-decoration: none;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr:not(.ba-mail-legend) > td.ba-mail-iconrow:hover {
+  background: color-mix(in srgb, var(--ink) 6%, transparent) !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-legend > td.ba-mail-iconrow {
+  min-height: 30px;
+  color: var(--mute);
+  font-size: 12.5px;
+}
+
+/* the spacer rows: let the hairline take its own height (a 0-height cell
+   let it overflow onto the next row), and keep the quota meter inside the
+   card's 10px inset like the text around it */
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-gap > td {
+  height: auto !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side tr.ba-mail-gap > td::after {
+  margin: 10px 10px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota {
+  width: calc(100% - 20px) !important;
+  margin: 8px 10px 2px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota td[style] {
+  height: 6px !important;
+}
+
+:root:is(.dark-mode, .light-mode) #base .ba-mail-side table.ba-mail-quota td[style]::after {
+  display: none !important;
+}
+
+/* dialog spacer rows (only &nbsp;) - marked by mobile.js */
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content tr.ba-dialog-spacer {
+  display: none !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog.ui-widget {
+  min-width: min(360px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-titlebar {
+  padding: 18px 18px 4px 20px !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content {
+  padding: 8px 20px 18px !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content tr:has(input:not([type="hidden"]), select, textarea) {
+  margin-top: 4px;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content tr:has(input:not([type="hidden"]), select, textarea) > td:not(:has(input, select, textarea)) {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content input:is([type="text"], :not([type])) {
+  height: 40px;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 14px !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content input:is([type="text"], :not([type])):focus {
+  border-color: var(--link) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--link) 20%, transparent) !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane {
+  padding: 14px 20px 18px !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-buttonpane button {
+  min-width: 84px;
+  height: 36px;
+  padding: 0 18px !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content {
+  overflow: hidden !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content :is(table, tbody) {
+  display: block !important;
+  width: 100% !important;
+}
+
+:root:is(.dark-mode, .light-mode) .ui-dialog .ui-dialog-content input:is([type="text"], :not([type])) {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100%;
+}
+
+/* optical spacing: the paperclip's ink sits left in its box and the plus's
+   is inset, so equal boxes left the clip visibly closer to the checkbox -
+   the checkbox slot's right padding compensates (both ink gaps ~20px) */
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(th, td).ba-m-check {
+  width: 18px;
+  padding-left: 12px !important;
+  padding-right: 11px !important;
+  text-align: left !important;
+}
+
+/* the system-message badge (filled circle) reads smaller than the outline
+   paperclip at the same box size */
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list td.ba-m-attach .uf-icon[data-sysid="posta-systemova-zprava"] {
+  width: 19px !important;
+  height: 19px !important;
 }

@@ -6959,8 +6959,9 @@ html.light-mode table:has(> thead > tr.zahlavi) td.odsazena:has(> input[type="ra
    the list sat indented behind the icon column, half the card wide. Here
    the icon and heading share the top row and the list runs the full card
    width under the hairline. The "Otvoriť všetko" pill shrinks to a normal
-   button size. */
-@media (max-width: 760px) {
+   button size. Desktop uses the same layout, so links start at the card's
+   left edge there too. */
+@media all {
   html.dark-mode #menitko .polozky-obal > .ramecek-boky > div,
   html.light-mode #menitko .polozky-obal > .ramecek-boky > div {
     display: flex !important;
@@ -6986,7 +6987,9 @@ html.light-mode table:has(> thead > tr.zahlavi) td.odsazena:has(> input[type="ra
     margin-left: 0 !important;
     padding-left: 4px !important;
   }
+}
 
+@media (max-width: 760px) {
   html.dark-mode #otevrit-vse a,
   html.light-mode #otevrit-vse a,
   html.dark-mode #zavrit-vse a,
@@ -8219,4 +8222,76 @@ html.light-mode .zasadky-container > .zasadka:not(.vyveska) {
   min-height: 0 !important;
   max-width: none !important;
   max-height: none !important;
+}
+
+/* ---- home page cards on a phone, round two ---------------------------------
+   The phone rule that gives every card link a 6px tap padding pushed the
+   text down while the bullet stayed at its desktop offset, so each dot
+   floated above its line, and the items sat far apart. Each item is now a
+   centred row (dot + link), tighter; the section title reads as a title;
+   "Otvoriť všetko" is a full-width quiet button instead of a heavy pill. */
+@media (max-width: 760px) {
+  :root.dark-mode #base #menitko .polozky-obal ul > li,
+  :root.light-mode #base #menitko .polozky-obal ul > li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 !important;
+    padding-left: 2px !important;
+  }
+
+  :root.dark-mode #base #menitko .polozky-obal ul > li::before,
+  :root.light-mode #base #menitko .polozky-obal ul > li::before {
+    position: static;
+    flex: none;
+  }
+
+  :root.dark-mode #base #menitko .polozky-obal ul > li > a,
+  :root.light-mode #base #menitko .polozky-obal ul > li > a {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  :root.dark-mode #base #menitko .polozky-obal .polozky.prostor-ikona > ul,
+  :root.light-mode #base #menitko .polozky-obal .polozky.prostor-ikona > ul {
+    margin-top: 18px !important;
+  }
+
+  :root.dark-mode #base #menitko .polozky-obal .sekce-nadpis b,
+  :root.light-mode #base #menitko .polozky-obal .sekce-nadpis b {
+    color: var(--ink) !important;
+    font-size: 15.5px;
+    font-weight: 700;
+  }
+
+  :root.dark-mode #base .menitko-all,
+  :root.light-mode #base .menitko-all {
+    display: block !important;
+    margin: 0 0 12px !important;
+  }
+
+  :root.dark-mode #base :is(#otevrit-vse, #zavrit-vse),
+  :root.light-mode #base :is(#otevrit-vse, #zavrit-vse) {
+    margin: 0 !important;
+  }
+
+  :root.dark-mode #base :is(#otevrit-vse, #zavrit-vse) a,
+  :root.light-mode #base :is(#otevrit-vse, #zavrit-vse) a {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border: 1px solid var(--line) !important;
+    border-radius: var(--radius-sm) !important;
+    background: var(--surface) !important;
+    box-shadow: none;
+    color: var(--link) !important;
+    font-size: 13.5px;
+  }
 }

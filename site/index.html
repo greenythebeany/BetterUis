@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BetterUis – moderný vzhľad pre AIS STU</title>
+  <meta name="description" content="Neoficiálne rozšírenie prehliadača, ktoré dáva informačnému systému STU (is.stuba.sk) moderný a prehľadný vzhľad: svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie.">
+  <link rel="canonical" href="https://betteruis.greenybeany.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BetterUis – moderný vzhľad pre AIS STU">
+  <meta property="og:description" content="Svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie pre is.stuba.sk.">
+  <meta property="og:image" content="https://betteruis.greenybeany.dev/assets/og.png">
+  <meta property="og:url" content="https://betteruis.greenybeany.dev/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#7a1030">
+  <link rel="icon" href="/assets/icon128.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script>
+    // theme before first paint: saved pick, else the system setting
+    try {
+      const t = localStorage.getItem('bu-theme');
+      document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch (_) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>BetterUis – neoficiálne rozšírenie pre is.stuba.sk. <a href="https://github.com/greenythebeany/BetterUis">GitHub</a></noscript>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

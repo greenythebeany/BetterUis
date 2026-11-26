@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://betteruis.greenybeany.dev/sitemap.xml

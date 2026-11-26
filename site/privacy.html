@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy – BetterUis</title>
+  <meta name="description" content="BetterUis privacy policy: the extension collects no data. Settings stay in your browser.">
+  <link rel="canonical" href="https://betteruis.greenybeany.dev/privacy.html">
+  <meta name="theme-color" content="#7a1030">
+  <link rel="icon" href="/assets/icon128.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script>
+    try {
+      const t = localStorage.getItem('bu-theme');
+      document.documentElement.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch (_) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
+</head>
+<body>
+  <!-- plain HTML on purpose: this URL is the Chrome Web Store privacy policy
+       link, so it must read fully without JavaScript -->
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="BetterUis home">
+        <img src="/assets/icon128.png" alt="" width="32" height="32">
+        <span>BetterUis</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="doc">
+    <div class="wrap narrow">
+      <h1>Privacy Policy</h1>
+      <p><em>Last updated: 26 November 2026</em></p>
+      <p>BetterUis is an unofficial browser extension that changes how the STU university information system (is.stuba.sk) looks. It is not made by or affiliated with the Slovak University of Technology (STU) or the system's vendor.</p>
+
+      <h2>What data BetterUis collects</h2>
+      <p>None. BetterUis does not collect, store, sell, or send any personal data, browsing history, grades, messages, or any other content of the pages you visit. There is no analytics or tracking in the extension.</p>
+
+      <h2>What stays on your device</h2>
+      <p>Your BetterUis settings (theme, accent colour, language, style, and on/off switches) are saved with the browser's extension storage on your device. They never leave it, except through your browser's own sync, if you have that turned on.</p>
+
+      <h2>How the extension works with is.stuba.sk</h2>
+      <p>BetterUis runs only on is.stuba.sk. It changes the look of the pages in your browser: styles, icons, and the layout of tables. It reads the page only to restyle it, and nothing it reads is saved or sent anywhere.</p>
+
+      <h2>Requests to other servers</h2>
+      <ul>
+        <li><strong>Google Fonts</strong> (fonts.googleapis.com, fonts.gstatic.com): the extension popup loads the Roboto font from here. Like any web font, Google receives your IP address and a standard browser request with it.</li>
+        <li><strong>is.stuba.sk</strong>: the language picker in the popup shows the flag images that is.stuba.sk itself serves.</li>
+        <li><strong>GitHub</strong> (api.github.com): only in the version installed from GitHub. It checks the latest release number a few times a day to show an "update available" note. No data about you is sent with it. The Chrome Web Store version doesn't do this check, because the store updates it automatically.</li>
+      </ul>
+
+      <h2>Permissions</h2>
+      <ul>
+        <li><code>storage</code>: saves your settings.</li>
+        <li><code>activeTab</code>: lets the popup's "Apply &amp; reload" button reload the open is.stuba.sk tab.</li>
+        <li>Access to <code>is.stuba.sk</code>: the only site the extension changes.</li>
+      </ul>
+
+      <h2>This website</h2>
+      <p>betteruis.greenybeany.dev is a static site hosted on GitHub Pages. It has no analytics and no cookies. It loads the Roboto font from Google Fonts and remembers your theme and language choice in your browser's local storage only.</p>
+
+      <h2>Contact</h2>
+      <p>Questions or issues: <a href="https://github.com/greenythebeany/BetterUis/issues">github.com/greenythebeany/BetterUis/issues</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p class="muted small">BetterUis is unofficial and not affiliated with the Slovak University of Technology in Bratislava.</p>
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="https://github.com/greenythebeany/BetterUis">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

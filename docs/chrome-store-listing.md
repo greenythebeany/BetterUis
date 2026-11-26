@@ -22,12 +22,14 @@ EN:
 
 ### Podrobný popis (SK)
 
+Bez vymenúvania názvov tém – zoznam názvov obchod hodnotí ako nadbytočné kľúčové slová (zamietnutie „Yellow Argon“, 26. 11. 2026).
+
 ```
 BetterUis je neoficiálne rozšírenie, ktoré dáva univerzitnému informačnému systému STU (is.stuba.sk) moderný a prehľadný vzhľad. Funguje len na is.stuba.sk a nič na stránke nemení obsahovo – len to, ako vyzerá.
 
 ČO PRINÁŠA
 • Svetlá a tmavá téma, prípadne automatický tmavý režim podľa času
-• Vlastná farba zvýraznenia a vyše tucta hotových farebných tém (Catppuccin, Nord, Dracula, Solarized, Gruvbox, Tokyo Night, Rosé Pine…)
+• Vlastná farba zvýraznenia a viac ako desať hotových farebných tém
 • Jednotné moderné ikony namiesto starých obrázkov
 • Prehľadné tabuľky: rozvrh ako týždenný prehľad, dochádzka ako karty, prehľadnejšia pošta, štúdium a odovzdávanie prác
 • Mobilné zobrazenie: karty namiesto širokých tabuliek, menu so záložkami, nič nepreteká mimo obrazovky
@@ -49,7 +51,7 @@ BetterUis is an unofficial extension that gives STU's university information sys
 
 FEATURES
 • Light and dark themes, or an automatic dark mode by time of day
-• Your own accent colour and over a dozen ready-made themes (Catppuccin, Nord, Dracula, Solarized, Gruvbox, Tokyo Night, Rosé Pine…)
+• Your own accent colour and more than ten ready-made colour themes
 • One consistent set of modern icons instead of the old images
 • Cleaner tables: the timetable as a week view, attendance as cards, and clearer mail, study and submission pages
 • Phone layout: cards instead of wide tables, a tab menu, nothing running off the screen

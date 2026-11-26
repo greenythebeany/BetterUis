@@ -42,7 +42,7 @@
   }
 
   const TITLE_LABEL = /^(predmet|názov|nazev|subject|title|name|štúdium|studium|study|dokument|document|súbor|soubor|file|meno|jméno|téma|tema|topic|vec|věc)\b/i;
-  const NUMBER_LABEL = /^(por\.?|poř\.?|p\. ?č\.?|č\.|#|no\.?)$/i;
+  const NUMBER_LABEL = /^(por\.?|poř\.?|poradie|pořadí|p\. ?č\.?|č\.|#|no\.?)$/i;
 
   function cellText(cell) {
     return cell.textContent.replace(/\s+/g, ' ').trim();
@@ -53,7 +53,7 @@
     Array.from(tr.children).forEach((cell, i) => {
       cell.setAttribute('data-label', labels[i]);
       const text = cellText(cell);
-      if (isBlankCell(cell) || NUMBER_LABEL.test(labels[i]) || (labels[i] === '' && /^\d+\.?$/.test(text))) {
+      if (isBlankCell(cell) || NUMBER_LABEL.test(labels[i]) || ((labels[i] === '' || i === 0) && /^\d+\.?$/.test(text))) {
         cell.classList.add('betterais-cell-blank');
       } else if (i === titleCol) {
         cell.classList.add('betterais-cell-title');
@@ -325,7 +325,136 @@
     }
   }
 
+  // ---- attendance (List záznamníka učiteľa) ---------------------------------
+  // A wide grid: subject (spanning its classes' rows), "Kedy", 14 week
+  // columns of attendance icons, then operation icons. Way too wide for a
+  // phone, and its grouped header can't become plain cards - so a card list
+  // is built next to it: one card per subject, the operation links on top,
+  // each class with a 14-square week strip. style.css shows the cards and
+  // hides the grid on every screen size (a card grid on desktop).
+  function attendanceState(cell) {
+    const icon = cell.querySelector('[data-sysid^="doch-"]');
+    if (!icon) return { state: 'none', title: '' };
+    const id = icon.getAttribute('data-sysid');
+    const title = icon.getAttribute('title') || icon.getAttribute('aria-label') || '';
+    let state = 'other';
+    if (/nepritom|absen|neucast/.test(id)) state = 'absent';
+    else if (/omluv|ospravedl/.test(id)) state = 'excused';
+    else if (/pritom/.test(id)) state = 'present';
+    return { state, title };
+  }
+
+  function buildAttendance(root) {
+    root.querySelectorAll('table:not([data-betterais-att])').forEach((table) => {
+      if (!table.querySelector('tbody [data-sysid^="doch-"]')) return;
+      // already built (the table may have been rebuilt since, losing its mark)
+      const after = table.nextElementSibling || (table.parentElement && table.parentElement.nextElementSibling);
+      if (after && after.classList.contains('betterais-att')) return;
+      // the header is two tr.zahlavi rows at the top of the body in the
+      // page's HTML; the site's table plugin moves them into a <thead> only
+      // later - handle both, whichever this runs against
+      const headRows = table.tHead && table.tHead.rows.length >= 2
+        ? Array.from(table.tHead.rows)
+        : Array.from(table.tBodies[0].rows).filter((tr) => tr.classList.contains('zahlavi'));
+      if (headRows.length < 2) return;
+      const visible = (cells) => Array.from(cells).filter((c) => !c.classList.contains('UISTMNumberCell'));
+      const sub = visible(headRows[1].cells);
+      if (!sub.length || !/^(kedy|kdy|when)$/i.test(cellText(sub[0]))) return;
+      const weeks = sub.slice(1).map(cellText);
+      table.setAttribute('data-betterais-att', '1');
+
+      const list = el('div', 'betterais-att');
+      let card = null;
+      Array.from(table.tBodies[0].rows).forEach((tr) => {
+        if (tr.classList.contains('zahlavi')) return;
+        let cells = visible(tr.cells);
+        if (cells.length > weeks.length + 1) {
+          // first row of a subject: subject cell, then the class, then ops
+          const subjectCell = cells[0];
+          card = el('article', 'ba-att-card');
+          const top = el('header', 'ba-att-head');
+          const subject = el('div', 'ba-att-subject');
+          subject.append(...Array.from(subjectCell.childNodes).map((n) => n.cloneNode(true)));
+          const ops = el('div', 'ba-att-ops');
+          cells.slice(2 + weeks.length).forEach((c) => {
+            c.querySelectorAll('a').forEach((a) => ops.append(a.cloneNode(true)));
+          });
+          top.append(subject, ops);
+          card.append(top);
+          list.append(card);
+          cells = cells.slice(1);
+        }
+        if (!card) return;
+        const slot = el('div', 'ba-att-slot');
+        const code = cellText(card.querySelector('.ba-att-subject')).split(' ')[0];
+        let when = cellText(cells[0]);
+        if (code && when.startsWith(code + ' ')) when = when.slice(code.length + 1);
+        slot.append(el('div', 'ba-att-when', when));
+        const strip = el('div', 'ba-att-weeks');
+        let present = 0;
+        let recorded = 0;
+        weeks.forEach((label, i) => {
+          const cell = cells[1 + i];
+          const { state, title } = cell ? attendanceState(cell) : { state: 'none', title: '' };
+          const sq = el('span', `ba-att-week is-${state}`, label.replace(/\.$/, ''));
+          if (title) sq.title = title;
+          if (state !== 'none') recorded += 1;
+          if (state === 'present') present += 1;
+          strip.append(sq);
+        });
+        // a class with nothing recorded (lectures, usually) shows just its
+        // time - fourteen grey squares would only be noise
+        if (recorded) {
+          slot.append(el('div', 'ba-att-count', `${present}/${recorded}`), strip);
+        } else {
+          slot.classList.add('is-empty');
+        }
+        card.append(slot);
+      });
+      if (list.children.length) table.after(list);
+    });
+  }
+
+  // ---- public homepage sections (is.stuba.sk/ signed out) ------------------
+  // A 980px table: per section an icon cell, a spacer cell and a cell with
+  // the heading plus links strung together by literal "•" text nodes - no
+  // CSS can split that into a list. Rebuilt as dashboard-style cards (icon
+  // tile, heading, link list; the site's bold links stay the key ones);
+  // style.css lays them out and hides the table.
+  function buildPublicSections(root) {
+    root.querySelectorAll('.mainpage > table:not([data-betterais-sections])').forEach((table) => {
+      const rows = Array.from(table.querySelectorAll(':scope > tbody > tr'))
+        .filter((tr) => tr.querySelector('.sekce-nadpis') && tr.querySelector('.polozky-obr'));
+      if (rows.length < 2 || table.closest('#menitko')) return;
+      table.setAttribute('data-betterais-sections', '1');
+      const grid = el('div', 'betterais-sections');
+      rows.forEach((tr) => {
+        const card = el('section', 'ba-sec-card');
+        const head = el('header', 'ba-sec-head');
+        const icon = el('span', 'ba-sec-icon');
+        icon.append(tr.querySelector('.polozky-obr').cloneNode(true));
+        head.append(icon, el('h2', 'ba-sec-title', cleanText(tr.querySelector('.sekce-nadpis'))));
+        const list = el('ul', 'ba-sec-links');
+        const cell = tr.querySelector('.sekce-nadpis').closest('td');
+        cell.querySelectorAll('a').forEach((a) => {
+          const li = el('li', a.querySelector('b') || a.closest('b') ? 'is-key' : '');
+          const link = el('a', '', cleanText(a));
+          link.href = a.href;
+          if (a.target) link.target = a.target;
+          li.append(link);
+          list.append(li);
+        });
+        card.append(head, list);
+        grid.append(card);
+      });
+      table.after(grid);
+    });
+  }
+
   function run() {
+    buildAttendance(document);
+    buildPublicSections(document);
+    window.addEventListener('load', () => buildAttendance(document), { once: true });
     labelTables(document);
     buildMobileNav();
     enhanceTabStrips(document);

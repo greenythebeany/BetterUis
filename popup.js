@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const animationsEnabled = document.getElementById('animationsEnabled');
     // Profilová fotka: header photo, on by default (content.js -> html[data-pfp])
     const pfpEnabled = document.getElementById('pfpEnabled');
+    const ttAccentEnabled = document.getElementById('ttAccentEnabled');
     const accentHint = document.getElementById('accentHint');
     // Nothing style always uses Nothing red - must match nothing.css
     const NOTHING_RED = '#d71921';
@@ -49,26 +50,69 @@ document.addEventListener('DOMContentLoaded', function () {
     const scheduleHint = document.getElementById('scheduleHint');
 
     const languageButtons = document.querySelectorAll('#languageSwitch button');
+    const langButton = document.getElementById('langButton');
+    const langMenu = document.getElementById('languageSwitch');
+
+    // flags for the language picker (top-right): the same flag images AIS
+    // shows in its own header, loaded from is.stuba.sk (not bundled - the
+    // site's artwork stays the site's). "auto" is a globe in the menu, while
+    // the button shows the language auto resolved to + an A badge.
+    const flagImg = code => '<img class="flag" alt="" src="https://is.stuba.sk/img/flags/' + code + '.svg">';
+    const FLAGS = {
+        sk: flagImg('sk'),
+        cs: flagImg('cz'),
+        en: flagImg('en'),
+        auto: '<svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>',
+    };
+    document.querySelectorAll('.lang-flag').forEach(el => { el.innerHTML = FLAGS[el.dataset.flag] || ''; });
+
+    function setLangMenu(open) {
+        langMenu.hidden = !open;
+        langButton.setAttribute('aria-expanded', String(open));
+    }
+    langButton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setLangMenu(langMenu.hidden);
+    });
+    document.addEventListener('click', function (e) {
+        if (!langMenu.hidden && !langMenu.contains(e.target)) setLangMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setLangMenu(false);
+    });
     let languageSetting = 'auto';
     let t = BetterAisI18n.translator(BetterAisI18n.resolve(languageSetting));
 
     // Fills every [data-i18n] element, then re-renders the bits built in JS
     // (schedule hint, "None" preset chip) that carry their own text.
+    // language of the AIS tab under the popup (from its lang= parameter),
+    // so Auto follows the page: lang=en -> English popup
+    let tabLanguage = null;
+
     function applyLanguage(setting) {
         languageSetting = setting;
-        const lang = BetterAisI18n.resolve(setting);
+        const lang = BetterAisI18n.resolve(setting, tabLanguage);
         t = BetterAisI18n.translator(lang);
         document.documentElement.lang = lang;
         document.querySelectorAll('[data-i18n]').forEach(el => {
             el.textContent = t(el.dataset.i18n);
         });
+        document.querySelectorAll('[data-i18n-title]').forEach(el => {
+            el.title = t(el.dataset.i18nTitle);
+            el.setAttribute('aria-label', el.title);
+        });
         languageButtons.forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === setting);
         });
+        if (langButton) {
+            langButton.innerHTML = (FLAGS[lang] || FLAGS.en)
+                + (setting === 'auto' ? '<span class="lang-auto-badge" aria-hidden="true">A</span>' : '');
+        }
         if (accentHint) accentHint.textContent = currentStyle === 'nothing' ? t('accentLocked') : '';
         const noneLabel = themeGrid.querySelector('.theme-chip[data-slug=""] .theme-chip-label');
         if (noneLabel) noneLabel.textContent = t('presetNone');
         renderSchedule();
+        if (typeof renderUpdate === 'function') renderUpdate();
     }
 
     // Manual dark/light pick, kept separately from the schedule so turning
@@ -189,12 +233,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load saved preferences (defaults must match content.js)
-    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations', 'showPfp', 'nothingUnlocked'], function (data) {
+    // update check: banner when GitHub has a newer version, version label
+    // in the footer. Re-rendered on language change (renderUpdate).
+    const updateBanner = document.getElementById('updateBanner');
+    const versionLabel = document.getElementById('versionLabel');
+    let updateResult = null;
+
+    function renderUpdate() {
+        versionLabel.textContent = 'v' + chrome.runtime.getManifest().version;
+        if (!updateResult) return;
+        updateBanner.hidden = !updateResult.available;
+        document.getElementById('updateTitle').textContent = t('updateAvailable', { version: updateResult.latest });
+    }
+
+    document.getElementById('updateAction').addEventListener('click', function () {
+        chrome.tabs.create({ url: BetterUisUpdate.REPO_URL });
+    });
+
+    if (window.BetterUisUpdate) {
+        BetterUisUpdate.check(false).then(function (result) {
+            updateResult = result;
+            renderUpdate();
+            BetterUisUpdate.updateBadge(result);
+        });
+    }
+
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+        const tab = (tabs || [])[0];
+        tabLanguage = BetterAisI18n.languageFromUrl(tab && tab.url);
+        if (tabLanguage && languageSetting === 'auto') applyLanguage('auto');
+    });
+
+    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations', 'showPfp', 'nothingUnlocked', 'ttAccent'], function (data) {
         // whoever is already using Nothing keeps it unlocked
         nothingUnlocked = data.nothingUnlocked === true || data.uiStyle === 'nothing';
         applyUnlock();
         animationsEnabled.checked = data.animations !== false;
         pfpEnabled.checked = data.showPfp !== false;
+        ttAccentEnabled.checked = data.ttAccent === true;
         const linkColor = data.linkColor || '#7a1030';
         const forcedTheme = data.forcedTheme || '';
         const schedule = Object.assign({ enabled: false, start: '22:00', end: '06:00' }, data.schedule || {});
@@ -257,6 +333,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const showPfp = this.checked;
         chrome.storage.local.set({ showPfp });
         notifyContentScript({ showPfp });
+    });
+
+    ttAccentEnabled.addEventListener('change', function () {
+        const ttAccent = this.checked;
+        chrome.storage.local.set({ ttAccent });
+        notifyContentScript({ ttAccent });
     });
 
     animationsEnabled.addEventListener('change', function () {
@@ -333,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const language = this.dataset.lang;
             chrome.storage.local.set({ uiLanguage: language });
             applyLanguage(language);
+            setLangMenu(false);
         });
     });
 
@@ -366,11 +449,33 @@ document.addEventListener('DOMContentLoaded', function () {
     // hard-reload the current tab. chrome.runtime.reload() kills this popup
     // at once, so the tab is noted first and background.js, starting with
     // the reloaded extension, does the tab reload.
+    // Fallbacks for browsers where that chain breaks (macOS Safari has no
+    // runtime.reload; some builds don't report the popup's "current window"):
+    // the tab is looked up in the last focused window too, and if the popup
+    // is still alive shortly after asking for the extension reload, the tab
+    // is reloaded straight from here.
+    function reloadTabDirectly(tabId) {
+        if (tabId === undefined) return;
+        chrome.storage.local.remove('pendingReloadTab', function () {
+            chrome.tabs.reload(tabId, { bypassCache: true }, function () {
+                window.close();
+            });
+        });
+    }
+
     reloadButton.addEventListener('click', function () {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            const tabId = tabs[0] && tabs[0].id;
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+            const tab = (tabs || []).find(function (t) { return t && t.id !== undefined; });
+            const tabId = tab ? tab.id : undefined;
             chrome.storage.local.set({ pendingReloadTab: tabId }, function () {
-                chrome.runtime.reload();
+                try {
+                    chrome.runtime.reload();
+                } catch (_) {
+                    reloadTabDirectly(tabId);
+                    return;
+                }
+                // still here = the extension didn't restart: reload the tab
+                setTimeout(function () { reloadTabDirectly(tabId); }, 400);
             });
         });
     });

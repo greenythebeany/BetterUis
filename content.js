@@ -36,6 +36,26 @@
   }
   applyMotion();
 
+  // "Rozvrh vo farbe zvýraznenia" switch (popup): timetable class colours
+  // from the accent (data-tt="accent") instead of the legend's green/blue.
+  // Off by default; cached for a flash-free first paint like the others.
+  const CACHE_TT_KEY = 'betterais:ttAccent';
+  let ttAccent = false;
+  try {
+    ttAccent = localStorage.getItem(CACHE_TT_KEY) === 'true';
+  } catch (_) {
+    // keep the default
+  }
+  function applyTtAccent() {
+    root.setAttribute('data-tt', ttAccent ? 'accent' : 'legend');
+    try {
+      localStorage.setItem(CACHE_TT_KEY, String(ttAccent));
+    } catch (_) {
+      // not fatal
+    }
+  }
+  applyTtAccent();
+
   // Profilová fotka switch (popup): the header photo, shown by default.
   // Lands on <html> at document_start so the photo never flashes either way.
   const CACHE_PFP_KEY = 'betterais:showPfp';
@@ -210,9 +230,11 @@
   render();
   syncScheduleTimer();
 
-  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations', 'showPfp'], (data) => {
+  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations', 'showPfp', 'ttAccent'], (data) => {
     animations = data.animations !== false;
     applyMotion();
+    ttAccent = data.ttAccent === true;
+    applyTtAccent();
     showPfp = data.showPfp !== false;
     applyPfp();
     theme = data.theme || DEFAULT_THEME;
@@ -234,6 +256,10 @@
     if (typeof message.animations === 'boolean') {
       animations = message.animations;
       applyMotion();
+    }
+    if (typeof message.ttAccent === 'boolean') {
+      ttAccent = message.ttAccent;
+      applyTtAccent();
     }
     if (typeof message.showPfp === 'boolean') {
       showPfp = message.showPfp;

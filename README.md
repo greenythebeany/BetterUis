@@ -6,9 +6,54 @@ tables, hardcoded pixel widths, inline `font-size: 10px` cells and a maroon head
 replaces that with a flat, modern intranet design in light and dark themes, without breaking any of the
 site's functionality.
 
-**Version 4.1.1**
+**Version 4.2.0**
 
 ---
+
+## Before & after
+
+AIS as it ships (left) and with BetterUis (right), light theme, default accent. The name and photo in
+the screenshots are placeholders.
+
+### Public homepage
+
+`is.stuba.sk` signed out: sections become cards, notices become tinted tiles.
+
+| Before | After |
+|---|---|
+| ![Public homepage before](docs/screenshots/public-before.jpg) | ![Public homepage after](docs/screenshots/public-after.jpg) |
+
+### Personal administration
+
+The dashboard after signing in: the UIS | STU header with the user row, and card sections.
+
+| Before | After |
+|---|---|
+| ![Personal administration before](docs/screenshots/home-before.jpg) | ![Personal administration after](docs/screenshots/home-after.jpg) |
+
+### Portál študenta
+
+Tabs, the study table with the chosen study marked, themed icons.
+
+| Before | After |
+|---|---|
+| ![Portál študenta before](docs/screenshots/portal-before.jpg) | ![Portál študenta after](docs/screenshots/portal-after.jpg) |
+
+### Timetable
+
+The 131-column grid is redrawn as a week view with classes placed by time; a day-by-day agenda on phones.
+
+| Before | After |
+|---|---|
+| ![Timetable before](docs/screenshots/timetable-before.jpg) | ![Timetable after](docs/screenshots/timetable-after.jpg) |
+
+### List záznamníka učiteľa
+
+Attendance as one card per subject with a 14-week strip instead of green ticks in a wide table.
+
+| Before | After |
+|---|---|
+| ![List záznamníka učiteľa before](docs/screenshots/attendance-before.jpg) | ![List záznamníka učiteľa after](docs/screenshots/attendance-after.jpg) |
 
 ## Design direction
 
@@ -187,6 +232,9 @@ menu, then **Settings → Install extension from file**.
   Outlook calendar.
 
 ### Updating
+
+BetterUis checks this repository for a newer version (at most every 6 hours). When one is out, the toolbar
+icon shows a small badge and the popup shows a banner with a button that opens this page.
 
 - **Downloaded ZIP:** download the new ZIP and replace the contents of your BetterUis folder (keep the
   folder where it is).

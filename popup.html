@@ -92,6 +92,175 @@
     opacity: 1;
   }
 
+  /* apply & reload: icon button in the top-right corner, always in reach */
+  .reload-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--mute);
+    cursor: pointer;
+    transition: color .15s var(--ease), border-color .15s var(--ease), background-color .15s var(--ease);
+  }
+
+  .lang-pick {
+    position: relative;
+    margin-left: auto;
+  }
+
+  .lang-button {
+    position: relative;
+  }
+
+  .lang-button .flag,
+  .lang-flag .flag {
+    display: block;
+    width: 21px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 2.5px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .12);
+  }
+
+  .lang-flag svg.globe {
+    display: block;
+    width: 21px;
+    height: 16px;
+  }
+
+  .lang-auto-badge {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--link);
+    color: #fff;
+    font: 700 8.5px/1 var(--font-sans);
+  }
+
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 20;
+    display: grid;
+    min-width: 150px;
+    padding: 5px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .18);
+  }
+
+  .lang-menu[hidden] {
+    display: none;
+  }
+
+  .lang-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 7px;
+    background: none;
+    color: var(--ink);
+    font: 500 12.5px/1 var(--font-sans);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .lang-menu button:hover {
+    background: color-mix(in srgb, var(--link) 8%, var(--surface));
+  }
+
+  .lang-menu button.active {
+    color: var(--link);
+    font-weight: 700;
+  }
+
+  .lang-flag svg.globe {
+    color: var(--mute);
+  }
+
+  .reload-icon svg {
+    width: 17px;
+    height: 17px;
+    transition: transform .35s var(--ease);
+  }
+
+  .reload-icon:hover {
+    border-color: var(--link);
+    color: var(--link);
+  }
+
+  .reload-icon:hover svg {
+    transform: rotate(90deg);
+  }
+
+  .reload-icon:active {
+    background: color-mix(in srgb, var(--link) 10%, var(--surface));
+  }
+
+  .reload-icon:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  /* "new version available" banner under the brand row */
+  .update-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border: 1px solid color-mix(in srgb, var(--link) 35%, transparent);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--link) 9%, var(--surface));
+  }
+
+  .update-banner[hidden] {
+    display: none;
+  }
+
+  .update-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    font-size: 11.5px;
+    color: var(--mute);
+    line-height: 1.35;
+  }
+
+  .update-text strong {
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  .update-action {
+    flex: none;
+    margin-left: auto;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 999px;
+    background: var(--link);
+    color: #fff;
+    font: 700 12px/1 var(--font-sans);
+    cursor: pointer;
+  }
+
+  .update-action:hover {
+    filter: brightness(1.08);
+  }
+
   .brand-sub {
     font-size: 11px;
     font-family: var(--font-mono);
@@ -532,8 +701,27 @@
     <span class="brand-dot"></span>
     <span class="brand-name">BetterUis</span>
     <span class="brand-sub" data-i18n="brandSub">for is.stuba.sk</span>
+    <div class="lang-pick">
+      <button type="button" id="langButton" class="reload-icon lang-button" data-i18n-title="language" title="Language" aria-haspopup="true" aria-expanded="false"></button>
+      <div class="lang-menu" id="languageSwitch" hidden>
+        <button type="button" data-lang="auto"><span class="lang-flag" data-flag="auto"></span><span data-i18n="languageAuto">Auto</span></button>
+        <button type="button" data-lang="sk"><span class="lang-flag" data-flag="sk"></span><span>Slovenčina</span></button>
+        <button type="button" data-lang="cs"><span class="lang-flag" data-flag="cs"></span><span>Čeština</span></button>
+        <button type="button" data-lang="en"><span class="lang-flag" data-flag="en"></span><span>English</span></button>
+      </div>
+    </div>
+    <button type="button" id="reload-button" class="reload-icon" data-i18n-title="reload" title="Apply &amp; reload page" aria-label="Apply &amp; reload page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+    </button>
   </div>
   <p class="brand-toast" id="brandToast" aria-live="polite"></p>
+  <div class="update-banner" id="updateBanner" hidden>
+    <div class="update-text">
+      <strong id="updateTitle"></strong>
+      <span id="updateHint" data-i18n="updateHint">Download it from GitHub and replace your BetterUis folder.</span>
+    </div>
+    <button type="button" class="update-action" id="updateAction" data-i18n="updateAction">Download</button>
+  </div>
 
   <div class="card">
     <p class="card-title" data-i18n="theme">Theme</p>
@@ -582,6 +770,15 @@
       <span class="color-option" style="background-color: #475569; color: #475569;" data-color="#475569"></span>
     </div>
     <p class="schedule-hint" id="accentHint"></p>
+
+    <div class="schedule">
+      <label class="schedule-toggle">
+        <span class="schedule-label" data-i18n="ttAccentLabel">Timetable in the accent color</span>
+        <input type="checkbox" id="ttAccentEnabled" />
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+      <p class="schedule-hint" data-i18n="ttAccentHint">Lectures and exercises in shades of the accent instead of green and blue.</p>
+    </div>
   </div>
 
   <div class="card">
@@ -614,22 +811,11 @@
     <div class="theme-grid" id="themeGrid"></div>
   </div>
 
-  <div class="card">
-    <p class="card-title" data-i18n="language">Language</p>
-    <div class="segmented segmented-sm" id="languageSwitch">
-      <button type="button" data-lang="auto" data-i18n="languageAuto">Auto</button>
-      <button type="button" data-lang="sk">SK</button>
-      <button type="button" data-lang="cs">CZ</button>
-      <button type="button" data-lang="en">EN</button>
-    </div>
-  </div>
-
-  <button id="reload-button" class="button" data-i18n="reload">Apply &amp; reload page</button>
-
-  <div class="footer" data-i18n="footer">applies instantly — no flash on reload</div>
+  <div class="footer"><span data-i18n="footer">applies instantly — no flash on reload</span> · <span id="versionLabel"></span></div>
   <button type="button" class="credits-link" id="creditsLink" data-i18n="credits">Credits &amp; licenses</button>
 
   <script src="i18n.js"></script>
+  <script src="update.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

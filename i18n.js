@@ -42,6 +42,11 @@
       nothingUnlocked: 'Nothing style unlocked',
       nothingLocked: 'Nothing style hidden',
       accentLocked: 'The Nothing style always uses its own red accent.',
+      updateAvailable: 'Version {version} is available',
+      updateHint: 'Download it from GitHub and replace your BetterUis folder.',
+      updateAction: 'Download',
+      ttAccentLabel: 'Timetable in the accent color',
+      ttAccentHint: 'Lectures and exercises in shades of the accent instead of green and blue.',
     },
     sk: {
       brandSub: 'pre is.stuba.sk',
@@ -75,6 +80,11 @@
       nothingUnlocked: 'Štýl Nothing odomknutý',
       nothingLocked: 'Štýl Nothing skrytý',
       accentLocked: 'Štýl Nothing používa vždy vlastnú červenú farbu.',
+      updateAvailable: 'Je dostupná verzia {version}',
+      updateHint: 'Stiahnite ju z GitHubu a nahraďte ňou priečinok BetterUis.',
+      updateAction: 'Stiahnuť',
+      ttAccentLabel: 'Rozvrh vo farbe zvýraznenia',
+      ttAccentHint: 'Prednášky a cvičenia v odtieňoch zvýraznenia namiesto zelenej a modrej.',
     },
     cs: {
       brandSub: 'pro is.stuba.sk',
@@ -108,6 +118,11 @@
       nothingUnlocked: 'Styl Nothing odemčen',
       nothingLocked: 'Styl Nothing skryt',
       accentLocked: 'Styl Nothing používá vždy vlastní červenou barvu.',
+      updateAvailable: 'Je dostupná verze {version}',
+      updateHint: 'Stáhněte ji z GitHubu a nahraďte jí složku BetterUis.',
+      updateAction: 'Stáhnout',
+      ttAccentLabel: 'Rozvrh v barvě zvýraznění',
+      ttAccentHint: 'Přednášky a cvičení v odstínech zvýraznění místo zelené a modré.',
     },
   };
 
@@ -129,9 +144,11 @@
   // 'auto' (or anything unknown) follows the AIS page's language when there
   // is one - an English AIS gets an English button, a Czech one a Czech
   // button - and the browser's UI language otherwise.
-  function resolve(setting) {
+  // `pageHint` lets the popup pass the language of the AIS tab it was
+  // opened over (it isn't an AIS page itself, so pageLanguage() is null)
+  function resolve(setting, pageHint) {
     if (LANGUAGES.includes(setting)) return setting;
-    const page = pageLanguage();
+    const page = pageHint || pageLanguage();
     if (page) return { sk: 'sk', cz: 'cs', en: 'en' }[page];
     const browser = (navigator.language || '').toLowerCase().slice(0, 2);
     return LANGUAGES.includes(browser) ? browser : FALLBACK;
@@ -148,5 +165,10 @@
     };
   }
 
-  global.BetterAisI18n = { LANGUAGES, resolve, translator };
+  // 'sk' | 'en' | 'cz' from an AIS URL (params separated by ';' or '&')
+  function languageFromUrl(url) {
+    return (/[?;&]lang=(sk|en|cz)\b/.exec(url || '') || [])[1] || null;
+  }
+
+  global.BetterAisI18n = { LANGUAGES, resolve, translator, languageFromUrl };
 })(typeof window !== 'undefined' ? window : globalThis);

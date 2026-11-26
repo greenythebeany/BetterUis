@@ -19,3 +19,18 @@ chrome.runtime.onInstalled.addListener(reloadPendingTab);
 chrome.runtime.onStartup.addListener(reloadPendingTab);
 // also on any plain worker start, in case the install event was missed
 reloadPendingTab();
+
+// Update check (update.js): Chrome's service worker imports it here;
+// Firefox loads it as the first background script instead.
+if (typeof self.BetterUisUpdate === 'undefined' && typeof importScripts === 'function') {
+  importScripts('update.js');
+}
+
+async function refreshUpdateBadge() {
+  if (!self.BetterUisUpdate) return;
+  self.BetterUisUpdate.updateBadge(await self.BetterUisUpdate.check(false));
+}
+
+chrome.runtime.onStartup.addListener(refreshUpdateBadge);
+chrome.runtime.onInstalled.addListener(refreshUpdateBadge);
+refreshUpdateBadge();

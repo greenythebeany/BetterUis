@@ -59,6 +59,8 @@
         cell.classList.add('betterais-cell-title');
       } else if (text.length > 22) {
         cell.classList.add('betterais-cell-wide');
+      } else if (text.length <= 14) {
+        cell.classList.add('betterais-cell-short');
       }
     });
   }
@@ -75,35 +77,95 @@
     tr.classList.add('betterais-card-span');
   }
 
+  // Grouped headers: two header rows, where a cell either spans both rows
+  // (rowspan=2: "Kód", "Predmet") or heads a group whose sub-headers sit
+  // in the row below (colspan=3 "Študenti" over "všetci" / "od
+  // vyučujúceho" / "z cvičenia"). Resolved to one label per column,
+  // "Študenti · všetci". Returns null for a single spanned row (a
+  // timetable-style grid), which has no per-column labels.
+  function groupedLabels(rows) {
+    if (rows.length < 2) return null;
+    const grid = rows.map(() => []);
+    rows.forEach((tr, r) => {
+      let c = 0;
+      Array.from(tr.children).forEach((cell) => {
+        while (grid[r][c] !== undefined) c += 1;
+        const text = cellText(cell);
+        for (let dr = 0; dr < (cell.rowSpan || 1) && r + dr < rows.length; dr += 1) {
+          for (let dc = 0; dc < (cell.colSpan || 1); dc += 1) {
+            grid[r + dr][c + dc] = dr === 0 ? text : null;
+          }
+        }
+        c += cell.colSpan || 1;
+      });
+    });
+    const width = Math.max(...grid.map((g) => g.length));
+    const labels = [];
+    for (let c = 0; c < width; c += 1) {
+      const parts = grid.map((g) => g[c]).filter((t) => t);
+      labels.push(parts.filter((t, i) => parts.indexOf(t) === i).join(' · '));
+    }
+    return labels;
+  }
+
+  // A column with no value in any row (Body before grading, Pokyny when no
+  // place has instructions) is only width on a wide table - its header and
+  // cells are tagged so the desktop layout can drop it.
+  function markEmptyColumns(headRow, bodyRows, width) {
+    const rows = bodyRows.filter((tr) => tr.children.length === width);
+    if (!rows.length) return;
+    for (let i = 0; i < width; i += 1) {
+      if (!rows.every((tr) => isBlankCell(tr.children[i]))) continue;
+      if (headRow.children[i]) headRow.children[i].classList.add('betterais-col-empty');
+      rows.forEach((tr) => tr.children[i].classList.add('betterais-col-empty'));
+    }
+  }
+
   function labelTables(root) {
     root.querySelectorAll('table:not(.betterais-cards):not(.portal_menu):not(.ba-mail-list)').forEach((table) => {
-      const headRow = table.querySelector(':scope > thead > tr.zahlavi');
+      if (table.querySelector('td[class^="rozvrh-"]') || table.hasAttribute('data-betterais-tt')) return;
+      const headRows = Array.from(table.querySelectorAll(':scope > thead > tr.zahlavi'));
       const bodyRows = Array.from(table.querySelectorAll(':scope > tbody > tr'));
 
-      if (headRow) {
-        const heads = Array.from(headRow.children);
-        // spanned headers (timetable, grouped columns) don't map one header
-        // to one cell - those tables keep their grid and scroll sideways
-        if (heads.some((th) => th.colSpan > 1)) return;
-        const labels = heads.map(cellText);
+      if (headRows.length) {
+        const spanned = headRows.some((tr) => Array.from(tr.children).some((c) => c.colSpan > 1 || c.rowSpan > 1));
+        // spanned headers that don't resolve to one label per column
+        // (timetable grids) keep their grid and scroll sideways
+        const labels = spanned ? groupedLabels(headRows) : Array.from(headRows[0].children).map(cellText);
+        if (!labels) return;
+        if (spanned && !bodyRows.some((tr) => tr.children.length === labels.length)) return;
         bodyRows.forEach((tr) => {
           if (tr.children.length === labels.length) labelRow(tr, labels);
           else markNonDataRow(tr);
         });
+        if (!spanned) markEmptyColumns(headRows[0], bodyRows, labels.length);
         table.classList.add('betterais-cards');
         return;
       }
 
       // No <thead>: some pages (Kontrola plánu, ...) put the header in the
-      // body as a plain tr.zahlavi row - possibly several, one per section.
-      // Each header row labels the data rows that follow it.
+      // body as plain tr.zahlavi rows - possibly several sections, each with
+      // its own header. A run of consecutive header rows is one header
+      // (grouped when spanned); it labels the data rows that follow it.
       const headerRows = bodyRows.filter((tr) => tr.classList.contains('zahlavi'));
-      if (!headerRows.length || table.querySelector('td[class^="rozvrh-"]')) return;
-      if (headerRows.some((tr) => Array.from(tr.children).some((c) => c.colSpan > 1))) return;
+      if (!headerRows.length) return;
+      const blocks = [];
+      bodyRows.forEach((tr, i) => {
+        if (!tr.classList.contains('zahlavi')) return;
+        if (i > 0 && bodyRows[i - 1].classList.contains('zahlavi')) blocks[blocks.length - 1].push(tr);
+        else blocks.push([tr]);
+      });
+      const blockLabels = new Map();
+      for (const block of blocks) {
+        const spanned = block.some((tr) => Array.from(tr.children).some((c) => c.colSpan > 1 || c.rowSpan > 1));
+        const labels = spanned ? groupedLabels(block) : Array.from(block[0].children).map(cellText);
+        if (!labels) return;
+        blockLabels.set(block[block.length - 1], labels);
+      }
       let labels = null;
       bodyRows.forEach((tr) => {
         if (tr.classList.contains('zahlavi')) {
-          labels = Array.from(tr.children).map(cellText);
+          if (blockLabels.has(tr)) labels = blockLabels.get(tr);
           tr.classList.add('betterais-card-head');
         } else if (labels && tr.children.length === labels.length) {
           labelRow(tr, labels);
@@ -114,6 +176,7 @@
       table.classList.add('betterais-cards', 'betterais-rowtable');
     });
   }
+
 
   // ---- burger menu ---------------------------------------------------------
   // On a phone the site header (logo row, title, faculty links, counts,
@@ -561,6 +624,71 @@
     observer.observe(document.body, { childList: true, subtree: false });
   }
 
+  // ---- tab strip -> menu on a phone -----------------------------------------
+  // A page's tab row (table.portal_menu: Moje štúdium, E-index, Moji
+  // spolužiaci, ...) is a sideways-scrolling strip on a phone, with most
+  // tabs off screen. Next to it a compact menu is built from the same
+  // links: a full-width button naming the current tab, opening a list of
+  // all of them. style.css shows the menu only on a phone and then hides
+  // the strip; desktop keeps the strip.
+  const MENU_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+  const CHEVRON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>';
+
+  function buildTabMenus(root) {
+    root.querySelectorAll('table.portal_menu:not([data-ba-tabmenu])').forEach((table, index) => {
+      const cells = Array.from(table.querySelectorAll(':scope > tbody > tr > td'))
+        .filter((td) => td.querySelector('a') && !td.classList.contains('portal_menu_hole'));
+      if (cells.length < 3) return;
+      table.setAttribute('data-ba-tabmenu', '1');
+      const selected = table.getAttribute('data-pm-selected');
+      const current = cells.find((td) => td.querySelector('b')) ||
+        cells.find((td) => selected && td.getAttribute('data-pm-sysid') === selected);
+
+      const wrap = el('div', 'ba-tabmenu');
+      const button = el('button', 'ba-tabmenu-button');
+      button.type = 'button';
+      button.setAttribute('aria-expanded', 'false');
+      const panelId = 'ba-tabmenu-' + index;
+      button.setAttribute('aria-controls', panelId);
+      button.innerHTML = '<span class="ba-tabmenu-icon">' + MENU_SVG + '</span>';
+      button.append(el('span', 'ba-tabmenu-label', current ? cleanText(current) : cleanText(cells[0])));
+      button.insertAdjacentHTML('beforeend', '<span class="ba-tabmenu-chevron">' + CHEVRON_SVG + '</span>');
+
+      const list = el('ul', 'ba-tabmenu-list');
+      list.id = panelId;
+      list.hidden = true;
+      cells.forEach((td) => {
+        const source = td.querySelector('a');
+        const li = el('li', td === current ? 'is-current' : '');
+        const link = el('a', '', cleanText(source));
+        link.href = source.href;
+        if (source.target) link.target = source.target;
+        if (td === current) link.setAttribute('aria-current', 'page');
+        li.append(link);
+        list.append(li);
+      });
+
+      const setOpen = (open) => {
+        list.hidden = !open;
+        wrap.classList.toggle('is-open', open);
+        button.setAttribute('aria-expanded', String(open));
+      };
+      button.addEventListener('click', () => setOpen(list.hidden));
+      document.addEventListener('click', (event) => {
+        if (!list.hidden && !wrap.contains(event.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !list.hidden) {
+          setOpen(false);
+          button.focus();
+        }
+      });
+
+      wrap.append(button, list);
+      table.before(wrap);
+    });
+  }
+
   function run() {
     buildAttendance(document);
     buildPublicSections(document);
@@ -570,6 +698,7 @@
     labelTables(document);
     buildMobileNav();
     enhanceTabStrips(document);
+    buildTabMenus(document);
   }
 
   if (document.readyState === 'loading') {

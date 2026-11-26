@@ -9239,3 +9239,286 @@ html.light-mode .zasadky-container > .zasadka:not(.vyveska) {
   width: 19px !important;
   height: 19px !important;
 }
+
+/* home cards: the icon's 16px bottom margin made its flex line 64px tall,
+   so the title (centred on that line) sat 8px below the icon's centre.
+   Drop it - the list's own top margin already spaces it from the hairline. */
+html.dark-mode #menitko .polozky-obal > .ramecek-boky > div > .polozky-obr,
+html.light-mode #menitko .polozky-obal > .ramecek-boky > div > .polozky-obr {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 760px) {
+  :root.dark-mode #base #menitko .polozky-obal .polozky.prostor-ikona > ul,
+  :root.light-mode #base #menitko .polozky-obal .polozky.prostor-ikona > ul {
+    margin-top: 34px !important;
+  }
+}
+
+/* ---- wide list tables (Miesta odovzdania, Moji spolužiaci) ---------------
+   Columns with no value anywhere are dropped (mobile.js tags them); cells
+   the site marks nowrap (dates) stay on one line, so the table stops
+   wrapping "Zadanie 1" and dates over two lines. */
+@media (min-width: 761px) {
+  :root:is(.dark-mode, .light-mode) #base table.betterais-cards .betterais-col-empty {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.betterais-cards :is(td[nowrap], td.betterais-cell-short) {
+    white-space: nowrap !important;
+  }
+}
+
+/* column-visibility toggle ("Zobraziť: Cvičenie"): the table toolbox pops
+   up over the table's top-left corner, so the toggle sits on the right */
+:root:is(.dark-mode, .light-mode) #base .clm_main {
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--mute);
+  font-size: 12.5px;
+}
+
+:root:is(.dark-mode, .light-mode) #base .clm_main .clm_toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+}
+
+:root:is(.dark-mode, .light-mode) #base .clm_main .clm_toggle a {
+  color: var(--ink) !important;
+  text-decoration: none;
+}
+
+/* "z cvičenia": view + mail icons side by side with a real gap */
+:root:is(.dark-mode, .light-mode) #base table.betterais-cards td:has(> a + a .uf-icon) {
+  white-space: nowrap;
+}
+
+:root:is(.dark-mode, .light-mode) #base table.betterais-cards td > a:has(> .uf-icon) {
+  display: inline-flex;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+/* mail list: tm's row-number cell ("1.") isn't part of the message - never
+   shown (on a phone it fell out of the card grid onto its own line) */
+:root:is(.dark-mode, .light-mode) #base table.ba-mail-list :is(td, th).UISTMNumberCell {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  /* the desktop checkbox-slot padding (optical spacing in the table) must
+     not leak into the card: the box sits flush with the card's text edge,
+     level with the sender line */
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr > td.ba-m-check {
+    width: auto !important;
+    padding: 0 !important;
+    align-self: start;
+    margin-top: 1px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr > td.ba-m-check input {
+    margin: 0 !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table.ba-mail-list > tbody > tr > td.ba-m-from {
+    padding-left: 0 !important;
+  }
+}
+
+/* ---- phone overflow fixes ---------------------------------------------------
+   paginator: wraps onto a second line instead of running off the screen,
+   page ranges ("11–20") stay on one line; breadcrumb: the trail shrinks and
+   the current page ellipsizes instead of sliding under the search/help
+   icons; "Aktualizovať dokumenty": icon and label as one compact row. */
+@media (max-width: 760px) {
+  :root:is(.dark-mode, .light-mode) #base ul.paginator {
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base ul.paginator li a {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px !important;
+    white-space: nowrap;
+  }
+
+  :root:is(.dark-mode, .light-mode) nav[aria-label="breadcrumb"] .breadcrumb {
+    flex: 1 1 auto;
+    flex-wrap: nowrap !important;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  :root:is(.dark-mode, .light-mode) nav[aria-label="breadcrumb"] .breadcrumb-item {
+    flex: 0 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  :root:is(.dark-mode, .light-mode) nav[aria-label="breadcrumb"] .breadcrumb-item:first-child {
+    flex: none;
+  }
+
+  /* parent crumbs give up their width first - the current page keeps as
+     much of its name as fits */
+  :root:is(.dark-mode, .light-mode) nav[aria-label="breadcrumb"] .breadcrumb-item:not(:first-child):not(:last-child) {
+    flex-shrink: 100;
+    min-width: 64px;
+  }
+
+  :root:is(.dark-mode, .light-mode) nav[aria-label="breadcrumb"] .breadcrumb-item > :is(a, span) {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base table:has(> tbody > tr > td > a > .uf-icon[data-sysid="aktualizace-zaznamu"]) {
+    width: 100% !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base tr:has(> td > a > .uf-icon[data-sysid="aktualizace-zaznamu"]) {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    min-height: 44px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base tr:has(> td > a > .uf-icon[data-sysid="aktualizace-zaznamu"]) > td {
+    display: block !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    text-align: left !important;
+  }
+}
+
+/* ---- tab strip as a menu on a phone (mobile.js .ba-tabmenu) ---------------- */
+.ba-tabmenu {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  :root:is(.dark-mode, .light-mode) #base table.portal_menu[data-ba-tabmenu] {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu {
+    display: block;
+    position: relative;
+    z-index: 30;
+    margin: 4px 0 16px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    box-shadow: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-button svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-icon {
+    flex: none;
+    color: var(--link);
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-chevron {
+    flex: none;
+    color: var(--mute);
+    transition: transform var(--t-fast, .15s) ease;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu.is-open .ba-tabmenu-chevron {
+    transform: rotate(180deg);
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu.is-open .ba-tabmenu-button {
+    border-color: var(--link);
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--elev-lift);
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list[hidden] {
+    display: none;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list li {
+    margin: 0;
+    padding: 0;
+    background: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list li::before {
+    display: none;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list a {
+    display: block;
+    padding: 11px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--ink) !important;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list a:active {
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+
+  :root:is(.dark-mode, .light-mode) #base .ba-tabmenu-list li.is-current a {
+    background: color-mix(in srgb, var(--link) 12%, transparent);
+    color: var(--link) !important;
+    font-weight: 700;
+  }
+}

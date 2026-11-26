@@ -81,7 +81,27 @@ function Icon({ name }) {
   );
 }
 
+// Firefox visitors get the Firefox Add-ons button, everyone else the
+// Chrome Web Store one (Chrome, Brave, Edge, Opera, Vivaldi all install from it)
+const IS_FIREFOX = typeof navigator !== 'undefined' && /firefox|fxios/i.test(navigator.userAgent);
+
 function StoreButton({ className = 'btn btn-primary' }) {
+  if (IS_FIREFOX) {
+    if (!FIREFOX_LIVE) {
+      return (
+        <a className={className} href={INSTALL_GUIDE_URL}>
+          <FirefoxMark />
+          <T sk="Inštalácia do Firefoxu" en="Install in Firefox" />
+        </a>
+      );
+    }
+    return (
+      <a className={className} href={FIREFOX_URL}>
+        <FirefoxMark />
+        <T sk="Pridať do Firefoxu" en="Add to Firefox" />
+      </a>
+    );
+  }
   if (!STORE_LIVE) {
     return (
       <span className={`${className} is-pending`} aria-disabled="true">
@@ -95,6 +115,15 @@ function StoreButton({ className = 'btn btn-primary' }) {
       <ChromeMark />
       <T sk="Pridať do Chrome" en="Add to Chrome" />
     </a>
+  );
+}
+
+function FirefoxMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M7 15.5c1.2 2 3.6 3 6 2.6 3.2-.5 5.2-3.4 4.6-6.4-.3-1.6-1.3-2.9-2.6-3.6.6 1 .7 2.2.2 3.2-.6-1.7-2.2-2.9-3.9-3.2.9 1.1.9 2.5.1 3.4-.9-.7-2.2-.8-3.2-.2.9.1 1.6.7 1.8 1.5-1.2-.4-2.4.1-3 1.2z" fill="var(--accent)" />
+    </svg>
   );
 }
 
@@ -543,13 +572,16 @@ function Faq() {
           const [q, a] = lang === 'en' ? item.en : item.sk;
           return (
             <details key={item.en[0]}>
-              <summary>{q}</summary>
+              <summary>{q}<span className="faq-icon" aria-hidden="true" /></summary>
               <p>{a}</p>
             </details>
           );
         })}
         <details>
-          <summary><T sk="Niečo vyzerá zle – kde to nahlásim?" en="Something looks wrong – where do I report it?" /></summary>
+          <summary>
+            <T sk="Niečo vyzerá zle – kde to nahlásim?" en="Something looks wrong – where do I report it?" />
+            <span className="faq-icon" aria-hidden="true" />
+          </summary>
           <p>
             <T sk="Založ issue na GitHube aj so snímkou obrazovky: " en="Open an issue on GitHub with a screenshot: " />
             <a href={ISSUES_URL}>github.com/greenythebeany/BetterUis/issues</a>
@@ -596,6 +628,43 @@ export default function App() {
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', accent);
   }, [accent]);
+
+  // In-page links glide to their section. Done in JS rather than with CSS
+  // scroll-behavior, which browsers turn off when the system has animations
+  // disabled - here only the site's own Pohyb switch (html.still) decides.
+  useEffect(() => {
+    let frame = 0;
+    const onClick = (event) => {
+      const link = event.target.closest && event.target.closest('a[href^="#"]');
+      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey) return;
+      const id = link.getAttribute('href').slice(1);
+      const target = id ? document.getElementById(id) : null;
+      const top = target ? target.getBoundingClientRect().top + window.scrollY - 72 : 0;
+      event.preventDefault();
+      history.replaceState(null, '', id ? `#${id}` : location.pathname);
+      cancelAnimationFrame(frame);
+      if (document.documentElement.classList.contains('still')) {
+        window.scrollTo(0, top);
+        return;
+      }
+      const from = window.scrollY;
+      const distance = top - from;
+      const duration = Math.min(1100, Math.max(450, Math.abs(distance) * 0.45));
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        window.scrollTo(0, from + distance * eased);
+        if (t < 1) frame = requestAnimationFrame(step);
+      };
+      frame = requestAnimationFrame(step);
+    };
+    document.addEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('click', onClick);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const setLang = (next) => {
     setLangState(next);

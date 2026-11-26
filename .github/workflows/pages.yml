@@ -1,12 +1,14 @@
 # Builds the React site in site/ (Vite) and publishes site/dist to GitHub
 # Pages (betteruis.greenybeany.dev, see site/public/CNAME) on every push to
-# main that touches it.
+# main that touches it. Build and deploy are separate jobs, as in GitHub's
+# own template - deploying in the same job as the upload sometimes failed
+# with "No artifacts named github-pages were found".
 name: Website
 
 on:
   push:
     branches: [main]
-    paths: ['site/**', '.github/workflows/pages.yml']
+    paths: ['site/**', 'manifest.json', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:
@@ -19,11 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,5 +38,13 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

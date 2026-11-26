@@ -258,6 +258,10 @@ h1 {
   transition: background-color .15s var(--ease), transform .15s var(--ease);
 }
 
+.phone-note {
+  margin: 0 0 8px;
+}
+
 .btn svg {
   width: 18px;
   height: 18px;

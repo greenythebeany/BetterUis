@@ -116,24 +116,29 @@ function BrowserIcon({ browser }) {
   );
 }
 
+function PhoneNote() {
+  if (IS_IOS) {
+    return (
+      <p className="small muted phone-note">
+        <T sk="Na iPhone a iPad rozšírenia nefungujú – BetterUis si nainštaluj na počítači." en="iPhone and iPad browsers can't run extensions – install BetterUis on a computer." />
+      </p>
+    );
+  }
+  if (!IS_PHONE || BROWSER === 'firefox') return null;
+  return (
+    <p className="small muted phone-note">
+      <T sk="Na mobile funguje BetterUis len vo Firefoxe pre Android. " en="On a phone BetterUis works only in Firefox for Android. " />
+      <a href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}><T sk="Ako na to" en="How to install" /></a>
+    </p>
+  );
+}
+
 function StoreButton({ className = 'btn btn-primary' }) {
   const into = BROWSER_INTO_SK[BROWSER];
   const name = BROWSER_NAMES[BROWSER];
-  if (IS_IOS) {
-    return (
-      <span className={`${className} is-pending`} aria-disabled="true">
-        <T sk="Na iPhone rozšírenia nefungujú – otvor na počítači" en="iPhone browsers can't run extensions – open this on a computer" />
-      </span>
-    );
-  }
-  if (IS_PHONE && BROWSER !== 'firefox') {
-    return (
-      <a className={className} href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}>
-        <BrowserIcon browser="firefox" />
-        <T sk="Na mobile cez Firefox pre Android" en="On a phone: Firefox for Android" />
-      </a>
-    );
-  }
+  // phone browsers other than Firefox for Android can't install it: no
+  // install button there, only the quiet note under the actions (PhoneNote)
+  if (IS_IOS || (IS_PHONE && BROWSER !== 'firefox')) return null;
   if (BROWSER === 'firefox') {
     return (
       <a className={className} href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}>
@@ -237,6 +242,7 @@ function Hero() {
             <StoreButton />
             <a className="btn btn-ghost" href={RELEASE_URL}><T sk="Stiahnuť z GitHubu" en="Download from GitHub" /></a>
           </div>
+          <PhoneNote />
           <p className="small muted">
             <T
               sk="Zadarmo a s otvoreným kódom. Chrome, Brave, Edge, Opera, Vivaldi aj Firefox."

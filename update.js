@@ -28,9 +28,17 @@
     return chrome.runtime.getManifest().version;
   }
 
+  // A store install (Chrome Web Store / AMO) carries an update_url in its
+  // manifest and is updated by the browser itself - no GitHub check, badge
+  // or banner there.
+  function storeManaged() {
+    return !!chrome.runtime.getManifest().update_url;
+  }
+
   // -> { current, latest, available } ; `force` skips the cache
   async function check(force) {
     const current = installedVersion();
+    if (storeManaged()) return { current, latest: current, available: false };
     const { updateCheck } = await chrome.storage.local.get('updateCheck');
     let latest = updateCheck && updateCheck.latest;
     const fresh = updateCheck && Date.now() - updateCheck.at < CHECK_EVERY_MS;

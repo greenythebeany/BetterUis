@@ -179,8 +179,8 @@ function Hero() {
           <img
             src="/assets/home-after.webp"
             alt={lang === 'en' ? 'The AIS home page with BetterUis' : 'Domovská stránka AIS s rozšírením BetterUis'}
-            width="2984"
-            height="1624"
+            width="2840"
+            height="1456"
           />
         </div>
       </div>
@@ -222,9 +222,9 @@ function BeforeAfter() {
           ))}
         </div>
         <div className="compare" style={{ '--pos': `${pos}%` }}>
-          <img className="compare-after" src={`/assets/${shot}-after.webp`} alt={lang === 'en' ? 'After – with BetterUis' : 'Po – s BetterUis'} width="2984" height="1624" />
+          <img className="compare-after" src={`/assets/${shot}-after.webp`} alt={lang === 'en' ? 'After – with BetterUis' : 'Po – s BetterUis'} width="2840" height="1456" />
           <div className="compare-before-wrap">
-            <img className="compare-before" src={`/assets/${shot}-before.webp`} alt={lang === 'en' ? 'Before – the original AIS' : 'Pred – pôvodný AIS'} width="2984" height="1624" />
+            <img className="compare-before" src={`/assets/${shot}-before.webp`} alt={lang === 'en' ? 'Before – the original AIS' : 'Pred – pôvodný AIS'} width="2840" height="1456" />
           </div>
           <span className="compare-label is-before"><T sk="Pred" en="Before" /></span>
           <span className="compare-label is-after"><T sk="Po" en="After" /></span>

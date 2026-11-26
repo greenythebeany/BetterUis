@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { STORE_LIVE, STORE_URL, RELEASE_URL, ISSUES_URL, INSTALL_GUIDE_URL, REPO_URL } from './config.js';
 
 // ---- language: every string is written as <T sk="…" en="…" /> ------------
@@ -196,55 +196,186 @@ const SHOTS = [
   { id: 'public', sk: 'Verejná časť', en: 'Public pages' },
 ];
 
+// Before/after strip: the page screenshots glide from right to left in an
+// endless loop, while the divider stays in the middle - everything left of
+// it shows the original AIS, everything right of it BetterUis, so each page
+// turns from new to old as it passes. Grabbing the divider pauses the strip,
+// centres the nearest page under it and lets you drag; letting go eases the
+// divider back to the middle and the strip glides on.
+const STRIP_SPEED = 55; // px per second
+const STRIP_SPEED_CALM = 22; // with the system's reduce-motion setting on
+const CARD_GAP = 24; // px between screenshots
+
 function BeforeAfter() {
   const lang = useLang();
-  const [shot, setShot] = useState('home');
   const [pos, setPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const pausedRef = useRef(false);
+  const frameRef = useRef(null);
+  const afterRef = useRef(null);
+  const beforeRef = useRef(null);
+  const offsetRef = useRef(0);
+  const draggingRef = useRef(false);
+  const snapRef = useRef(null);
+  const reduceMotion = useRef(typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  // one loop = all pages once; the strip holds them twice so it can wrap
+  const loopWidth = () => {
+    const card = afterRef.current && afterRef.current.firstElementChild;
+    return card ? (card.offsetWidth + CARD_GAP) * SHOTS.length : 0;
+  };
+
+  const paint = () => {
+    const x = `translate3d(${-offsetRef.current}px, 0, 0)`;
+    if (afterRef.current) afterRef.current.style.transform = x;
+    if (beforeRef.current) beforeRef.current.style.transform = x;
+  };
+
+  useEffect(() => {
+    let last = performance.now();
+    let frame = 0;
+    const tick = (now) => {
+      const dt = Math.min(0.1, (now - last) / 1000);
+      last = now;
+      const loop = loopWidth();
+      const snap = snapRef.current;
+      if (snap) {
+        // ease to the page nearest the divider
+        const t = Math.min(1, (now - snap.start) / snap.duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        offsetRef.current = snap.from + (snap.to - snap.from) * eased;
+        if (t >= 1) snapRef.current = null;
+      } else if (!draggingRef.current && !pausedRef.current && loop) {
+        offsetRef.current += (reduceMotion.current ? STRIP_SPEED_CALM : STRIP_SPEED) * dt;
+      }
+      if (loop) offsetRef.current = ((offsetRef.current % loop) + loop) % loop;
+      paint();
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const posFromEvent = (event) => {
+    const rect = frameRef.current.getBoundingClientRect();
+    return Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100));
+  };
+
+  // offset that puts the nearest page's centre under the divider
+  const snapToNearest = () => {
+    const card = afterRef.current && afterRef.current.firstElementChild;
+    if (!card) return;
+    const step = card.offsetWidth + CARD_GAP;
+    const centre = frameRef.current.clientWidth / 2;
+    const from = offsetRef.current;
+    const n = Math.round((from + centre - card.offsetWidth / 2) / step);
+    const to = n * step + card.offsetWidth / 2 - centre;
+    snapRef.current = { from, to, start: performance.now(), duration: 350 };
+  };
+
+  const grab = () => {
+    draggingRef.current = true;
+    setDragging(true);
+    snapToNearest();
+  };
+
+  // the CSS transition on --pos (styles.css) eases the divider back
+  const release = () => {
+    draggingRef.current = false;
+    setDragging(false);
+    setPos(50);
+  };
+
+  const onPointerDown = (event) => {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    grab();
+    setPos(posFromEvent(event));
+  };
+
+  const onPointerMove = (event) => {
+    if (draggingRef.current) setPos(posFromEvent(event));
+  };
+
+  const onPointerUp = () => {
+    if (draggingRef.current) release();
+  };
+
+  const name = (s) => (lang === 'en' ? s.en : s.sk);
+  const cards = (variant) =>
+    [...SHOTS, ...SHOTS].map((s, i) => (
+      <figure className="strip-card" key={`${variant}-${i}`} aria-hidden={i >= SHOTS.length}>
+        <img
+          src={`/assets/${s.id}-${variant}.webp`}
+          alt={i < SHOTS.length ? `${name(s)} – ${variant === 'after' ? 'BetterUis' : lang === 'en' ? 'original AIS' : 'pôvodný AIS'}` : ''}
+          width="2840"
+          height="1456"
+          draggable="false"
+        />
+        <figcaption>{name(s)}</figcaption>
+      </figure>
+    ));
+
   return (
     <section className="section" id="ukazka">
       <div className="wrap">
         <h2><T sk="Pred a po" en="Before and after" /></h2>
         <p className="section-lead">
-          <T sk="Potiahni posúvač a porovnaj pôvodnú stránku s BetterUis." en="Drag the handle to compare the original site with BetterUis." />
-        </p>
-        <div className="tabs" role="tablist">
-          {SHOTS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={shot === s.id}
-              className={`tab${shot === s.id ? ' is-active' : ''}`}
-              onClick={() => setShot(s.id)}
-            >
-              {lang === 'en' ? s.en : s.sk}
-            </button>
-          ))}
-        </div>
-        <div className="compare" style={{ '--pos': `${pos}%` }}>
-          <img className="compare-after" src={`/assets/${shot}-after.webp`} alt={lang === 'en' ? 'After – with BetterUis' : 'Po – s BetterUis'} width="2840" height="1456" />
-          <div className="compare-before-wrap">
-            <img className="compare-before" src={`/assets/${shot}-before.webp`} alt={lang === 'en' ? 'Before – the original AIS' : 'Pred – pôvodný AIS'} width="2840" height="1456" />
-          </div>
-          <span className="compare-label is-before"><T sk="Pred" en="Before" /></span>
-          <span className="compare-label is-after"><T sk="Po" en="After" /></span>
-          <div className="compare-handle" aria-hidden="true">
-            <span>
-              <svg viewBox="0 0 24 24">
-                <path d="M9.5 7l-5 5 5 5M14.5 7l5 5-5 5" />
-              </svg>
-            </span>
-          </div>
-          <input
-            className="compare-range"
-            type="range"
-            min="0"
-            max="100"
-            value={pos}
-            onChange={(e) => setPos(Number(e.target.value))}
-            aria-label={lang === 'en' ? 'Compare before and after' : 'Porovnanie pred a po'}
+          <T
+            sk="Vľavo od deliacej čiary pôvodný AIS, vpravo BetterUis. Chyť posúvač a porovnaj – po pustení sa prehliadka pohne ďalej."
+            en="Left of the divider the original AIS, right of it BetterUis. Grab the handle to compare – let go and the tour moves on."
           />
+        </p>
+      </div>
+      <div
+        ref={frameRef}
+        className={`strip${dragging ? ' is-dragging' : ''}`}
+        style={{ '--pos': `${pos}%` }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <div className="strip-row" ref={afterRef}>{cards('after')}</div>
+        <div className="strip-before" aria-hidden="true">
+          <div className="strip-row" ref={beforeRef}>{cards('before')}</div>
         </div>
+        <span className="compare-label is-before"><T sk="Pred" en="Before" /></span>
+        <span className="compare-label is-after"><T sk="Po" en="After" /></span>
+        <div className="compare-handle" aria-hidden="true">
+          <span>
+            <svg viewBox="0 0 24 24">
+              <path d="M9.5 7l-5 5 5 5M14.5 7l5 5-5 5" />
+            </svg>
+          </span>
+        </div>
+        <button
+          type="button"
+          className="strip-pause"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => {
+            pausedRef.current = !paused;
+            setPaused(!paused);
+          }}
+          aria-label={paused ? (lang === 'en' ? 'Play' : 'Spustiť') : lang === 'en' ? 'Pause' : 'Pozastaviť'}
+        >
+          {paused ? (
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>
+          )}
+        </button>
+        <input
+          className="compare-range"
+          type="range"
+          min="0"
+          max="100"
+          value={Math.round(pos)}
+          onChange={(e) => setPos(Number(e.target.value))}
+          onFocus={grab}
+          onBlur={release}
+          aria-label={lang === 'en' ? 'Compare before and after' : 'Porovnanie pred a po'}
+        />
       </div>
     </section>
   );

@@ -287,50 +287,69 @@ h1 {
 }
 
 /* ---- before / after ---- */
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 18px;
+/* registered so the divider position can transition (eases back to the
+   middle when the handle is let go) */
+@property --pos {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 50%;
 }
 
-.tab {
-  min-height: 38px;
-  padding: 0 16px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--mute);
-  font: 500 14px var(--font);
-  cursor: pointer;
-}
-
-.tab.is-active {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: #fff;
-}
-
-.compare {
+/* full-width strip: screenshots glide right to left, the divider stays in
+   the middle - original AIS left of it, BetterUis right of it */
+.strip {
   position: relative;
   overflow: hidden;
+  padding: 8px 0 28px;
+  user-select: none;
+  touch-action: pan-y;
+  cursor: ew-resize;
+  transition: --pos .5s cubic-bezier(.2, .7, .15, 1);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.strip.is-dragging {
+  transition: none;
+}
+
+.strip-row {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  will-change: transform;
+}
+
+.strip-before {
+  position: absolute;
+  inset: 8px 0 28px;
+  clip-path: inset(-20px calc(100% - var(--pos)) -20px 0);
+}
+
+.strip-card {
+  flex: none;
+  width: min(820px, 78vw);
+  margin: 0;
+}
+
+.strip-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2840 / 1456;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   background: var(--surface);
-  user-select: none;
+  pointer-events: none;
 }
 
-.compare-before-wrap {
-  position: absolute;
-  inset: 0;
-  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
-}
-
-.compare-before {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.strip-card figcaption {
+  margin-top: 10px;
+  color: var(--mute);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .compare-handle {
@@ -340,8 +359,8 @@ h1 {
   left: var(--pos);
   width: 2px;
   margin-left: -1px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .5);
   pointer-events: none;
 }
 
@@ -349,17 +368,19 @@ h1 {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40px;
-  height: 40px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 2px 10px rgba(0, 0, 0, .3);
   transform: translate(-50%, -50%);
+  transition: transform .2s var(--ease);
 }
 
-.compare-handle span {
-  display: grid;
-  place-items: center;
+.strip.is-dragging .compare-handle span {
+  transform: translate(-50%, -50%) scale(1.1);
 }
 
 .compare-handle svg {
@@ -374,7 +395,7 @@ h1 {
 
 .compare-label {
   position: absolute;
-  top: 14px;
+  top: 18px;
   padding: 4px 12px;
   border-radius: 999px;
   background: rgba(0, 0, 0, .6);
@@ -385,21 +406,48 @@ h1 {
 }
 
 .compare-label.is-before {
-  left: 14px;
+  right: calc(100% - var(--pos) + 14px);
 }
 
 .compare-label.is-after {
-  right: 14px;
+  left: calc(var(--pos) + 14px);
 }
 
+.strip-pause {
+  position: absolute;
+  right: 8%;
+  bottom: 4px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.strip-pause svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* keyboard access only - pointer dragging is handled on the strip */
 .compare-range {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
+  width: 1px;
+  height: 1px;
   opacity: 0;
-  cursor: ew-resize;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    transition: none;
+  }
 }
 
 /* ---- features ---- */

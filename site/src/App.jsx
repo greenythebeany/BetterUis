@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { BROWSER_ICONS } from './browsers.js';
 import { STORE_LIVE, STORE_URL, FIREFOX_LIVE, FIREFOX_URL, RELEASE_URL, ISSUES_URL, INSTALL_GUIDE_URL, REPO_URL } from './config.js';
 
 // extension version, read from ../manifest.json at build time (vite.config.js)
@@ -81,58 +82,61 @@ function Icon({ name }) {
   );
 }
 
-// Firefox visitors get the Firefox Add-ons button, everyone else the
-// Chrome Web Store one (Chrome, Brave, Edge, Opera, Vivaldi all install from it)
-const IS_FIREFOX = typeof navigator !== 'undefined' && /firefox|fxios/i.test(navigator.userAgent);
+// The install button names and shows the visitor's own browser. Firefox
+// installs from Firefox Add-ons; Chrome, Brave, Edge, Opera and Vivaldi all
+// install from the Chrome Web Store.
+function detectBrowser() {
+  if (typeof navigator === 'undefined') return 'chrome';
+  const ua = navigator.userAgent;
+  if (/firefox|fxios/i.test(ua)) return 'firefox';
+  if (navigator.brave) return 'brave';
+  if (/Edg\//.test(ua)) return 'edge';
+  if (/OPR\//.test(ua)) return 'opera';
+  if (/Vivaldi/i.test(ua)) return 'vivaldi';
+  return 'chrome';
+}
+
+const BROWSER = detectBrowser();
+const BROWSER_NAMES = { chrome: 'Chrome', firefox: 'Firefox', brave: 'Brave', edge: 'Edge', opera: 'Opera', vivaldi: 'Vivaldi' };
+// Slovak "do …" (into …) forms
+const BROWSER_INTO_SK = { chrome: 'Chrome', firefox: 'Firefoxu', brave: 'Brave', edge: 'Edge', opera: 'Opery', vivaldi: 'Vivaldi' };
+
+function BrowserIcon({ browser }) {
+  const icon = BROWSER_ICONS[browser] || BROWSER_ICONS.chrome;
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      {(icon.fill || []).map((d) => <path key={d} d={d} fill="currentColor" />)}
+      {(icon.stroke || []).map((d) => (
+        <path key={d} d={d} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      ))}
+    </svg>
+  );
+}
 
 function StoreButton({ className = 'btn btn-primary' }) {
-  if (IS_FIREFOX) {
-    if (!FIREFOX_LIVE) {
-      return (
-        <a className={className} href={INSTALL_GUIDE_URL}>
-          <FirefoxMark />
-          <T sk="Inštalácia do Firefoxu" en="Install in Firefox" />
-        </a>
-      );
-    }
+  const into = BROWSER_INTO_SK[BROWSER];
+  const name = BROWSER_NAMES[BROWSER];
+  if (BROWSER === 'firefox') {
     return (
-      <a className={className} href={FIREFOX_URL}>
-        <FirefoxMark />
-        <T sk="Pridať do Firefoxu" en="Add to Firefox" />
+      <a className={className} href={FIREFOX_LIVE ? FIREFOX_URL : INSTALL_GUIDE_URL}>
+        <BrowserIcon browser="firefox" />
+        {FIREFOX_LIVE ? <T sk="Pridať do Firefoxu" en="Add to Firefox" /> : <T sk="Inštalácia do Firefoxu" en="Install in Firefox" />}
       </a>
     );
   }
   if (!STORE_LIVE) {
     return (
       <span className={`${className} is-pending`} aria-disabled="true">
-        <ChromeMark />
+        <BrowserIcon browser={BROWSER} />
         <T sk="Čoskoro v Chrome Web Store" en="Coming soon to the Chrome Web Store" />
       </span>
     );
   }
   return (
     <a className={className} href={STORE_URL}>
-      <ChromeMark />
-      <T sk="Pridať do Chrome" en="Add to Chrome" />
+      <BrowserIcon browser={BROWSER} />
+      <T sk={`Pridať do ${into}`} en={`Add to ${name}`} />
     </a>
-  );
-}
-
-function FirefoxMark() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" fill="currentColor" />
-      <path d="M7 15.5c1.2 2 3.6 3 6 2.6 3.2-.5 5.2-3.4 4.6-6.4-.3-1.6-1.3-2.9-2.6-3.6.6 1 .7 2.2.2 3.2-.6-1.7-2.2-2.9-3.9-3.2.9 1.1.9 2.5.1 3.4-.9-.7-2.2-.8-3.2-.2.9.1 1.6.7 1.8 1.5-1.2-.4-2.4.1-3 1.2z" fill="var(--accent)" />
-    </svg>
-  );
-}
-
-function ChromeMark() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" fill="currentColor" />
-      <circle cx="12" cy="12" r="4" fill="var(--accent)" stroke="currentColor" strokeWidth="2" />
-    </svg>
   );
 }
 
@@ -605,8 +609,8 @@ function Footer() {
         </p>
         <nav className="footer-links">
           <a href={REPO_URL}>GitHub</a>
-          <a href="/privacy.html"><T sk="Ochrana súkromia" en="Privacy policy" /></a>
-          <a href="/terms.html"><T sk="Podmienky používania" en="Terms of use" /></a>
+          <a href="/privacy"><T sk="Ochrana súkromia" en="Privacy policy" /></a>
+          <a href="/terms"><T sk="Podmienky používania" en="Terms of use" /></a>
           <a href={ISSUES_URL}><T sk="Podpora" en="Support" /></a>
         </nav>
       </div>

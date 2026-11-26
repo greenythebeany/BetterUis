@@ -650,9 +650,9 @@
       button.setAttribute('aria-expanded', 'false');
       const panelId = 'ba-tabmenu-' + index;
       button.setAttribute('aria-controls', panelId);
-      button.innerHTML = '<span class="ba-tabmenu-icon">' + MENU_SVG + '</span>';
+      window.BetterAisDom.setMarkup(button, '<span class="ba-tabmenu-icon">' + MENU_SVG + '</span>');
       button.append(el('span', 'ba-tabmenu-label', current ? cleanText(current) : cleanText(cells[0])));
-      button.insertAdjacentHTML('beforeend', '<span class="ba-tabmenu-chevron">' + CHEVRON_SVG + '</span>');
+      button.append(window.BetterAisDom.parseMarkup('<span class="ba-tabmenu-chevron">' + CHEVRON_SVG + '</span>'));
 
       const list = el('ul', 'ba-tabmenu-list');
       list.id = panelId;

@@ -56,6 +56,24 @@
   }
   applyTtAccent();
 
+  // Brand: "UIS" (default) or the old "AIS" wordmark (html[data-brand]).
+  const CACHE_BRAND_KEY = 'betterais:brandAis';
+  let brandAis = false;
+  try {
+    brandAis = localStorage.getItem(CACHE_BRAND_KEY) === 'true';
+  } catch (_) {
+    // keep the default
+  }
+  function applyBrand() {
+    root.setAttribute('data-brand', brandAis ? 'ais' : 'uis');
+    try {
+      localStorage.setItem(CACHE_BRAND_KEY, String(brandAis));
+    } catch (_) {
+      // not fatal
+    }
+  }
+  applyBrand();
+
   // Profilová fotka switch (popup): the header photo, shown by default.
   // Lands on <html> at document_start so the photo never flashes either way.
   const CACHE_PFP_KEY = 'betterais:showPfp';
@@ -230,11 +248,13 @@
   render();
   syncScheduleTimer();
 
-  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations', 'showPfp', 'ttAccent'], (data) => {
+  chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiStyle', 'animations', 'showPfp', 'ttAccent', 'brandAis'], (data) => {
     animations = data.animations !== false;
     applyMotion();
     ttAccent = data.ttAccent === true;
     applyTtAccent();
+    brandAis = data.brandAis === true;
+    applyBrand();
     showPfp = data.showPfp !== false;
     applyPfp();
     theme = data.theme || DEFAULT_THEME;
@@ -260,6 +280,10 @@
     if (typeof message.ttAccent === 'boolean') {
       ttAccent = message.ttAccent;
       applyTtAccent();
+    }
+    if (typeof message.brandAis === 'boolean') {
+      brandAis = message.brandAis;
+      applyBrand();
     }
     if (typeof message.showPfp === 'boolean') {
       showPfp = message.showPfp;

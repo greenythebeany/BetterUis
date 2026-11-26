@@ -38,9 +38,9 @@
       cover = document.createElement('div');
       cover.id = 'betterais-loader';
       cover.setAttribute('aria-hidden', 'true');
-      cover.innerHTML =
+      window.BetterAisDom.setMarkup(cover,
         `<div class="bl-mark">${CAP}</div>` +
-        '<div class="bl-bar"><div class="bl-fill"></div></div>';
+        '<div class="bl-bar"><div class="bl-fill"></div></div>');
       // escape hatch: a click anywhere dismisses it
       cover.addEventListener('click', hide);
     }

@@ -40,7 +40,7 @@
         link.classList.add('is-icon');
         link.title = name;
         link.setAttribute('aria-label', name);
-        link.innerHTML = svg.replace('<svg ', '<svg class="betterais-icon" aria-hidden="true" ');
+        window.BetterAisDom.setMarkup(link, svg.replace('<svg ', '<svg class="betterais-icon" aria-hidden="true" '));
       } else {
         link.textContent = name; // unknown item: keep it readable as text
       }
@@ -91,8 +91,8 @@
   // shorter U, level with the tops of I and S. Drawn as SVG so the squares
   // can take the accent colour (CSS fill) and the U its custom shape; "IS"
   // is real text in the page font.
-  const WORDMARK =
-    '<svg class="betterais-wordmark" viewBox="0 0 124 60" role="img" aria-label="UIS">' +
+  const WORDMARK_UIS =
+    '<svg class="betterais-wordmark" data-brand="uis" viewBox="0 0 124 60" role="img" aria-label="UIS">' +
     '<path class="wm-u" d="M6.5 17V38a13.5 13.5 0 0 0 27 0V17"/>' +
     '<text class="wm-text" x="47" y="58">IS</text>' +
     // Nothing style: the whole word in dot-matrix type instead (nothing.css)
@@ -102,11 +102,34 @@
     '<rect class="wm-dot" x="27" y="2" width="13" height="11" rx="1.5"/>' +
     '</svg>';
 
+  // "Back to AIS" (popup toggle, html[data-brand="ais"]): a plain drawn A
+  // in the U's place, full height, in the same weight as "IS" - no accent.
+  // The A is a little wider than the U, so "IS" moves right.
+  const WORDMARK_AIS =
+    '<svg class="betterais-wordmark" data-brand="ais" viewBox="0 0 132 60" role="img" aria-label="AIS">' +
+    '<path class="wm-a" fill-rule="evenodd" d="M0 58L18 2H30L48 58H35L31.14 46H16.86L13 58ZM19.43 38L24 23.8L28.57 38Z"/>' +
+    '<text class="wm-text" x="55" y="58">IS</text>' +
+    '<text class="wm-full" x="-2" y="58">AIS</text>' +
+    '</svg>';
+
+  function wordmarkMarkup() {
+    return document.documentElement.getAttribute('data-brand') === 'ais' ? WORDMARK_AIS : WORDMARK_UIS;
+  }
+
   function addWordmark(header) {
     const left = header.querySelector('.left');
     if (!left || left.querySelector('.betterais-wordmark')) return;
-    left.insertAdjacentHTML('afterbegin', WORDMARK);
+    left.prepend(window.BetterAisDom.parseMarkup(wordmarkMarkup()));
   }
+
+  // the popup toggle flips html[data-brand] live - swap the drawn wordmark
+  new MutationObserver(() => {
+    const current = document.querySelector('#header .betterais-wordmark');
+    if (current && current.getAttribute('data-brand') !== document.documentElement.getAttribute('data-brand')) {
+      current.replaceWith(window.BetterAisDom.parseMarkup(wordmarkMarkup()));
+    }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-brand'] });
+
 
   // UIS + STU together are exactly as tall as the right-hand block (name
   // day ... icon row). Measured, because the header's height is auto, so a

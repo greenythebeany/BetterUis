@@ -28,17 +28,25 @@
     return chrome.runtime.getManifest().version;
   }
 
-  // A store install (Chrome Web Store / AMO) carries an update_url in its
-  // manifest and is updated by the browser itself - no GitHub check, badge
-  // or banner there.
-  function storeManaged() {
-    return !!chrome.runtime.getManifest().update_url;
+  // A store install (Chrome Web Store / Firefox Add-ons) is updated by the
+  // browser itself - no GitHub check, badge or banner there. Chrome Web
+  // Store installs carry an update_url in the manifest; Firefox Add-ons
+  // installs don't, but report installType "normal", while a folder loaded
+  // by hand (Load unpacked / about:debugging) reports "development".
+  async function storeManaged() {
+    if (chrome.runtime.getManifest().update_url) return true;
+    try {
+      const self = chrome.management && chrome.management.getSelf ? await chrome.management.getSelf() : null;
+      return !!self && self.installType === 'normal';
+    } catch (_) {
+      return false;
+    }
   }
 
   // -> { current, latest, available } ; `force` skips the cache
   async function check(force) {
     const current = installedVersion();
-    if (storeManaged()) return { current, latest: current, available: false };
+    if (await storeManaged()) return { current, latest: current, available: false };
     const { updateCheck } = await chrome.storage.local.get('updateCheck');
     let latest = updateCheck && updateCheck.latest;
     const fresh = updateCheck && Date.now() - updateCheck.at < CHECK_EVERY_MS;

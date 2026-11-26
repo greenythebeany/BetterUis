@@ -816,6 +816,15 @@
         <span class="switch" aria-hidden="true"></span>
       </label>
     </div>
+
+    <div class="schedule">
+      <label class="schedule-toggle">
+        <span class="schedule-label" data-i18n="brandAisLabel">Back to AIS</span>
+        <input type="checkbox" id="brandAisEnabled" />
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+      <p class="schedule-hint" data-i18n="brandAisHint">Shows the old AIS name in the header logo instead of UIS.</p>
+    </div>
   </div>
 
   <div class="card">
@@ -826,6 +835,7 @@
   <div class="footer"><span data-i18n="footer">applies instantly — no flash on reload</span> · <span id="versionLabel"></span></div>
   <button type="button" class="credits-link" id="creditsLink" data-i18n="credits">Credits &amp; licenses</button>
 
+  <script src="dom.js"></script>
   <script src="i18n.js"></script>
   <script src="update.js"></script>
   <script src="popup.js"></script>

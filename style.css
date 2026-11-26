@@ -9337,9 +9337,28 @@ html.light-mode #menitko .polozky-obal > .ramecek-boky > div > .polozky-obr {
    the current page ellipsizes instead of sliding under the search/help
    icons; "Aktualizovať dokumenty": icon and label as one compact row. */
 @media (max-width: 760px) {
+  /* one row: the jump-to-first/last arrows go (the page ranges already
+     reach both ends), the rest share the width evenly, and a very long
+     paginator scrolls sideways instead of wrapping one arrow onto a line */
   :root:is(.dark-mode, .light-mode) #base ul.paginator {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base ul.paginator li:has(.uf-icon[data-sysid$="-zarazka"]) {
+    display: none !important;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base ul.paginator li {
+    flex: 1 0 auto;
+  }
+
+  :root:is(.dark-mode, .light-mode) #base ul.paginator li a {
+    width: 100%;
     box-sizing: border-box;
   }
 
@@ -9521,4 +9540,15 @@ html.light-mode #menitko .polozky-obal > .ramecek-boky > div > .polozky-obr {
     color: var(--link) !important;
     font-weight: 700;
   }
+}
+
+/* ---- "Back to AIS" wordmark (popup toggle) --------------------------------
+   header.js draws a separate AIS mark: a plain A in place of the U, no
+   accent; the viewBox is a little wider. */
+.betterais-wordmark[data-brand="ais"] {
+  aspect-ratio: 132 / 60;
+}
+
+.betterais-wordmark .wm-a {
+  fill: var(--ink);
 }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "BetterUis",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "description": "Modern redesign of STU AIS (is.stuba.sk): light and dark themes, unified icons, cleaner tables, and a custom accent color.",
   "permissions": [
     "storage",
@@ -31,6 +31,7 @@
         "*://is.stuba.sk/*"
       ],
       "js": [
+        "dom.js",
         "content.js",
         "loader.js",
         "icons.js",
@@ -96,6 +97,9 @@
   ],
   "background": {
     "service_worker": "background.js",
-    "scripts": ["update.js", "background.js"]
+    "scripts": [
+      "update.js",
+      "background.js"
+    ]
   }
 }

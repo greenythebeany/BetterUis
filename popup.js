@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Profilová fotka: header photo, on by default (content.js -> html[data-pfp])
     const pfpEnabled = document.getElementById('pfpEnabled');
     const ttAccentEnabled = document.getElementById('ttAccentEnabled');
+    const brandAisEnabled = document.getElementById('brandAisEnabled');
     const accentHint = document.getElementById('accentHint');
     // Nothing style always uses Nothing red - must match nothing.css
     const NOTHING_RED = '#d71921';
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
         en: flagImg('en'),
         auto: '<svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>',
     };
-    document.querySelectorAll('.lang-flag').forEach(el => { el.innerHTML = FLAGS[el.dataset.flag] || ''; });
+    document.querySelectorAll('.lang-flag').forEach(el => { BetterAisDom.setMarkup(el, FLAGS[el.dataset.flag] || ''); });
 
     function setLangMenu(open) {
         langMenu.hidden = !open;
@@ -105,8 +106,8 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.classList.toggle('active', btn.dataset.lang === setting);
         });
         if (langButton) {
-            langButton.innerHTML = (FLAGS[lang] || FLAGS.en)
-                + (setting === 'auto' ? '<span class="lang-auto-badge" aria-hidden="true">A</span>' : '');
+            BetterAisDom.setMarkup(langButton, (FLAGS[lang] || FLAGS.en)
+                + (setting === 'auto' ? '<span class="lang-auto-badge" aria-hidden="true">A</span>' : ''));
         }
         if (accentHint) accentHint.textContent = currentStyle === 'nothing' ? t('accentLocked') : '';
         const noneLabel = themeGrid.querySelector('.theme-chip[data-slug=""] .theme-chip-label');
@@ -212,14 +213,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Builds the "None" chip (falls back to the Theme/Accent color cards
     // above) plus one chip per PRESET_THEMES entry.
     function buildThemeGrid(activeSlug) {
-        themeGrid.innerHTML = '';
+        themeGrid.replaceChildren();
 
         const none = document.createElement('button');
         none.type = 'button';
         none.className = 'theme-chip';
         none.dataset.slug = '';
         // "None" previews the manual Theme + Accent choice, via the popup's own vars
-        none.innerHTML = swatchMarkup('var(--bg)', 'var(--link)') + '<span class="theme-chip-label"></span>';
+        BetterAisDom.setMarkup(none, swatchMarkup('var(--bg)', 'var(--link)') + '<span class="theme-chip-label"></span>');
         none.querySelector('.theme-chip-label').textContent = t('presetNone');
         themeGrid.appendChild(none);
 
@@ -228,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
             chip.type = 'button';
             chip.className = 'theme-chip';
             chip.dataset.slug = preset.slug;
-            chip.innerHTML = swatchMarkup(preset.bg, preset.accent) +
-                `<span class="theme-chip-label">${preset.label}</span>`;
+            BetterAisDom.setMarkup(chip, swatchMarkup(preset.bg, preset.accent) +
+                `<span class="theme-chip-label">${preset.label}</span>`);
             themeGrid.appendChild(chip);
         });
 
@@ -280,13 +281,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (tabLanguage && languageSetting === 'auto') applyLanguage('auto');
     });
 
-    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations', 'showPfp', 'nothingUnlocked', 'ttAccent'], function (data) {
+    chrome.storage.local.get(['theme', 'linkColor', 'forcedTheme', 'schedule', 'uiLanguage', 'uiStyle', 'animations', 'showPfp', 'nothingUnlocked', 'ttAccent', 'brandAis'], function (data) {
         // whoever is already using Nothing keeps it unlocked
         nothingUnlocked = data.nothingUnlocked === true || data.uiStyle === 'nothing';
         applyUnlock();
         animationsEnabled.checked = data.animations !== false;
         pfpEnabled.checked = data.showPfp !== false;
         ttAccentEnabled.checked = data.ttAccent === true;
+        brandAisEnabled.checked = data.brandAis === true;
         const linkColor = data.linkColor || '#7a1030';
         const forcedTheme = data.forcedTheme || '';
         const schedule = Object.assign({ enabled: false, start: '22:00', end: '06:00' }, data.schedule || {});
@@ -347,6 +349,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Interface style (content.js -> html[data-ui], nothing.css); the popup
     // previews it on itself too
     const styleButtons = document.querySelectorAll('#styleSwitch button');
+
+    brandAisEnabled.addEventListener('change', function () {
+        const brandAis = this.checked;
+        chrome.storage.local.set({ brandAis });
+        notifyContentScript({ brandAis });
+    });
 
     pfpEnabled.addEventListener('change', function () {
         const showPfp = this.checked;

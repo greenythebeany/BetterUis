@@ -467,3 +467,8 @@ html[data-ui="nothing"] .zasadka.vyveska ul > li > div a {
   border: 1px solid var(--line-2);
   color: var(--ink-2) !important;
 }
+
+/* "Back to AIS": "AIS" in dot-matrix, plain (the drawn A hidden like the U) */
+html[data-ui="nothing"] .betterais-wordmark .wm-a {
+  display: none;
+}

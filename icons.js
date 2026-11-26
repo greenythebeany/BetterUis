@@ -263,7 +263,7 @@
         .toLowerCase()
         .replace(/[^a-z0-9]/g, '');
       if (!ext) return;
-      span.innerHTML = fileIconMarkup(ext);
+      window.BetterAisDom.setMarkup(span, fileIconMarkup(ext));
       if (!span.getAttribute('title')) span.setAttribute('title', `.${ext}`);
       if (!span.getAttribute('aria-label')) span.setAttribute('aria-label', `.${ext}`);
       span.setAttribute('data-betterais', '1');
@@ -276,10 +276,10 @@
       if (svg && !siteIconId(svg)) return; // already ours
       const markup = svgWithStyle(map.icon);
       if (!markup) return;
-      span.innerHTML = markup.replace(
+      window.BetterAisDom.setMarkup(span, markup.replace(
         '<svg ',
         `<svg class="betterais-icon${map.tone ? ` betterais-icon-${map.tone}` : ''}" `
-      );
+      ));
       span.setAttribute('data-betterais', '1');
     });
   }
@@ -315,7 +315,7 @@
       const markup = svgWithStyle(iconName, 'width:100%;height:100%');
       if (!markup) return;
       const wrapper = svg.parentElement;
-      wrapper.innerHTML = markup;
+      window.BetterAisDom.setMarkup(wrapper, markup);
       wrapper.setAttribute('data-betterais', '1');
     });
   }
@@ -334,10 +334,10 @@
       const isBoard = siteIconId(svg) === 'noticeboard';
       const markup = svgWithStyle(isBoard ? 'pin' : isWarn ? 'alert-circle' : 'info-circle', 'width:28px;height:28px');
       if (!markup) return;
-      svg.outerHTML = markup.replace(
+      svg.replaceWith(window.BetterAisDom.parseMarkup(markup.replace(
         '<svg ',
         `<svg class="betterais-icon ${isWarn ? 'betterais-icon-warn' : 'betterais-icon-info'}" `
-      );
+      )));
     });
   }
 
@@ -429,7 +429,7 @@
         span.className = 'betterais-flag';
         span.setAttribute('title', img.getAttribute('title') || flag.label);
         span.setAttribute('aria-label', flag.label);
-        span.innerHTML = flag.svg;
+        window.BetterAisDom.setMarkup(span, flag.svg);
         img.replaceWith(span);
         return;
       }
@@ -440,7 +440,7 @@
       if (!markup) return;
       const span = document.createElement('span');
       span.className = 'betterais-header-icon';
-      span.innerHTML = markup.replace('<svg ', '<svg class="betterais-icon" ');
+      window.BetterAisDom.setMarkup(span, markup.replace('<svg ', '<svg class="betterais-icon" '));
       img.replaceWith(span);
     });
   }

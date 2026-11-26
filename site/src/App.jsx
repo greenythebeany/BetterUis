@@ -46,15 +46,15 @@ function Icon({ name }) {
     palette: (
       <>
         <path d="M12 2.5a9.5 9.5 0 0 0 0 19c1.3 0 1.8-1 1.3-2-.5-1.1-.1-2.3 1.3-2.3h2.2a4.2 4.2 0 0 0 4.2-4.2C21 6.9 17 2.5 12 2.5z" />
-        <circle cx="7.6" cy="10.5" r="1.5" fill="var(--accent)" />
-        <circle cx="10.5" cy="6.8" r="1.5" fill="var(--accent)" />
-        <circle cx="15" cy="7.2" r="1.5" fill="var(--accent)" />
+        <circle cx="7.6" cy="10.5" r="1.5" fill="var(--surface)" />
+        <circle cx="10.5" cy="6.8" r="1.5" fill="var(--surface)" />
+        <circle cx="15" cy="7.2" r="1.5" fill="var(--surface)" />
       </>
     ),
     calendar: (
       <>
         <rect x="3" y="4.5" width="18" height="16.5" rx="3" />
-        <path d="M3 9.5h18" stroke="var(--accent)" strokeWidth="1.6" />
+        <path d="M3 9.5h18" stroke="var(--surface)" strokeWidth="1.6" />
         <rect x="7" y="2.5" width="2" height="4" rx="1" />
         <rect x="15" y="2.5" width="2" height="4" rx="1" />
       </>
@@ -70,7 +70,7 @@ function Icon({ name }) {
     phone: (
       <>
         <rect x="6" y="2" width="12" height="20" rx="3" />
-        <rect x="10" y="17.5" width="4" height="1.6" rx=".8" fill="var(--accent)" />
+        <rect x="10" y="17.5" width="4" height="1.6" rx=".8" fill="var(--surface)" />
       </>
     ),
     shield: <path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z" />,
@@ -204,8 +204,11 @@ function Hero() {
     <section className="hero">
       <div className="wrap hero-inner">
         <div className="hero-text">
-          <p className="eyebrow"><T sk="Rozšírenie prehliadača pre is.stuba.sk" en="Browser extension for is.stuba.sk" /></p>
-          <h1><T sk="Informačný systém STU, konečne moderný." en="The STU information system, finally modern." /></h1>
+          <p className="eyebrow">
+            <span className="eyebrow-mark" aria-hidden="true"><i /><i /></span>
+            <T sk="Rozšírenie prehliadača pre is.stuba.sk" en="Browser extension for is.stuba.sk" />
+          </p>
+          <h1><T sk="Informačný systém STU, konečne moderný" en="The STU information system, finally modern" /></h1>
           <p className="lead">
             <T
               sk="BetterUis prekreslí UIS do čistého, súčasného dizajnu – svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a rozloženie, ktoré funguje aj na mobile. Mení len to, ako stránky vyzerajú."
@@ -221,7 +224,7 @@ function Hero() {
               sk="Zadarmo a s otvoreným kódom. Chrome, Brave, Edge, Opera, Vivaldi aj Firefox."
               en="Free and open source. Chrome, Brave, Edge, Opera, Vivaldi and Firefox."
             />
-            {' '}
+            <br />
             <span className="version-chip">
               <T sk="Verzia" en="Version" /> {APP_VERSION}
             </span>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { STORE_LIVE, STORE_URL, RELEASE_URL, ISSUES_URL, INSTALL_GUIDE_URL, REPO_URL } from './config.js';
+import { STORE_LIVE, STORE_URL, FIREFOX_LIVE, FIREFOX_URL, RELEASE_URL, ISSUES_URL, INSTALL_GUIDE_URL, REPO_URL } from './config.js';
 
 // ---- language: every string is written as <T sk="…" en="…" /> ------------
 const LangContext = createContext('sk');
@@ -466,13 +466,26 @@ function Install() {
           </article>
           <article className="install-card">
             <h3>Firefox</h3>
-            <p>
-              <T
-                sk="Firefox (počítač aj Android) sa inštaluje z repozitára – návod má všetky kroky vrátane nástroja, ktorý ho načíta pri každom spustení."
-                en="Firefox (desktop and Android) installs from the repository – the guide has every step, including a tool that loads it on every start."
-              />
-            </p>
-            <a className="text-link" href={INSTALL_GUIDE_URL}><T sk="Návod na inštaláciu →" en="Installation guide →" /></a>
+            {FIREFOX_LIVE ? (
+              <>
+                <ol>
+                  <li><T sk="Otvor BetterUis na Firefox Add-ons." en="Open BetterUis on Firefox Add-ons." /></li>
+                  <li><T sk="Klikni na „Pridať do Firefoxu“." en="Click “Add to Firefox”." /></li>
+                  <li><T sk="Funguje na počítači aj vo Firefoxe pre Android." en="Works on desktop and in Firefox for Android." /></li>
+                </ol>
+                <a className="text-link" href={FIREFOX_URL}><T sk="Otvoriť na Firefox Add-ons →" en="Open on Firefox Add-ons →" /></a>
+              </>
+            ) : (
+              <>
+                <p>
+                  <T
+                    sk="Čoskoro na Firefox Add-ons. Dovtedy sa Firefox (počítač aj Android) inštaluje z repozitára – návod má všetky kroky."
+                    en="Coming soon to Firefox Add-ons. Until then Firefox (desktop and Android) installs from the repository – the guide has every step."
+                  />
+                </p>
+                <a className="text-link" href={INSTALL_GUIDE_URL}><T sk="Návod na inštaláciu →" en="Installation guide →" /></a>
+              </>
+            )}
           </article>
         </div>
       </div>

@@ -19,7 +19,7 @@ site's functionality.
 > Huge thanks to everyone who tested the early builds, reported broken pages and put up with the
 > unpacked-extension dance. 💚
 
-**Version 5.0.3** · Website: **[betteruis.greenybeany.dev](https://betteruis.greenybeany.dev)**
+**Version 5.0.4** · Website: **[betteruis.greenybeany.dev](https://betteruis.greenybeany.dev)**
 
 **[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc)** - Chrome, Brave, Edge, Opera and Vivaldi, with automatic updates.  
 **Firefox Add-ons - coming soon** (in review); meanwhile [install manually](#manual-install-from-this-repository).

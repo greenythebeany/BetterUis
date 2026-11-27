@@ -1,18 +1,34 @@
 # BetterUis - STU UIS Visual Redesign
 
-BetterUis is a browser extension that rebuilds the interface of the STU Academic Information System
+BetterUis is a browser extension that rebuilds the interface of the STU University Information System, UIS
 ([is.stuba.sk](https://is.stuba.sk)). The site's own layout dates from the mid-2000s: fixed-width banner
 tables, hardcoded pixel widths, inline `font-size: 10px` cells and a maroon header graphic. This extension
 replaces that with a flat, modern intranet design in light and dark themes, without breaking any of the
 site's functionality.
 
-**Version 5.0.0**
+> ## 🎉 BetterUis is live on the Chrome Web Store!
+>
+> No more developer mode, no more unpacked folders. BetterUis is now an official listing in the
+> **[Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc)**: one click
+> in Chrome, Brave, Edge, Opera or Vivaldi, and it keeps itself up to date.
+>
+> **Firefox is next.** The Firefox Add-ons listing is in Mozilla's review right now and will appear
+> [here](https://addons.mozilla.org/firefox/addon/betteruis/) as soon as it's approved. Until then, Firefox
+> users can [install it from this repository](#manual-install-from-this-repository).
+>
+> Huge thanks to everyone who tested the early builds, reported broken pages and put up with the
+> unpacked-extension dance. 💚
+
+**Version 5.0.3** · Website: **[betteruis.greenybeany.dev](https://betteruis.greenybeany.dev)**
+
+**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc)** - Chrome, Brave, Edge, Opera and Vivaldi, with automatic updates.  
+**Firefox Add-ons - coming soon** (in review); meanwhile [install manually](#manual-install-from-this-repository).
 
 ---
 
 ## Before & after
 
-AIS as it ships (left) and with BetterUis (right), light theme, default accent. The name and photo in
+UIS as it ships (left) and with BetterUis (right), light theme, default accent. The name and photo in
 the screenshots are placeholders.
 
 ### Public homepage
@@ -60,7 +76,7 @@ Attendance as one card per subject with a 14-week strip instead of green ticks i
 The visual language is "flat modern intranet": real 1px borders instead of shadows, tight corner radii,
 generous whitespace, and restrained use of color. Roboto throughout, no monospace.
 
-The single most important rule is how the accent color is used. Almost every piece of content on AIS is a
+The single most important rule is how the accent color is used. Almost every piece of content on UIS is a
 link, so coloring all links with the accent turns entire pages into a wall of one color. Instead, body links
 use normal text color, and the accent is reserved for items the site itself marks as important (wrapped in
 `<b>`), primary buttons, active tabs, and hover feedback.
@@ -80,7 +96,7 @@ STU's own heritage maroon (`#7a1030`) is the default accent, and light mode is t
 
 ### Language
 The extension's own text (popup, timetable export button) is available in Slovak and English, picked in
-the popup; "Auto" follows the browser language. Strings live in `i18n.js`. AIS's own pages stay in the
+the popup; "Auto" follows the browser language. Strings live in `i18n.js`. UIS's own pages stay in the
 language set on the site.
 
 ### Timetable export
@@ -142,15 +158,39 @@ the login page.
 
 ## Installation
 
-BetterUis isn't published in any extension store, so you install it from this repository. It takes about
-two minutes. Pick your browser below.
+For Chromium browsers, install BetterUis from the [Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc) - one click, and
+it updates itself. Firefox gets its own Add-ons listing as soon as Mozilla's review finishes; until then you
+install it from this repository.
 
-| Browser | Works | How it stays installed |
+| Browser | Works | How to install |
 |---|---|---|
-| Chrome, Brave, Edge, Opera, Vivaldi (desktop) | ✅ | Permanently, after a one-time "Load unpacked" |
-| Firefox (desktop) | ✅ | Until Firefox restarts - or permanently with the autoload tool below |
-| Firefox for Android | ✅ | Until Firefox restarts (pushed from a PC over USB) |
+| Chrome, Brave, Edge, Opera, Vivaldi (desktop) | ✅ | [Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc), updates automatically |
+| Firefox (desktop and Android) | ✅ | Firefox Add-ons coming soon (in review); [manual install](#manual-install-from-this-repository) for now |
 | Brave / Chrome on Android, Safari, iOS | ❌ | These browsers can't run extensions at all |
+
+### Chrome, Brave, Edge, Opera, Vivaldi - Chrome Web Store
+
+1. Open [BetterUis in the Chrome Web Store](https://chromewebstore.google.com/detail/lglhfnbkijbilfglhmmfinbommhcgcdc).
+2. Click **Add to Chrome** (Brave, Opera and Vivaldi show the same button; Edge first asks to
+   **Allow extensions from other stores**).
+3. Click the puzzle-piece icon in the toolbar and pin **BetterUis**, so its settings are one click away.
+4. Open [is.stuba.sk](https://is.stuba.sk) - done.
+
+The browser keeps it up to date on its own.
+
+### Firefox (desktop and Android) - Firefox Add-ons (coming soon)
+
+The listing is in Mozilla's review. Once it's public:
+
+
+1. Open [BetterUis on Firefox Add-ons](https://addons.mozilla.org/firefox/addon/betteruis/) (on Android: in Firefox, menu → Add-ons → search "BetterUis").
+2. Click **Add to Firefox** and confirm.
+3. Open [is.stuba.sk](https://is.stuba.sk) - done. Firefox keeps it up to date.
+
+### Manual install from this repository
+
+For running the newest code before it reaches the stores. Uninstall the store version first,
+so the two copies don't both restyle the page.
 
 ### Step 1 - Download BetterUis
 
@@ -165,7 +205,7 @@ git clone https://github.com/greenythebeany/BetterUis.git
 
 You should now have a folder with `manifest.json` directly inside it.
 
-### Step 2a - Chrome, Brave, Edge, Opera, Vivaldi
+### Step 2a - Chrome, Brave, Edge, Opera, Vivaldi (manual)
 
 1. Open the extensions page - type it into the address bar:
    - Chrome: `chrome://extensions`
@@ -227,14 +267,17 @@ menu, then **Settings → Install extension from file**.
 
 - Click the **BetterUis** icon in the toolbar for settings: light/dark theme (with an optional dark-mode
   schedule), accent colour, preset themes, the **Default / Nothing** style, animations and language.
-- Changes apply to open AIS tabs immediately.
+- Changes apply to open UIS tabs immediately.
 - On the timetable page, **Export to calendar (.ics)** downloads your semester for Google, Apple or
   Outlook calendar.
 
 ### Updating
 
-BetterUis checks this repository's latest release for a newer version (at most every 6 hours). When one is out, the toolbar
-icon shows a small badge and the popup shows a banner with a button that opens the latest release.
+**Chrome Web Store / Firefox Add-ons:** nothing to do - the browser updates BetterUis automatically.
+
+**Manual install:** BetterUis checks this repository's latest release for a newer version (at most every
+6 hours). When one is out, the toolbar icon shows a small badge and the popup shows a banner with a button
+that opens the latest release.
 
 - **Downloaded ZIP:** download the new ZIP and replace the contents of your BetterUis folder (keep the
   folder where it is).
@@ -242,11 +285,11 @@ icon shows a small badge and the popup shows a banner with a button that opens t
 
 Then reload it: Chrome/Brave/Edge - click ⟳ on the BetterUis card in the extensions page; Firefox with the
 autoload tool - restart Firefox; temporary Firefox install - **Reload** in `about:debugging`. Finally
-refresh the AIS tab with `Ctrl+Shift+R`.
+refresh the UIS tab with `Ctrl+Shift+R`.
 
 ### Troubleshooting
 
-- **Nothing changed on AIS** - make sure BetterUis is enabled on the extensions page, then reload it (⟳)
+- **Nothing changed on UIS** - make sure BetterUis is enabled on the extensions page, then reload it (⟳)
   and hard-refresh the page (`Ctrl+Shift+R`).
 - **"Manifest file is missing"** - you selected the wrong folder; pick the one that directly contains
   `manifest.json` (unzipping often creates a folder inside a folder).
@@ -259,7 +302,7 @@ refresh the AIS tab with `Ctrl+Shift+R`.
 CSS and content scripts are only re-read when the extension itself is reloaded. After editing any file:
 
 1. Open `chrome://extensions/` and click the reload icon on the BetterUis card.
-2. Hard-refresh the AIS tab with `Ctrl+Shift+R`.
+2. Hard-refresh the UIS tab with `Ctrl+Shift+R`.
 
 Changing theme or accent color in the popup applies live and does not need either step.
 

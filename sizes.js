@@ -1,4 +1,4 @@
-// File sizes as people read them. AIS prints sizes in raw binary units
+// File sizes as people read them. UIS prints sizes in raw binary units
 // ("1 019,01 KiB", "2 345 678 B"); this rewrites any table cell that holds
 // just a size into the largest sensible unit - "1,00 MB" - with the same
 // binary maths and KB/MB/GB labels Windows uses. The exact original stays in

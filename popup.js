@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const langButton = document.getElementById('langButton');
     const langMenu = document.getElementById('languageSwitch');
 
-    // flags for the language picker (top-right): the same flag images AIS
+    // flags for the language picker (top-right): the same flag images UIS
     // shows in its own header, loaded from is.stuba.sk (not bundled - the
     // site's artwork stays the site's). "auto" is a globe in the menu, while
     // the button shows the language auto resolved to + an A badge.
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fills every [data-i18n] element, then re-renders the bits built in JS
     // (schedule hint, "None" preset chip) that carry their own text.
-    // language of the AIS tab under the popup (from its lang= parameter),
+    // language of the UIS tab under the popup (from its lang= parameter),
     // so Auto follows the page: lang=en -> English popup
     let tabLanguage = null;
 
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
         buildThemeGrid(forcedTheme);
         setPopupPreset(forcedTheme);
         // Stored under `uiLanguage`, not the old `language` key: that one was
-        // also written by AIS flag clicks (removed UA/RU feature), so it could
+        // also written by UIS flag clicks (removed UA/RU feature), so it could
         // hold a pick the user never made here and pin the wrong language.
         // Anything not offered any more falls back to Auto.
         applyLanguage(BetterAisI18n.LANGUAGES.includes(data.uiLanguage) ? data.uiLanguage : 'auto');

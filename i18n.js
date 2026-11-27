@@ -1,5 +1,5 @@
-// Strings for BetterAis's own UI (popup + things injected into AIS pages).
-// AIS's own content stays in whatever language the site is set to - this
+// Strings for BetterAis's own UI (popup + things injected into UIS pages).
+// UIS's own content stays in whatever language the site is set to - this
 // only covers text the extension itself adds. Loaded as a plain script by
 // popup.html and listed before timetable.js in the manifest, so both see
 // the same global.
@@ -132,8 +132,8 @@
     },
   };
 
-  // Language AIS rendered the current page in, or null off-AIS (popup).
-  // The URL usually says (AIS separates params with ';'); otherwise AIS only
+  // Language UIS rendered the current page in, or null off-UIS (popup).
+  // The URL usually says (UIS separates params with ';'); otherwise UIS only
   // shows flags for the languages you're NOT in, so the missing one is it.
   function pageLanguage() {
     if (typeof document === 'undefined' || !/(^|\.)stuba\.sk$/.test(location.hostname)) return null;
@@ -147,11 +147,11 @@
     return ['sk', 'en', 'cz'].find((lang) => !offered.has(lang)) || null;
   }
 
-  // 'auto' (or anything unknown) follows the AIS page's language when there
-  // is one - an English AIS gets an English button, a Czech one a Czech
+  // 'auto' (or anything unknown) follows the UIS page's language when there
+  // is one - an English UIS gets an English button, a Czech one a Czech
   // button - and the browser's UI language otherwise.
-  // `pageHint` lets the popup pass the language of the AIS tab it was
-  // opened over (it isn't an AIS page itself, so pageLanguage() is null)
+  // `pageHint` lets the popup pass the language of the UIS tab it was
+  // opened over (it isn't an UIS page itself, so pageLanguage() is null)
   function resolve(setting, pageHint) {
     if (LANGUAGES.includes(setting)) return setting;
     const page = pageHint || pageLanguage();
@@ -171,7 +171,7 @@
     };
   }
 
-  // 'sk' | 'en' | 'cz' from an AIS URL (params separated by ';' or '&')
+  // 'sk' | 'en' | 'cz' from an UIS URL (params separated by ';' or '&')
   function languageFromUrl(url) {
     return (/[?;&]lang=(sk|en|cz)\b/.exec(url || '') || [])[1] || null;
   }

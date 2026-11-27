@@ -98,7 +98,8 @@ function detectBrowser() {
 
 const BROWSER = detectBrowser();
 // phones: only Firefox for Android runs extensions; iPhone/iPad browsers don't
-const IS_IOS = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+// iPadOS Safari reports itself as a Mac - a "Mac" with a touch screen is an iPad
+const IS_IOS = typeof navigator !== 'undefined' && (/iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1));
 const IS_PHONE = typeof navigator !== 'undefined' && (IS_IOS || /Android|Mobile/i.test(navigator.userAgent));
 const BROWSER_NAMES = { chrome: 'Chrome', firefox: 'Firefox', brave: 'Brave', edge: 'Edge', opera: 'Opera', vivaldi: 'Vivaldi' };
 // Slovak "do …" (into …) forms
@@ -229,7 +230,9 @@ function Hero() {
         <div className="hero-text">
           <p className="eyebrow">
             <span className="eyebrow-mark" aria-hidden="true"><i /><i /></span>
-            <T sk="Rozšírenie prehliadača pre is.stuba.sk" en="Browser extension for is.stuba.sk" />
+            <a className="eyebrow-link" href={STORE_URL}>
+              <T sk="Nové: v Chrome Web Store · Firefox čoskoro" en="New: on the Chrome Web Store · Firefox soon" />
+            </a>
           </p>
           <h1><T sk="Informačný systém STU, konečne moderný" en="The STU information system, finally modern" /></h1>
           <p className="lead">

@@ -2662,7 +2662,7 @@ html.light-mode a.app-ikona:hover .uf-icon svg {
 
 /* App-grid icons icons.js swapped for the Tabler set: just the glyph,
    centred in the icon box, in the same muted grey as the table icons
-   (accent on hover). AIS positions its own
+   (accent on hover). UIS positions its own
    sprite absolutely via --_left/--_top offsets, which our <svg> would
    otherwise inherit and sit in the top-left corner - so it's put back into
    normal flow here. Scoped to [data-betterais]; icons we did not replace
@@ -4533,7 +4533,7 @@ html.light-mode table.betterais-rowtable > tbody > tr.sudy:not(.betterais-card-h
 }
 
 /* ---- page transitions ---------------------------------------------------
-   AIS is a multi-page site, so every click is a full navigation. Opting
+   UIS is a multi-page site, so every click is a full navigation. Opting
    every page into cross-document View Transitions (style.css is injected on
    all of them, so both the old and the new page opt in) means Chrome swaps
    pages without a blank frame. The loader cover (loader.js) carries its own
@@ -5643,7 +5643,7 @@ html.light-mode .mainpage table.form-edit input.hasDatepicker {
   }
 }
 
-/* ---- date picker (jQuery UI, every date field on AIS) ----------------------
+/* ---- date picker (jQuery UI, every date field on UIS) ----------------------
    The site's datepicker is stock jQuery UI from years ago: a grey gradient
    box with a raster calendar button. Rebuilt in the BetterAis language. */
 
@@ -5918,7 +5918,7 @@ html.light-mode .mainpage table.form-edit :is(input[type="submit"], input[type="
   height: auto !important;
 }
 
-/* ---- dropdowns (every single-choice <select> on AIS) -----------------------
+/* ---- dropdowns (every single-choice <select> on UIS) -----------------------
    The open list was the OS's own: a white box with Windows-blue highlight,
    foreign to the rest of the redesign. Where the browser supports
    customizable selects (appearance: base-select - Chrome/Edge/Brave), the
@@ -6004,7 +6004,7 @@ html.light-mode select option {
 }
 
 /* ---- timeline (table.strom - the faculty's term schedule) ------------------
-   AIS draws it as a raster axis strip, black text, italic dates and dozens
+   UIS draws it as a raster axis strip, black text, italic dates and dozens
    of blank rows. Rebuilt as a vertical timeline: thin axis, milestone chips
    (today in the accent), a dot and a card per event, finished ones muted. */
 
@@ -7054,7 +7054,7 @@ html.light-mode table:has(> thead > tr.zahlavi) td.odsazena:has(> input[type="ra
   }
 }
 
-/* phone cards: AIS's own row-number cell (.UISTMNumberCellHidden - hidden
+/* phone cards: UIS's own row-number cell (.UISTMNumberCellHidden - hidden
    by the site on purpose) was forced visible by the card layout, showing a
    stray "1." in the corner of every card */
 @media (max-width: 760px) {

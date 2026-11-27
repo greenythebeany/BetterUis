@@ -1,13 +1,13 @@
 // Adds an "export to calendar" button to the personal timetable page
 // (rozvrhy_view.pl). The grid on that page is a weekly summary with no
 // dates, so instead of scraping it we re-submit the page's own form in
-// "Zoznam rozvrhových akcii" + "konkrétny v dňoch" mode: AIS then lists every
+// "Zoznam rozvrhových akcii" + "konkrétny v dňoch" mode: UIS then lists every
 // single occurrence with its real date, which already accounts for holidays,
 // odd/even weeks and one-off changes. That list becomes an .ics file.
 (function () {
   'use strict';
 
-  // Wide enough to cover any semester the timetable belongs to - AIS only
+  // Wide enough to cover any semester the timetable belongs to - UIS only
   // returns events from the selected period, so the extra months are free.
   const RANGE_MONTHS = 7;
   const TZID = 'Europe/Bratislava';
@@ -54,7 +54,7 @@
     return new DOMParser().parseFromString(await response.text(), 'text/html');
   }
 
-  // Cell text without the <sup>(1,2)</sup> footnote markers AIS appends.
+  // Cell text without the <sup>(1,2)</sup> footnote markers UIS appends.
   function cellText(cell) {
     if (!cell) return '';
     const clone = cell.cloneNode(true);
@@ -413,7 +413,7 @@
 
 
   // ---- display options form ("Spôsob zobrazenia rozvrhu") --------------------
-  // AIS writes every option as a bare text node next to its radio/checkbox
+  // UIS writes every option as a bare text node next to its radio/checkbox
   // ("<input type=radio>súhrnný týždenný"), with &nbsp; runs for spacing,
   // so nothing can be laid out or clicked as a label. Each control is
   // wrapped with its text in a real <label>, the leading text of a row

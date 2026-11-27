@@ -15,10 +15,10 @@ Texty na skopírovanie do Chrome Web Store Developer Dashboard. Slovenčina ako 
 ### Krátky popis (max. 132 znakov)
 
 SK:
-> Neoficiálny moderný vzhľad pre AIS STU (is.stuba.sk): svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie.
+> Neoficiálny moderný vzhľad pre UIS STU (is.stuba.sk): svetlá a tmavá téma, vlastná farba, prehľadné tabuľky a mobilné zobrazenie.
 
 EN:
-> Unofficial modern redesign for STU's AIS (is.stuba.sk): light and dark themes, accent colours, cleaner tables and a phone layout.
+> Unofficial modern redesign for STU's UIS (is.stuba.sk): light and dark themes, accent colours, cleaner tables and a phone layout.
 
 ### Podrobný popis (SK)
 

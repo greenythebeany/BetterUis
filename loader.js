@@ -1,4 +1,4 @@
-// Full-screen page-transition loader. AIS is a classic multi-page site, so
+// Full-screen page-transition loader. UIS is a classic multi-page site, so
 // every click is a full navigation: the old page freezes while the server
 // works, then the new one snaps in half-built. Instead:
 //
@@ -7,7 +7,7 @@
 //  - the next page starts already covered (this script runs at
 //    document_start), the bar snaps to 100% once its DOM - and our icon
 //    swaps - are in place, and the cover dissolves;
-//  - style.css opts AIS into cross-document View Transitions and gives the
+//  - style.css opts UIS into cross-document View Transitions and gives the
 //    cover its own transition name, so it stays perfectly steady across the
 //    page swap instead of blinking.
 (function () {
@@ -96,7 +96,7 @@
   }
 
   // The Navigation API reports every navigation of this tab - links, form
-  // submits (GET and POST), location changes from AIS's own scripts.
+  // submits (GET and POST), location changes from UIS's own scripts.
   if (window.navigation) {
     window.navigation.addEventListener('navigate', (event) => {
       if (event.hashChange || event.destination.sameDocument) return;

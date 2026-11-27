@@ -74,6 +74,32 @@ Website: https://betteruis.greenybeany.dev
 Source code and bug reports: https://github.com/greenythebeany/BetterUis
 ```
 
+### Podrobný popis (CS)
+
+```
+BetterUis dává univerzitnímu informačnímu systému STU – UIS (dříve AIS), is.stuba.sk – čistý, současný vzhled. Mění jen to, jak stránky vypadají: všechno funguje přesně jako dosud, jen se v tom snáz vyznáte.
+
+CO DOSTANETE
+• Tmavý a světlý režim – i automaticky podle času
+• Vlastní barvu zvýraznění a přes deset hotových barevných motivů
+• Jednotné moderní ikony místo starých obrázků
+• Rozvrh jako přehledný týden, docházku jako karty a přehlednější poštu, studium i odevzdávání prací
+• Zobrazení pro mobil: karty místo širokých tabulek, menu se záložkami, nic nepřetéká mimo obrazovku
+• Alternativní minimalistický styl „Nothing“
+• Přepínač „Zpět na AIS“, pokud vám chybí staré logo
+• Všechna nastavení na jedno kliknutí v okně rozšíření: motiv, barva, jazyk (SK / CZ / EN nebo podle stránky), animace
+
+SOUKROMÍ
+Žádné sledování, žádný sběr údajů. BetterUis nic neodesílá, vaše známky ani zprávy nečte ani neukládá. Nastavení zůstávají jen ve vašem prohlížeči.
+
+Zdarma a s otevřeným kódem. Funguje jen na is.stuba.sk.
+
+BetterUis je neoficiální studentský projekt – není produktem Slovenské technické univerzity v Bratislavě ani dodavatele informačního systému.
+
+Web: https://betteruis.greenybeany.dev
+Zdrojový kód a hlášení chyb: https://github.com/greenythebeany/BetterUis
+```
+
 ### Obrázky
 
 - **Ikona obchodu:** 128×128 – `icons/icon128.png`
